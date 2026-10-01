@@ -30,7 +30,7 @@ export function PublicLayout() {
     setOpen(false)
     // Home sections render synchronously; anchors work on first load, from other
     // routes and on repeated navigation, without timing a scroll against a request.
-    const anchor = ['#club', '#contacts', '#memberships', '#main'].includes(location.hash)
+    const anchor = ['#club', '#contacts', '#memberships', '#guest-visit', '#main'].includes(location.hash)
       ? document.getElementById(location.hash.slice(1)) : null
     if (anchor) {
       anchor.focus({ preventScroll: true })

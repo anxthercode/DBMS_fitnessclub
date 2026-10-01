@@ -10,7 +10,7 @@ export function GuestVisit({ locale }: { locale: 'ru' | 'en' }) {
   const trigger = useRef<HTMLButtonElement>(null)
   function close() { setOpen(false); trigger.current?.focus() }
 
-  return <section className="fp-guest" aria-labelledby="fp-guest-heading">
+  return <section className="fp-guest" id="guest-visit" tabIndex={-1} aria-labelledby="fp-guest-heading">
     <div className="fp-guest-overview">
       <h3 id="fp-guest-heading">{copy.guestTitle}</h3>
       <div><p className="fp-guest-intro">{copy.guestIntro}</p><p className="fp-guest-terms">{copy.guestTerms}</p></div>

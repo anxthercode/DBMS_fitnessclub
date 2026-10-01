@@ -55,19 +55,25 @@ Proposed header: brand link to `/`, club link to `/#club`, Memberships `/plans`,
 
 This adds two in-page anchors rather than new informational routes. Anchor navigation must work from every route and with the keyboard, with correct focus and sticky-header offset. The logo already returns home, so a separate Home item is unnecessary. The public Schedule item is added only when that separately agreed workflow is usable; do not display disabled or misleading navigation now.
 
-### Home page: five content sections
+### Home page: approved first expansion
+
+On 1 October 2026 the user requested a richer visual presentation and approved implementation of the first stage: introduction, training directions, gallery and homepage coaches. This supersedes the earlier minimal introduction and facility-selector layout. Keep the five-color palette, shared membership rules, mock boundaries and existing lower-page workflows. The first stage also shares coach portrait presentation with `/trainers` so the destination matches the homepage.
+
+The renewed review of [Third Space](https://www.thirdspace.london/), [Equinox](https://www.equinox.com/), [David Lloyd](https://www.davidlloyd.co.uk/) and [World Class Minsk](https://worldclass.by/) supports giving activities, spaces and people distinct content sections. FORMA uses its own copy and assets, with no copied services or reference-club photography.
 
 | Order | Content | Composition |
 | --- | --- | --- |
-| 1. Club introduction | `Фитнес-клуб FORMA`. One factual sentence describing the gym, cardio and pool; Minsk and existing opening hours; one membership button. | Compact left-aligned introduction, followed by a wide architectural photograph. Keep text on a solid background. No multi-line motivational slogan or badge collection. |
-| 2. Facilities | `Залы и бассейн`. Gym floor, cardio, aquatic programs, changing rooms/showers. Shared access statement once. | One spacious section: facility list and selected description on the left; matching photograph on the right. Thin separators, no numbered icon cards. Gym open by default. |
-| 3. Membership overview | `Абонементы`. Current 1-, 3- and 12-month options with full-term BYN prices from the API. | Three separate cards with aligned term, total price, training permissions and selection links. Show common access once above them. A horizontal first-visit block opens an inline demo form. |
-| 4. Visiting information | `Перед посещением`. Four short questions covering zone access, independent visits, coached-session booking and cancellation. | Simple disclosure rows. Essential membership restrictions remain visible on the plans page rather than hidden only here. |
-| 5. Contacts | `Контакты и часы работы`. Approved location, hours and contact details when supplied. | Structured text with clear labels; route/map link only after an address is agreed. Small footer with useful links and the coursework/demo notice. |
+| 1. Club introduction | Factual gym/cardio/pool heading, concise introduction, location/hours, guest-visit and membership links. | Large heading beside training photography; text remains on a solid background. The free-visit link moves focus to the existing terms and form. |
+| 2. Training directions | Strength, functional exercise, cardio, swimming/aqua aerobics. Essential descriptions and formats stay visible; optional details expand. | Asymmetric image grid on desktop, one column on phones. The existing `#club` navigation target remains here. |
+| 3. Facility gallery | Gym floor, cardio, pool and shared changing rooms/showers. | Manual four-photo strip with a visible next-image edge, captions and counter. Native swipe, buttons, Left/Right/Home/End keys, reduced-motion support, no autoplay or new library. |
+| 4. Coaches | Three fictional profiles from the existing mock API: strength, mobility and aquatics. | Consistent vertical generated portraits, experience, specialization, biography and a link to all coaches. Shared component with `/trainers`; explicit demo note. |
+| 5. Membership overview | `Абонементы`. Current 1-, 3- and 12-month options with full-term BYN prices from the API. | Existing three separate cards and inline demo guest form are preserved. |
+| 6. Visiting information | `Перед посещением`. Four short questions covering zone access, independent visits, coached-session booking and cancellation. | Existing disclosure rows; essential restrictions remain visible on the plans page. |
+| 7. Contacts | `Контакты и часы работы`. Approved location and hours. | Existing text layout; street address and contact channels still require agreement. |
 
-Do not append a second motivational CTA banner or a generic About block that repeats the introduction. Coaches remain available from the header and a contextual link in the gym description, rather than another full homepage section.
+Do not append a duplicate promotional banner. Expanding the first-visit composition, membership comparison, FAQ policies and contact imagery belongs to a later agreed stage.
 
-The facilities section has four entries but only three activity zones: changing rooms and showers are shared amenities. On mobile, stack the selected image and description with its disclosure row to avoid forcing readers to search elsewhere for changed content. All entries must be reachable with touch and keyboard; no automatic switching, hover-only information or nested carousels.
+The gallery has four entries but only three activity zones: changing rooms and showers are shared amenities. Four training directions do not introduce four new zones or a service catalogue. Keep important descriptions visible; no automatic switching, hover-only information or nested carousels.
 
 ### Facility content template
 
@@ -122,7 +128,7 @@ Required email, JSON/XML/CSV exchange, Word/Excel/PDF reports, discounts, curren
 ## 6. Typography, layout and interaction
 
 - Use one font family with Cyrillic and Latin coverage. Keep Manrope as the proposed family, supplied locally with the required character sets; verify the actual font loads rather than relying unnoticed on a fallback. Use 400/500/600 weights.
-- Initial type scale: page heading 40–48 px on desktop and 28–32 px on mobile; section heading 24–28 px; body 16 px with roughly 1.5–1.65 line height; field labels and metadata 14 px. Adjust only where actual content requires it.
+- Public page headings generally use 40–48 px on desktop and 28–32 px on mobile; the expanded homepage hero uses up to 56 px on desktop and 32–44 px on mobile. Section headings use 24–28 px, body text 14–16 px with generous line height. Adjust only where actual content requires it.
 - Use sentence case, short descriptive headings and mostly left-aligned text. Avoid a small uppercase eyebrow above every heading, excessive letter spacing and multiple colored words in one title.
 - Use a shared content width around 1160–1200 px, consistent alignment, a small spacing scale, and restrained section gaps. Avoid large empty stretches on mobile.
 - Keep images predominantly rectangular. Use small consistent radii for controls and panels, roughly 4–8 px, rather than enclosing every section in a large rounded rectangle.

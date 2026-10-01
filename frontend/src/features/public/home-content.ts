@@ -2,8 +2,22 @@
 export const homeCopy = {
   ru: {
     plans: 'Абонементы',
-    title: 'Фитнес-клуб FORMA', intro: 'Тренажёрный зал, кардиозона и бассейн. Всё для самостоятельных занятий и тренировок с инструктором.',
-    daily: 'Ежедневно', choose: 'Посмотреть абонементы', heroAlt: 'Вода крытого бассейна и большие окна', heroCaption: 'Бассейн', photoNote: 'Фото для концепции клуба',
+    brand: 'Фитнес-клуб FORMA', title: 'Тренажёрный зал, кардио и бассейн — в одном клубе.', intro: 'От первой тренировки до привычного ритма. Занимайтесь самостоятельно, пробуйте разные направления и находите свой формат вместе с тренером.',
+    daily: 'Ежедневно', choose: 'Посмотреть абонементы', heroAlt: 'Девушка с гантелями в тренировочном пространстве клуба', heroCaption: 'Место для вашего движения', photoNote: 'Иллюстрации концепции клуба',
+    heroAction: 'Первое посещение бесплатно', heroTerms: 'Для новых посетителей, по подтверждению администратора. Без занятия с тренером.',
+    directions: 'Как вы хотите тренироваться', directionsIntro: 'Работать с весом, двигаться в своём темпе или сменить зал на воду. Выбирайте занятие под своё настроение и задачи.',
+    more: 'Как проходят занятия',
+    activities: [
+      { id: 'strength', title: 'Силовые тренировки', intro: 'Свободные веса и тренажёры для последовательной работы над силой и техникой.', format: 'Самостоятельно или с тренером', detail: 'Выбирайте упражнения с гантелями и на силовых тренажёрах. Тренер поможет разобраться в технике; формат занятий с ним зависит от абонемента.', alt: 'Гантели и оборудование в зоне силовых тренировок' },
+      { id: 'functional', title: 'Функциональные упражнения', intro: 'Движения для всего тела: координация, баланс и работа с собственным весом.', format: 'В пространстве тренажёрного зала', detail: 'Сочетайте упражнения с собственным весом и свободными весами. Занимайтесь самостоятельно или с тренером в рамках условий тарифа.', alt: 'Мужчина выполняет выпад на тренировочном коврике' },
+      { id: 'cardio', title: 'Кардиотренировки', intro: 'Разминка перед занятием или отдельная тренировка в комфортном для вас темпе.', format: 'Без записи на оборудование', detail: 'Беговые дорожки, велотренажёры и эллипсы доступны для самостоятельных занятий в часы работы клуба при действующем абонементе.', alt: 'Ряд беговых дорожек у больших окон' },
+      { id: 'pool', title: 'Плавание и аквааэробика', intro: 'Плавание в своём ритме и водные занятия с инструктором — ещё один способ двигаться.', format: 'Самостоятельно или с инструктором', detail: 'Самостоятельное плавание не требует бронирования дорожек. Занятия с инструктором будут доступны по общему расписанию и условиям абонемента; сейчас запись ещё не подключена.', alt: 'Светлый крытый бассейн' },
+    ],
+    directionsNote: 'Запись на занятия с тренером появится вместе с расписанием. Формат занятий определяется абонементом.',
+    gallery: 'Посмотрите клуб', galleryIntro: 'От свободных весов до воды. Познакомьтесь с пространствами, в которых проходят тренировки.',
+    galleryLabel: 'Фотогалерея', galleryHelp: 'Листайте фотографии стрелками или свайпом. С клавиатуры: ← →, Home и End.', previousPhoto: 'Предыдущее фото', nextPhoto: 'Следующее фото',
+    coaches: 'Тренеры, с которыми проще начать', coachesIntro: 'Освоить движение, разобраться с техникой и выстроить занятия. Познакомьтесь с нашей командой.', allCoaches: 'Все тренеры',
+    coachesDemo: 'Учебные профили. Портреты созданы с помощью ИИ и изображают вымышленных тренеров.', coachesError: 'Не удалось загрузить тренеров.', coachesEmpty: 'Профили тренеров скоро появятся.',
     facilities: 'Залы и бассейн', facilitiesIntro: 'Три тренировочные зоны и общие раздевалки. Доступ во все зоны входит в каждый абонемент.',
     gym: 'Тренажёрный зал', gymText: 'Свободные веса, силовые тренажёры и пространство для функциональных упражнений. Самостоятельные занятия или работа с тренером.',
     gymDetail: 'Силовые и функциональные тренировки', gymAlt: 'Гантели и оборудование в тренажёрном зале',
@@ -41,8 +55,22 @@ export const homeCopy = {
   },
   en: {
     plans: 'Memberships',
-    title: 'FORMA fitness club', intro: 'A gym floor, cardio zone and swimming pool. Space for independent exercise and sessions with a coach.',
-    daily: 'Daily', choose: 'View memberships', heroAlt: 'Water in an indoor pool with large windows', heroCaption: 'Swimming pool', photoNote: 'Club concept photography',
+    brand: 'FORMA fitness club', title: 'Gym, cardio and swimming. All in one club.', intro: 'From your first workout to your everyday routine. Train independently, try something different and find your way with a coach.',
+    daily: 'Daily', choose: 'View memberships', heroAlt: 'A woman training with dumbbells on the gym floor', heroCaption: 'Space to find your rhythm', photoNote: 'Club concept imagery',
+    heroAction: 'Try your first visit free', heroTerms: 'For new visitors, subject to administrator confirmation. A coached session is not included.',
+    directions: 'How do you like to move?', directionsIntro: 'Work with weights, find your pace or swap the gym for a swim. Choose an activity to suit your mood and goals.',
+    more: 'About the sessions',
+    activities: [
+      { id: 'strength', title: 'Strength training', intro: 'Free weights and resistance machines for building strength and developing your technique.', format: 'On your own or with a coach', detail: 'Explore dumbbell exercises and resistance machines. A coach can help with technique; the coached session formats depend on your membership.', alt: 'Dumbbells and strength training equipment' },
+      { id: 'functional', title: 'Functional exercise', intro: 'Whole-body movement: coordination, balance and exercises using your own body weight.', format: 'On the gym floor', detail: 'Combine bodyweight movements with free weights. Train independently or work with a coach within your membership conditions.', alt: 'A man performing a lunge on an exercise mat' },
+      { id: 'cardio', title: 'Cardio training', intro: 'Warm up before your session or enjoy a standalone workout at your own pace.', format: 'No equipment reservations', detail: 'Treadmills, exercise bikes and cross-trainers are available for independent exercise during opening hours with a valid membership.', alt: 'Treadmills beside large windows' },
+      { id: 'pool', title: 'Swimming & aqua aerobics', intro: 'Independent swimming and water-based sessions with an instructor offer another way to move.', format: 'On your own or with an instructor', detail: 'Independent swimming does not require lane reservations. Coached sessions will follow the shared schedule and your membership conditions; booking is not available yet.', alt: 'A bright indoor swimming pool' },
+    ],
+    directionsNote: 'Coached-session booking will be available with the schedule. Session formats depend on your membership.',
+    gallery: 'Take a look around', galleryIntro: 'From free weights to the water. Explore the spaces where your training takes place.',
+    galleryLabel: 'Photo carousel', galleryHelp: 'Use the buttons or swipe to browse. Keyboard: ← →, Home and End.', previousPhoto: 'Previous photo', nextPhoto: 'Next photo',
+    coaches: 'A little guidance goes a long way', coachesIntro: 'Learn a movement, work on technique and build a routine. Meet the team who can help you get started.', allCoaches: 'All coaches',
+    coachesDemo: 'Demo profiles. AI-generated portraits depict fictional coaches.', coachesError: 'Could not load coaches.', coachesEmpty: 'Coach profiles are coming soon.',
     facilities: 'Gym & pool', facilitiesIntro: 'Three training areas and shared changing rooms. Every membership includes access to all zones.',
     gym: 'Gym floor', gymText: 'Free weights, resistance machines and space for functional exercise. Train independently or work with a coach.',
     gymDetail: 'Strength and functional training', gymAlt: 'Dumbbells and equipment on the gym floor',
@@ -87,4 +115,6 @@ export const facilityImages = {
   changing: '/images/design/changing-room.jpg',
 } as const
 
-export type FacilityId = keyof typeof facilityImages
+export const heroImage = '/images/home/hero-training.webp'
+export const activityImages = { strength: facilityImages.gym, functional: '/images/home/functional-training.webp', cardio: facilityImages.cardio, pool: facilityImages.pool } as const
+export type HomeLocale = keyof typeof homeCopy

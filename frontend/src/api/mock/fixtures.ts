@@ -10,10 +10,12 @@ export function createFixtures(now: number) {
     { id: '4', email: demoAccounts.ADMIN, first_name: 'Мария', last_name: 'Соколова', role: 'ADMIN', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
     { id: '5', email: 'max@forma.demo', first_name: 'Максим', last_name: 'Орлов', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
     { id: '6', email: 'elena@forma.demo', first_name: 'Елена', last_name: 'Ким', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
+    { id: '7', email: 'mikhail@forma.demo', first_name: 'Михаил', last_name: 'Соколов', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
   ]
   const trainers: Trainer[] = [
     { user_id: '2', name_ru: 'Артём Волков', name_en: 'Artem Volkov', experience_years: 8, first_name: 'Артём', last_name: 'Волков', specialization_ru: 'Силовые и функциональные тренировки', specialization_en: 'Strength & functional training', bio_ru: 'Проводит силовые и функциональные занятия. Основные направления — техника упражнений и последовательное увеличение нагрузки.', bio_en: 'Leads strength and functional sessions, focusing on exercise technique and gradual progression.' },
     { user_id: '3', name_ru: 'Анна Белова', name_en: 'Anna Belova', experience_years: 6, first_name: 'Анна', last_name: 'Белова', specialization_ru: 'Пилатес, йога и мобильность', specialization_en: 'Pilates, yoga & mobility', bio_ru: 'Проводит занятия по пилатесу, йоге и мобильности. Основные направления — гибкость, баланс и контроль движений.', bio_en: 'Leads Pilates, yoga and mobility sessions, focusing on flexibility, balance and movement control.' },
+    { user_id: '7', name_ru: 'Михаил Соколов', name_en: 'Mikhail Sokolov', experience_years: 7, first_name: 'Михаил', last_name: 'Соколов', specialization_ru: 'Плавание и аквааэробика', specialization_en: 'Swimming & aqua aerobics', bio_ru: 'Помогает освоиться в воде и работать над техникой плавания. Проводит водные занятия с постепенным увеличением нагрузки.', bio_en: 'Helps you feel comfortable in the water and work on swimming technique. Leads aquatic sessions with gradual progression.' },
   ]
   const plans: Plan[] = [
     { id: '1', code: 'START', name_ru: 'Старт', name_en: 'Start', description_ru: 'Найди свой ритм и попробуй новое.', description_en: 'Find your rhythm. Try something new.', duration_months: 1, price_byn: '120.00', allows_group: true, allows_individual: false, is_active: true },

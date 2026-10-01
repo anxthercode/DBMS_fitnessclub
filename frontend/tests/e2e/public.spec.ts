@@ -109,7 +109,7 @@ test('mobile menu supports navigation, Escape and browser back', async ({ page }
   await expect(page.getByRole('heading', { name: 'Абонементы' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Открыть меню' })).toHaveAttribute('aria-expanded', 'false')
   await page.goBack()
-  await expect(page.locator('h1')).toContainText('Фитнес-клуб FORMA')
+  await expect(page.locator('h1')).toContainText('Тренажёрный зал, кардио и бассейн')
 })
 
 test('narrow screens and invalid plan links remain usable', async ({ page }, testInfo) => {

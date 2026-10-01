@@ -13,3 +13,17 @@ Assets added for the homepage prototype on 1 October 2026 are served locally. Ph
 ## Fonts
 
 All existing site routes use locally hosted Manrope in weights 400, 500 and 600, with Latin and Cyrillic coverage. Source: [Google Fonts Manrope](https://fonts.google.com/specimen/Manrope), distributed under the SIL Open Font License 1.1. The license and copyright notice are preserved in `frontend/public/fonts/OFL-Manrope.txt`; `manrope-source.css` records the Google Fonts download URLs. The shared `Manrope` font faces are declared in `frontend/src/styles.css`. No external font request is needed to render the site.
+
+## Generated first-stage homepage imagery
+
+Created on 1 October 2026 with the built-in imagegen tool. [Exact generation prompts](frontend-image-prompts.md) are preserved. These images depict fictional people and concept spaces, not real FORMA members, staff or facilities. The homepage captions identify concept imagery; the shared coach section explicitly identifies fictional profiles and AI portraits. Do not associate these portraits with live API identities: the mapping is limited to mock mode.
+
+| Local asset | Purpose | Delivery dimensions |
+| --- | --- | --- |
+| `frontend/public/images/home/hero-training.webp` | Homepage training photograph | 1536 × 1024 |
+| `frontend/public/images/home/functional-training.webp` | Functional exercise photograph | 1536 × 1024 |
+| `frontend/public/images/home/coach-artem.webp` | Fictional strength coach | 640 × 960 |
+| `frontend/public/images/home/coach-anna.webp` | Fictional mobility coach | 640 × 960 |
+| `frontend/public/images/home/coach-mikhail.webp` | Fictional swimming coach | 640 × 960 |
+
+PNG originals were encoded as local WebP delivery assets at quality 84. Portraits were proportionally resized; cropping is performed responsively with CSS. The hero uses high-priority loading, while lower-page images use native lazy loading. No external image or font request is required by these sections.

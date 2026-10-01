@@ -1,0 +1,11 @@
+.trainer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.trainer-profile { min-width: 0; }
+.trainer-portrait { position: relative; aspect-ratio: 4 / 4.6; background: var(--card); display: grid; place-items: center; overflow: hidden; }
+.trainer-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.trainer-experience { position: absolute; bottom: 16px; left: 16px; right: 16px; width: fit-content; max-width: calc(100% - 32px); padding: 7px 12px; font-size: 12px; background: var(--background); color: var(--foreground); }
+.trainer-profile :is(h2, h3) { font-size: 24px; font-weight: 500; line-height: 1.35; margin: 22px 0 10px; }
+.trainer-specialization { font-size: 13px; min-height: 44px; color: var(--primary); }
+.trainer-bio { font-size: 14px; line-height: 1.8; margin-top: 12px !important; }
+.trainer-demo-note { font-size: 12px; padding-top: 24px; margin-top: 30px !important; border-top: 1px solid var(--border); }
+@media (max-width: 959px) { .trainer-grid { gap: 20px; } .trainer-profile :is(h2, h3) { font-size: 21px; } }
+@media (max-width: 700px) { .trainer-grid { grid-template-columns: 1fr; gap: 36px; } .trainer-portrait { aspect-ratio: 4 / 4.2; } .trainer-specialization { min-height: 0; } }
