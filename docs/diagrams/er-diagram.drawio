@@ -1,0 +1,627 @@
+<mxfile host="Electron" agent="Coursework diagram authoring" pages="2">
+  <diagram id="page-1" name="ER Crow&#39;s Foot methodology">
+    <mxGraphModel dx="4120" dy="2504" grid="1" gridSize="20" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2960" pageHeight="2300" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="users" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="480" x="640" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="users_title" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#DCEAF8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Пользователи&#xa;users" vertex="1">
+          <mxGeometry height="55.38461538461539" width="480" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_0" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="24" width="480" y="59.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_1" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="UQ  email : TEXT" vertex="1">
+          <mxGeometry height="24" width="480" y="83.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_2" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    password_hash : TEXT" vertex="1">
+          <mxGeometry height="24" width="480" y="107.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_3" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    role : TEXT" vertex="1">
+          <mxGeometry height="24" width="480" y="131.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_4" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    locale : TEXT" vertex="1">
+          <mxGeometry height="24" width="480" y="155.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_5" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    is_active : BOOLEAN" vertex="1">
+          <mxGeometry height="24" width="480" y="179.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="users_field_6" parent="users" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    email_verified_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="24" width="480" y="203.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="720" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles_title" parent="trainer_profiles" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#DCEAF8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Профили тренеров&#xa;trainer_profiles" vertex="1">
+          <mxGeometry height="80" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles_field_0" parent="trainer_profiles" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK/FK user_id : BIGINT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="320" y="85.33333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles_field_1" parent="trainer_profiles" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    specialization_ru : TEXT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="320" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles_field_2" parent="trainer_profiles" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    specialization_en : TEXT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="320" y="154.66666666666666" as="geometry" />
+        </mxCell>
+        <mxCell id="trainer_profiles_field_3" parent="trainer_profiles" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    bio_ru / bio_en : TEXT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="320" y="189.33333333333331" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="320" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_title" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#DCEAF8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Сессии входа&#xa;auth_sessions" vertex="1">
+          <mxGeometry height="72" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_field_0" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="31.2" width="320" y="76.8" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_field_1" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  user_id : BIGINT" vertex="1">
+          <mxGeometry height="31.2" width="320" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_field_2" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="UQ  token_hash : BYTEA" vertex="1">
+          <mxGeometry height="31.2" width="320" y="139.2" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_field_3" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    expires_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="31.2" width="320" y="170.4" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_sessions_field_4" parent="auth_sessions" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    revoked_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="31.2" width="320" y="201.6" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="320" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_title" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#DCEAF8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Подтверждение email&#xa;email_verification_tokens" vertex="1">
+          <mxGeometry height="65.45454545454545" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_0" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="69.81818181818181" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_1" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  user_id : BIGINT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="98.18181818181817" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_2" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="UQ  token_hash : BYTEA" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="126.54545454545453" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_3" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    expires_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="154.9090909090909" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_4" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    used_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="183.27272727272725" as="geometry" />
+        </mxCell>
+        <mxCell id="email_verification_tokens_field_5" parent="email_verification_tokens" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    revoked_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="211.63636363636363" as="geometry" />
+        </mxCell>
+        <mxCell id="carts" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="160" width="240" x="1240" y="1079.08" as="geometry" />
+        </mxCell>
+        <mxCell id="carts_title" parent="carts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5F0E1;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Корзины&#xa;carts" vertex="1">
+          <mxGeometry height="80" width="239.99999999999997" as="geometry" />
+        </mxCell>
+        <mxCell id="carts_field_0" parent="carts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK/FK client_id : BIGINT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="239.99999999999997" y="85.33333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="carts_field_1" parent="carts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    revision : BIGINT" vertex="1">
+          <mxGeometry height="34.666666666666664" width="239.99999999999997" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="160" width="320" x="1200" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items_title" parent="cart_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5F0E1;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Позиции корзины&#xa;cart_items" vertex="1">
+          <mxGeometry height="53.33333333333333" width="319.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items_field_0" parent="cart_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK/FK client_id : BIGINT" vertex="1">
+          <mxGeometry height="23.11111111111111" width="319.99999999999994" y="56.888888888888886" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items_field_1" parent="cart_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK/FK membership_plan_id : BIGINT" vertex="1">
+          <mxGeometry height="23.11111111111111" width="319.99999999999994" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items_field_2" parent="cart_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    quantity : INTEGER" vertex="1">
+          <mxGeometry height="23.11111111111111" width="319.99999999999994" y="103.1111111111111" as="geometry" />
+        </mxCell>
+        <mxCell id="cart_items_field_3" parent="cart_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    position : INTEGER" vertex="1">
+          <mxGeometry height="23.11111111111111" width="319.99999999999994" y="126.22222222222221" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="319" width="320" x="1200" y="1600" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_title" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5F0E1;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Тарифы абонементов&#xa;membership_plans" vertex="1">
+          <mxGeometry height="68.35714285714286" width="319.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_0" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="72.91428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_1" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="UQ  code : TEXT" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="102.53571428571428" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_2" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    name_ru / name_en : TEXT" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="132.15714285714284" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_3" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    duration_months : SMALLINT" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="161.7785714285714" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_4" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    price_byn : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="191.39999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_5" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    allows_individual : BOOLEAN" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="221.02142857142857" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_6" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    allows_group : BOOLEAN" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="250.64285714285714" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_plans_field_7" parent="membership_plans" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    is_active : BOOLEAN" vertex="1">
+          <mxGeometry height="29.62142857142857" width="319.99999999999994" y="280.2642857142857" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="240" x="1600" y="1320" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_title" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5F0E1;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Промокоды&#xa;discounts" vertex="1">
+          <mxGeometry height="55.38461538461539" width="240" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_0" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="24" width="240" y="59.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_1" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="UQ  code : TEXT" vertex="1">
+          <mxGeometry height="24" width="240" y="83.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_2" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    discount_type : TEXT" vertex="1">
+          <mxGeometry height="24" width="240" y="107.07692307692308" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_3" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    value : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="24" width="240" y="131.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_4" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    valid_from : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="24" width="240" y="155.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_5" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    valid_until : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="24" width="240" y="179.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="discounts_field_6" parent="discounts" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    is_active : BOOLEAN" vertex="1">
+          <mxGeometry height="24" width="240" y="203.0769230769231" as="geometry" />
+        </mxCell>
+        <mxCell id="orders" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="480" width="480" x="2080" y="1200" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_title" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#FFF0D8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Заказы&#xa;orders" vertex="1">
+          <mxGeometry height="68.57142857142857" width="479.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_0" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="73.14285714285714" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_1" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  client_id : BIGINT" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="102.85714285714285" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_2" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  discount_id : BIGINT?" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="132.57142857142856" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_3" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  exchange_rate_id : BIGINT?" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="162.28571428571428" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_4" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* cancelled_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="192" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_5" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    status : TEXT" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="221.7142857142857" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_6" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    idempotency_key : UUID" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="251.42857142857142" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_7" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    source_cart_revision : BIGINT" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="281.1428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_8" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    subtotal_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="310.85714285714283" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_9" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    discount_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="340.57142857142856" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_10" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    total_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="370.2857142857143" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_11" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    display_currency_code : TEXT" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="399.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="orders_field_12" parent="orders" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    exchange_rate_snapshot : NUMERIC" vertex="1">
+          <mxGeometry height="29.714285714285708" width="479.99999999999994" y="429.71428571428567" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="319" width="320" x="1680" y="1600" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_title" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#FFF0D8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Позиции заказа&#xa;order_items" vertex="1">
+          <mxGeometry height="63.8" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_0" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="68.05333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_1" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  order_id : BIGINT" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="95.69999999999999" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_2" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  membership_plan_id : BIGINT" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="123.34666666666665" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_3" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    line_number : INTEGER" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="150.9933333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_4" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    quantity : INTEGER" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="178.64" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_5" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    duration_months_snapshot : SMALLINT" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="206.28666666666666" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_6" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    unit_price_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="233.9333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_7" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    discount_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="261.58" as="geometry" />
+        </mxCell>
+        <mxCell id="order_items_field_8" parent="order_items" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    total_amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="27.646666666666665" width="320" y="289.22666666666663" as="geometry" />
+        </mxCell>
+        <mxCell id="payments" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="319" width="320" x="2160" y="1840" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_title" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#FFF0D8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Попытки оплаты&#xa;payments" vertex="1">
+          <mxGeometry height="73.61538461538461" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_0" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="78.52307692307693" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_1" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  order_id : BIGINT" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="110.42307692307693" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_2" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    idempotency_key : UUID" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="142.32307692307694" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_3" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    status : TEXT" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="174.22307692307695" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_4" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    amount : NUMERIC(14,2)" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="206.12307692307695" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_5" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    currency_code : TEXT" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="238.02307692307693" as="geometry" />
+        </mxCell>
+        <mxCell id="payments_field_6" parent="payments" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    processed_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="31.900000000000002" width="320" y="269.92307692307696" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="160" width="320" x="2160" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_title" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#FFF0D8;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Курсы валют&#xa;exchange_rates" vertex="1">
+          <mxGeometry height="47.99999999999999" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_field_0" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="20.799999999999997" width="320" y="51.199999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_field_1" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* created_by_user_id : BIGINT" vertex="1">
+          <mxGeometry height="20.799999999999997" width="320" y="72" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_field_2" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    currency_code : TEXT" vertex="1">
+          <mxGeometry height="20.799999999999997" width="320" y="92.79999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_field_3" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    byn_per_unit : NUMERIC(18,8)" vertex="1">
+          <mxGeometry height="20.799999999999997" width="320" y="113.6" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange_rates_field_4" parent="exchange_rates" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    effective_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="20.799999999999997" width="320" y="134.39999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="1200" y="2000" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_title" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5E2F5;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Периоды абонементов&#xa;memberships" vertex="1">
+          <mxGeometry height="65.45454545454545" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_0" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="69.81818181818181" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_1" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  client_id : BIGINT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="98.18181818181817" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_2" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* cancelled_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="126.54545454545453" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_3" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    starts_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="154.9090909090909" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_4" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    ends_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="183.27272727272725" as="geometry" />
+        </mxCell>
+        <mxCell id="memberships_field_5" parent="memberships" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    cancelled_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="211.63636363636363" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_issuances" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="1680" y="2000" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_issuances_title" parent="membership_issuances" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5E2F5;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Выдачи абонементов&#xa;membership_issuances" vertex="1">
+          <mxGeometry height="90" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_issuances_field_0" parent="membership_issuances" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK/FK membership_id : BIGINT" vertex="1">
+          <mxGeometry height="39" width="320" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_issuances_field_1" parent="membership_issuances" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  order_item_id : BIGINT" vertex="1">
+          <mxGeometry height="39" width="320" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="membership_issuances_field_2" parent="membership_issuances" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    unit_number : INTEGER" vertex="1">
+          <mxGeometry height="39" width="320" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="320" width="320" x="1040" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_title" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5E2F5;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Слоты тренировок&#xa;training_slots" vertex="1">
+          <mxGeometry height="68.57142857142857" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_0" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="73.14285714285714" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_1" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  trainer_id : BIGINT" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="102.85714285714285" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_2" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* cancelled_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="132.57142857142856" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_3" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    training_kind : TEXT" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="162.28571428571428" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_4" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    starts_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="192" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_5" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    ends_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="221.7142857142857" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_6" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    capacity : INTEGER" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="251.42857142857142" as="geometry" />
+        </mxCell>
+        <mxCell id="training_slots_field_7" parent="training_slots" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    status : TEXT" vertex="1">
+          <mxGeometry height="29.71428571428571" width="320" y="281.1428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="320" width="480" x="1520" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_title" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#E5E2F5;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Заявки и посещения&#xa;bookings" vertex="1">
+          <mxGeometry height="64" width="480" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_0" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="68.26666666666667" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_1" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  training_slot_id : BIGINT" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="96" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_2" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  membership_id : BIGINT" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="123.73333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_3" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* reviewed_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="151.46666666666667" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_4" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* cancelled_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="179.2" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_5" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK* attendance_marked_by_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="206.93333333333334" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_6" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    status : TEXT" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="234.66666666666666" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_7" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    created_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="262.4" as="geometry" />
+        </mxCell>
+        <mxCell id="bookings_field_8" parent="bookings" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    reviewed_at : TIMESTAMPTZ?" vertex="1">
+          <mxGeometry height="27.733333333333334" width="480" y="290.1333333333333" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="2000" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_title" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#F7E3EB;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Уведомления&#xa;notifications" vertex="1">
+          <mxGeometry height="51.42857142857144" width="319.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_0" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="54.857142857142854" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_1" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  recipient_user_id : BIGINT" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="77.14285714285714" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_2" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  order_id : BIGINT?" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="99.42857142857143" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_3" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  booking_id : BIGINT?" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="121.71428571428571" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_4" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    event_key : TEXT" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="144" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_5" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    channel : TEXT" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="166.2857142857143" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_6" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    delivery_status : TEXT?" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="188.57142857142858" as="geometry" />
+        </mxCell>
+        <mxCell id="notifications_field_7" parent="notifications" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    created_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="22.285714285714285" width="319.99999999999994" y="210.85714285714283" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs" parent="1" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;" value="" vertex="1">
+          <mxGeometry height="240" width="320" x="160" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_title" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#F7E3EB;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=8;fontStyle=1;align=left;spacingLeft=14;" value="Аудит&#xa;audit_logs" vertex="1">
+          <mxGeometry height="65.45454545454545" width="320" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_0" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="PK  id : BIGINT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="69.81818181818181" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_1" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="FK  actor_user_id : BIGINT?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="98.18181818181817" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_2" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    action : TEXT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="126.54545454545453" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_3" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    entity_type : TEXT" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="154.9090909090909" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_4" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    entity_id : TEXT?" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="183.27272727272725" as="geometry" />
+        </mxCell>
+        <mxCell id="audit_logs_field_5" parent="audit_logs" style="rounded=0;whiteSpace=nowrap;html=0;fillColor=#ffffff;strokeColor=#263238;strokeWidth=1.6;fontColor=#263238;fontFamily=Arial;fontSize=15;align=center;verticalAlign=middle;spacing=8;strokeColor=none;fillColor=none;align=left;spacingLeft=14;fontFamily=Consolas;spacing=0;" value="    occurred_at : TIMESTAMPTZ" vertex="1">
+          <mxGeometry height="28.36363636363636" width="320" y="211.63636363636363" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_1" edge="1" parent="1" source="users_title" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToOne;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=0;entryX=0.5;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="trainer_profiles" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_2" edge="1" parent="1" source="users" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.25;exitY=1;entryX=1;entryY=0.384;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;" target="auth_sessions_field_1" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="1483.6" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_3" edge="1" parent="1" source="users_title" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.25;exitY=0;entryX=1;entryY=0.75;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="email_verification_tokens_field_1" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="839.45" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_4" edge="1" parent="1" source="users_field_2" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToOne;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0.5;entryX=0;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="carts_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_5" edge="1" parent="1" source="carts" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" target="cart_items" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_6" edge="1" parent="1" source="membership_plans" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=0.0;entryX=0.5;entryY=1.0;exitPerimeter=0;entryPerimeter=0;" target="cart_items" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_7" edge="1" parent="1" source="users_title" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0;entryX=0;entryY=0.25;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="orders_field_0" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1920" y="1040" />
+              <mxPoint x="1920" y="1280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_8" edge="1" parent="1" source="discounts_field_2" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0.5;entryX=0;entryY=0.611;exitDx=0;exitDy=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="orders_field_5" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_9" edge="1" parent="1" source="exchange_rates" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="orders_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_10" edge="1" parent="1" source="orders" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERoneToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.333;exitY=0.999;exitDx=0;exitDy=0;entryX=0.999;entryY=0.314;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" target="order_items_field_3" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="2240" y="1760" />
+              <mxPoint x="2060" y="1760" />
+            </Array>
+            <mxPoint x="2040" y="1757.9099999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_11" edge="1" parent="1" source="membership_plans_field_2" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1.001;exitY=0.948;entryX=-0.001;entryY=0.306;entryDx=0;entryDy=0;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" target="order_items_field_3" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_12" edge="1" parent="1" source="orders" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="payments_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="2320" y="1760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_13" edge="1" parent="1" source="users" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=-0.001;entryY=0.315;entryDx=0;entryDy=0;entryPerimeter=0;" target="memberships_field_0" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="1440" />
+              <mxPoint x="1000" y="2080" />
+            </Array>
+            <mxPoint x="1200" y="2320.2799999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_14" edge="1" parent="1" source="memberships_field_1" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERmandOne;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0.75;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="membership_issuances" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_15" edge="1" parent="1" source="order_items_field_8" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="membership_issuances_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1960" y="2260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_16" edge="1" parent="1" source="trainer_profiles_title" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=-0.002;entryY=0.893;entryDx=0;entryDy=0;entryPerimeter=0;" target="training_slots_field_2" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="319.11" />
+            </Array>
+            <mxPoint x="980" y="1720" as="sourcePoint" />
+            <mxPoint x="1039.68" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_17" edge="1" parent="1" source="training_slots_field_2" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.996;exitY=0.894;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="bookings_field_3" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_18" edge="1" parent="1" source="memberships_field_3" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=-0.001;exitY=0.169;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="bookings_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="2159.7" />
+              <mxPoint x="80" y="80" />
+              <mxPoint x="1760" y="80" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_19" edge="1" parent="1" source="users_title" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="notifications" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="960" />
+              <mxPoint x="2080" y="960" />
+            </Array>
+            <mxPoint x="1000" y="1120" as="sourcePoint" />
+            <mxPoint x="2040" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_20" edge="1" parent="1" source="orders_field_0" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0.25;entryX=1;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="notifications_field_2" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="2720" y="1280" />
+              <mxPoint x="2720" y="759.71" />
+              <mxPoint x="2720" y="680" />
+            </Array>
+            <mxPoint x="2640" y="1280.281428571428" as="sourcePoint" />
+            <mxPoint x="2320" y="639.71" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_21" edge="1" parent="1" source="bookings_field_3" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=1;exitY=0.25;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="notifications_title" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="2160" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_22" edge="1" parent="1" source="users_field_2" style="edgeStyle=none;noEdgeStyle=1;rounded=0;orthogonal=1;html=0;strokeColor=#506678;strokeWidth=1.6;fontFamily=Arial;fontSize=17;fontColor=#263238;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=1;startSize=16;endSize=16;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="audit_logs_field_1" value="">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points" />
+            <mxPoint x="500" y="1156.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="HuzNJIdE93QcRtYMmpfd" name="ER Peter Chen methodology">
+    <mxGraphModel dx="1030" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
