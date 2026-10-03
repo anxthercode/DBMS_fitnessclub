@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { ArrowUpRight, Menu, X, ShoppingBag } from 'lucide-react'
 import { isMock } from '@/api'
 import { Brand } from '@/components/brand'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Button } from '@/components/ui/button'
 import { useLogout, useSession } from '@/features/auth/session'
+
+import { useCart } from '@/features/commerce/hooks'
+import { useCommerceCopy } from '@/features/commerce/copy'
 
 const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/#contacts', 'contacts']] as const
 const pageTitles: Record<string, string> = {
@@ -16,6 +19,8 @@ const pageTitles: Record<string, string> = {
 }
 
 export function PublicLayout() {
+  const cart = useCart()
+  const { copy } = useCommerceCopy()
   const { t, i18n } = useTranslation()
   const { data: user } = useSession()
   const location = useLocation()
@@ -43,9 +48,9 @@ export function PublicLayout() {
   }, [location.key, location.pathname, location.hash])
 
   useEffect(() => {
-    document.title = t(pageTitles[location.pathname] || 'notFound.title') + ' — FORMA'
+    document.title = (location.pathname === '/cart' ? copy.cart : location.pathname.startsWith('/account/orders') ? copy.orders : location.pathname.startsWith('/account/access/') ? copy.access : t(pageTitles[location.pathname] || 'notFound.title')) + ' — FORMA'
     document.querySelector('meta[name="description"]')?.setAttribute('content', t('home.meta'))
-  }, [location.pathname, t, i18n.language])
+  }, [location.pathname, t, i18n.language, copy])
 
   useEffect(() => {
     if (!open) return
@@ -83,6 +88,7 @@ export function PublicLayout() {
           <Brand />
           <nav className="hidden items-center gap-7 xl:flex" aria-label={t('nav.primary')}>{navLinks()}</nav>
           <div className="flex items-center gap-2 sm:gap-5">
+            {(!user || user.role === 'CLIENT') && <Link to="/cart" className="relative inline-flex min-h-11 min-w-11 items-center justify-center" aria-label={copy.cart + (cart.data?.items.length ? ' (' + cart.data.items.length + ')' : '')}><ShoppingBag size={21} aria-hidden="true" />{!!cart.data?.items.length && <span className="absolute right-0 top-0 rounded-full bg-primary px-1.5 text-xs text-primary-foreground">{cart.data.items.length}</span>}</Link>}
             <LanguageSwitch />
             {user ? <div className="hidden items-center gap-4 sm:flex">
               {user.role === 'CLIENT'
@@ -104,7 +110,7 @@ export function PublicLayout() {
         </nav>}
       </header>
       <main id="main" ref={main} tabIndex={-1} className="flex-1 focus:outline-none"><Outlet /></main>
-      <footer className="mt-16 border-t border-border py-8">
+      <footer className="site-footer border-t border-border py-8">
         <div className="container-shell">
           <div className="flex flex-wrap items-start justify-between gap-8">
             <div><Brand /><p className="mt-4 text-xs">{t('footer.text')}</p></div>

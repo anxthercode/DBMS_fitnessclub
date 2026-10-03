@@ -10,6 +10,7 @@ async function request<T>(path: string, method = 'GET', body?: unknown): Promise
 }
 const id = encodeURIComponent
 export const httpApi: ClubApi = {
+  accessOfferPreviews: () => Promise.reject(new ApiError('demo_only')),
   session: async () => { try { return await request('/auth/session') } catch (e) { if (e instanceof ApiError && e.status === 401) return null; throw e } },
   login: body => request('/auth/login', 'POST', body), register: body => request('/auth/register', 'POST', body), logout: () => request('/auth/logout', 'POST'),
   verifyDemoEmail: () => Promise.reject(new ApiError('demo_only')),
@@ -17,7 +18,13 @@ export const httpApi: ClubApi = {
   club: () => request('/club'), plans: () => request('/membership-plans'), trainers: () => request('/trainers'), slots: () => request('/training-slots'),
   memberships: () => request('/memberships'), bookings: () => request('/bookings'), book: body => request('/bookings', 'POST', body), decide: (key, body) => request(`/bookings/${id(key)}/decision`, 'POST', body),
   createSlot: body => request('/training-slots', 'POST', body), cancelSlot: key => request(`/training-slots/${id(key)}/cancel`, 'POST'),
-  cart: () => request('/cart'), setCartItem: (key, quantity) => request(`/cart/items/${id(key)}`, 'PUT', { quantity }),
+  offers: () => request('/access-offers'),
+  cart: () => request('/cart'), putCartItem: body => request('/cart/items', 'PUT', body),
+  removeCartItem: (key, version) => request(`/cart/items/${id(key)}`, 'DELETE', { version }),
+  refreshCart: version => request('/cart/refresh', 'POST', { version }),
+  quote: body => request('/cart/quote', 'POST', body),
+  order: key => request(`/orders/${id(key)}`), cancelOrder: key => request(`/orders/${id(key)}/cancel`, 'POST'),
+  accesses: () => request('/access'),
   checkout: body => request('/orders', 'POST', body), orders: () => request('/orders'), pay: (key, body) => request(`/orders/${id(key)}/payments`, 'POST', body),
   notifications: () => request('/notifications'), readNotification: key => request(`/notifications/${id(key)}/read`, 'POST'),
   users: () => request('/users'), setUserActive: (key, is_active) => request(`/users/${id(key)}`, 'PATCH', { is_active }),

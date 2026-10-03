@@ -12,6 +12,11 @@ const AccountLayout = lazy(async () => ({ default: (await import('@/features/acc
 const ProfilePage = lazy(async () => ({ default: (await import('@/features/account/ProfilePage')).ProfilePage }))
 const MembershipsPage = lazy(async () => ({ default: (await import('@/features/account/MembershipsPage')).MembershipsPage }))
 
+const CartPage = lazy(async () => ({ default: (await import('@/features/commerce/CartPage')).CartPage }))
+const OrdersPage = lazy(async () => ({ default: (await import('@/features/commerce/OrdersPage')).OrdersPage }))
+const OrderPage = lazy(async () => ({ default: (await import('@/features/commerce/OrdersPage')).OrderPage }))
+const AccessPage = lazy(async () => ({ default: (await import('@/features/commerce/AccessPage')).AccessPage }))
+
 function AuthRoute({ mode }: { mode: 'login' | 'register' }) {
   return <Suspense fallback={<Loading />}><AuthPage key={mode} mode={mode} /></Suspense>
 }
@@ -24,12 +29,16 @@ export function App() {
           <Route index element={<HomePage />} />
           <Route path="design-preview" element={<HomePage />} />
           <Route path="plans" element={<PlansPage />} />
+          <Route path="cart" element={<Suspense fallback={<Loading />}><CartPage /></Suspense>} />
           <Route path="trainers" element={<TrainersPage />} />
           <Route path="login" element={<AuthRoute mode="login" />} />
           <Route path="register" element={<AuthRoute mode="register" />} />
           <Route path="account" element={<ClientGuard />}>
             <Route element={<Suspense fallback={<Loading />}><AccountLayout /></Suspense>}>
               <Route index element={<Navigate to="memberships" replace />} />
+              <Route path="orders" element={<OrdersPage />} />
+              <Route path="orders/:id" element={<OrderPage />} />
+              <Route path="access/:id" element={<AccessPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="memberships" element={<MembershipsPage />} />
             </Route>

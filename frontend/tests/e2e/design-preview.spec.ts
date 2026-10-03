@@ -1,23 +1,5 @@
 import { expect, test } from '@playwright/test'
 
-test('membership cards show shared access, total prices and preserve the chosen plan', async ({ page }, testInfo) => {
-  await page.goto('/#memberships')
-  const memberships = page.locator('#memberships')
-  await expect(memberships.getByRole('article')).toHaveCount(3)
-  await expect(memberships).toContainText('раздевалки и душевые')
-  await expect(memberships).toContainText('120,00')
-  await expect(memberships).toContainText('320,00')
-  await expect(memberships.getByText('За весь срок', { exact: true })).toHaveCount(3)
-  await expect(memberships.getByRole('heading', { name: 'Первое посещение — бесплатно' })).toBeVisible()
-  await memberships.screenshot({ path: testInfo.outputPath('membership-cards.png') })
-  await page.getByRole('button', { name: 'EN', exact: true }).click()
-  await expect(memberships.getByRole('heading', { name: 'Your first visit is free' })).toBeVisible()
-  await expect(memberships.getByText('Full-term price', { exact: true })).toHaveCount(3)
-  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
-  await memberships.getByRole('link', { name: 'Choose membership: 3 months', exact: true }).click()
-  await expect(page).toHaveURL(/\/register\?plan=2$/)
-})
-
 test('guest form validates without an account, sends no request and restores trigger focus', async ({ page }, testInfo) => {
   const submissions: string[] = []
   page.on('request', request => { if (request.method() === 'POST') submissions.push(request.url()) })

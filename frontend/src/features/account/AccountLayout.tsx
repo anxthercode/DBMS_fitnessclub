@@ -6,6 +6,7 @@ import type { User } from '@/api/types'
 
 const links = [
   { to: '/account/memberships', label: 'account.memberships', Icon: CreditCard },
+  { to: '/account/orders', label: 'account.orders', Icon: CreditCard },
   { to: '/account/profile', label: 'dash.profile', Icon: UserRound },
 ]
 
@@ -13,7 +14,7 @@ export function AccountLayout() {
   const user = useOutletContext<User>()
   const { t } = useTranslation()
   return (
-    <div className="container-shell pt-8 sm:pt-12">
+    <div className="container-shell page-section account-shell">
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
         <aside className="min-w-0 lg:border-r lg:border-border lg:pr-7">
           <p className="eyebrow text-muted-foreground">{t('account.eyebrow')}</p>

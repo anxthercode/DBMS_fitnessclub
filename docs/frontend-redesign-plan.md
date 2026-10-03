@@ -65,15 +65,17 @@ The renewed review of [Third Space](https://www.thirdspace.london/), [Equinox](h
 | --- | --- | --- |
 | 1. Club introduction | Factual gym/cardio/pool heading, concise introduction, location/hours, guest-visit and membership links. | Large heading beside training photography; text remains on a solid background. The free-visit link moves focus to the existing terms and form. |
 | 2. Training directions | Strength, functional exercise, cardio, swimming/aqua aerobics. Essential descriptions and formats stay visible; optional details expand. | Asymmetric image grid on desktop, one column on phones. The existing `#club` navigation target remains here. |
-| 3. Facility gallery | Gym floor, cardio, pool and shared changing rooms/showers. | Manual four-photo strip with a visible next-image edge, captions and counter. Native swipe, buttons, Left/Right/Home/End keys, reduced-motion support, no autoplay or new library. |
+| 3. Facility gallery | Pool, cardio and shared changing rooms/showers; gym photography stays in training directions. | Manual three-photo strip with a visible next-image edge, captions and counter. Native swipe, buttons, Left/Right/Home/End keys, reduced-motion support, no autoplay or new library. |
 | 4. Coaches | Three fictional profiles from the existing mock API: strength, mobility and aquatics. | Consistent vertical generated portraits, experience, specialization, biography and a link to all coaches. Shared component with `/trainers`; explicit demo note. |
 | 5. Membership overview | `Абонементы`. Current 1-, 3- and 12-month options with full-term BYN prices from the API. | Existing three separate cards and inline demo guest form are preserved. |
-| 6. Visiting information | `Перед посещением`. Four short questions covering zone access, independent visits, coached-session booking and cancellation. | Existing disclosure rows; essential restrictions remain visible on the plans page. |
+| 6. Visiting information | `Перед посещением`. Five questions covering the first visit, zone access, independent visits, coached-session booking and cancellation. | Animated disclosure rows; essential restrictions remain visible on the plans page. |
 | 7. Contacts | `Контакты и часы работы`. Approved location and hours. | Existing text layout; street address and contact channels still require agreement. |
 
 Do not append a duplicate promotional banner. Expanding the first-visit composition, membership comparison, FAQ policies and contact imagery belongs to a later agreed stage.
 
-The gallery has four entries but only three activity zones: changing rooms and showers are shared amenities. Four training directions do not introduce four new zones or a service catalogue. Keep important descriptions visible; no automatic switching, hover-only information or nested carousels.
+The gallery has three entries: pool, cardio and shared amenities. Four training directions do not introduce four new zones or a service catalogue. Keep important descriptions visible; no automatic switching, hover-only information or nested carousels.
+
+The 2 October refinement retains the palette while giving the slate surface more space across the hero, directions, coaches and FAQ. Activity filter buttons offer all directions, strength/functional exercise, cardio and swimming; they only filter informational cards. Sections enter once over 550 ms, hover photos scale to 1.03, and buttons/arrow icons transition. FAQ and activity disclosures animate opening and closing, retain keyboard control, and can reverse mid-animation. Reduced-motion preferences disable movement. The gallery starts with the brighter pool image, has less height, and exposes keyboard help only to screen readers. One shared note near contacts covers concept imagery and fictional AI coach portraits; the standalone coaches page retains its own disclosure. Membership-to-FAQ spacing is reduced on desktop and mobile.
 
 ### Facility content template
 
@@ -165,7 +167,7 @@ Content to agree before final publication: fictional club address/contact detail
 | A. Content and layout | Completed: the reviewed homepage is promoted to `features/public/HomePage.tsx`, with shared copy, facility controls, FAQ and lazily loaded guest form. `/design-preview` renders the same page. | Main-route guest-form and membership-selection browser tests. |
 | B. Public pages | Completed: global tokens and fonts, `PublicLayout.tsx`, shared components, homepage, `PlanCards.tsx`, plans, coaches, 404, locales, theme color and favicon. | RU/EN, responsive screenshots, working cross-route anchors with focus, keyboard disclosures and mobile navigation. |
 | C. Existing account and auth | Completed: compact login/registration, account navigation, profile fields and semantic membership/email statuses. | Existing sign-in, ownership, safe-redirect, profile, session-cleanup and membership-boundary tests remain in place. |
-| D. Functional expansion | Separately agree cart/orders and schedule/bookings, then trainer/admin interfaces and API integration according to README. | Critical business-rule, access-control, failure and concurrency tests; database approval before schema implementation. |
+| D. Functional expansion | Cart/orders and simulated purchases implemented in README Stage 2, including the approved disjoint-zone overlap rule. Continue with Stage 3 schedule/bookings, then trainer/admin interfaces and API integration. | Critical business-rule, access-control, failure and concurrency tests; database approval before schema implementation. |
 
 Acceptance for the visual milestone: no motivational filler headings; no duplicate About/registration banners; all agreed zones and amenities discoverable; membership conditions clear; exact approved brand colors; coherent image treatment; no clipping/overflow; keyboard-accessible interactions; no links advertising absent workflows; existing client behavior retained.
 

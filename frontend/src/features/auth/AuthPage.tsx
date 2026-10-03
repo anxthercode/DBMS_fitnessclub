@@ -126,7 +126,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   if (session.data?.role === 'CLIENT') return <Navigate to={destination} replace />
 
   return (
-    <section className="container-shell pt-9 sm:pt-14">
+    <section className="container-shell page-section auth-section">
       <div className="mx-auto max-w-[600px] rounded-md border border-border bg-card">
         <div className="px-5 py-7 sm:p-10">
           <div className="mx-auto max-w-md">

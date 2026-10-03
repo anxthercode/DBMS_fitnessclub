@@ -42,8 +42,7 @@ test('language survives reload and translates trainer names', async ({ page }) =
 })
 
 test('plan selection is preserved across auth links without creating an order', async ({ page }) => {
-  await page.goto('/plans')
-  await page.getByRole('link', { name: 'Выбрать абонемент «Ритм»', exact: true }).click()
+  await page.goto('/register?plan=2')
   await expect(page).toHaveURL(/\/register\?plan=2$/)
   await expect(page.getByText('Выбранный абонемент')).toBeVisible()
   await page.locator('main').getByRole('link', { name: 'Войти', exact: true }).click()

@@ -7,5 +7,7 @@
 .trainer-specialization { font-size: 13px; min-height: 44px; color: var(--primary); }
 .trainer-bio { font-size: 14px; line-height: 1.8; margin-top: 12px !important; }
 .trainer-demo-note { font-size: 12px; padding-top: 24px; margin-top: 30px !important; border-top: 1px solid var(--border); }
+@media (prefers-reduced-motion: no-preference) { .trainer-portrait img { transition: transform 550ms cubic-bezier(.2,.7,.2,1); } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .trainer-portrait:hover img { transform: scale(1.03); } }
 @media (max-width: 959px) { .trainer-grid { gap: 20px; } .trainer-profile :is(h2, h3) { font-size: 21px; } }
 @media (max-width: 700px) { .trainer-grid { grid-template-columns: 1fr; gap: 36px; } .trainer-portrait { aspect-ratio: 4 / 4.2; } .trainer-specialization { min-height: 0; } }

@@ -10,6 +10,10 @@ import { Loading, QueryError } from '@/components/feedback'
 import { date, localized } from '@/lib/format'
 import { membershipStatus, sortMemberships, type MembershipStatus } from './membership-status'
 
+import { PassList } from '@/features/commerce/AccessPage'
+import { ZoneBadges } from '@/features/commerce/shared'
+import { useCommerceCopy } from '@/features/commerce/copy'
+
 const badgeClasses: Record<MembershipStatus, string> = {
   active: 'bg-success/10 text-success', pending: 'bg-info/10 text-info',
   expired: 'bg-muted text-muted-foreground', cancelled: 'bg-destructive/10 text-destructive',
@@ -31,6 +35,7 @@ function useMembershipClock(memberships: Membership[] | undefined) {
 }
 
 export function MembershipsPage() {
+  const { copy } = useCommerceCopy()
   const user = useOutletContext<User>()
   const { t, i18n } = useTranslation()
   const client = useQueryClient()
@@ -61,7 +66,7 @@ export function MembershipsPage() {
       ) : <>
         <div role="group" aria-label={t('account.filterMemberships')} className="mt-8 flex flex-wrap gap-2 border-b border-border pb-5">
           {(['all', 'current', 'history'] as const).map(key => <button key={key} type="button" aria-pressed={filter === key} onClick={() => setFilter(key)}
-            className={'min-h-11 rounded px-3 py-2 text-sm ' + (filter === key ? 'bg-card font-semibold text-primary' : 'text-muted-foreground hover:bg-muted')}>
+            className="choice-pill">
             {t('account.filter.' + key)} <span className="ml-1">{groups[key].length}</span>
           </button>)}
         </div>
@@ -74,6 +79,8 @@ export function MembershipsPage() {
                   <div><p className="eyebrow text-muted-foreground">{t('account.membershipNumber', { id: item.id })}</p><h2 className="mt-2 text-2xl font-semibold">{localized(item, 'plan_name', i18n.language)}</h2></div>
                   <span className={'status-badge ' + badgeClasses[status]}>{t('membership.' + status)}</span>
                 </div>
+                <ZoneBadges zones={item.zones || 'both'} />
+                <Link className="underline min-h-11 inline-flex items-center" to={'/account/access/membership-' + item.id}>{copy.details} ↗</Link>
                 <dl className="mt-6 grid gap-5 border-t border-border pt-5 sm:grid-cols-2">
                   <div><dt className="text-xs text-muted-foreground">{t('account.startsAt')}</dt><dd className="mt-2 text-sm font-medium"><time dateTime={item.starts_at}>{date(item.starts_at, i18n.language, dateOptions)}</time></dd></div>
                   <div><dt className="text-xs text-muted-foreground">{t('account.endsAt')}</dt><dd className="mt-2 text-sm font-medium"><time dateTime={item.ends_at}>{date(item.ends_at, i18n.language, dateOptions)}</time></dd></div>
@@ -88,6 +95,7 @@ export function MembershipsPage() {
         </div>
         <p className="mt-5 text-xs leading-6 text-muted-foreground">{t('account.membershipTimeNote')}</p>
       </>}
+      <PassList />
     </section>
   )
 }

@@ -36,7 +36,19 @@ export function createFixtures(now: number) {
   )
   const booking = (id:string, membership_id:string, slotIndex:number, status:Booking['status'], old=false): Booking => ({ id,membership_id, training_slot_id:slots[slotIndex].id, status,created_at:old ? iso(-2) : new Date(now).toISOString(),client_name:users.find(u=>u.id===memberships.find(m=>m.id===membership_id)?.client_id)!.first_name,slot:slots[slotIndex],requires_attention:old,reason:null })
   const bookings: Booking[] = [booking('1','1',2,'approved'),booking('2','2',0,'pending',true),booking('3','3',4,'approved'),booking('4','1',10,'approved'),booking('5','1',5,'pending')]
-  const orders: Order[] = [{ id:'1001',client_id:'1',status:'paid',created_at:iso(-15),total_byn:'320.00',discount_byn:'0.00',items:[{ name_ru:'Ритм',name_en:'Rhythm',quantity:1,duration_months:3,allows_group:true,allows_individual:true,unit_price_byn:'320.00' }] }]
+  memberships[0].order_id = '1001'
+  const orders: Order[] = [{
+    id: '1001', client_id: '1', status: 'paid', created_at: iso(-15), cart_version: 1,
+    subtotal_byn: '320.00', total_byn: '320.00', discount_byn: '0.00', promo_code: null,
+    currency: 'BYN', total_currency: '320.00', byn_per_unit: '1.00000000', rate_date: null,
+    items: [{ id: 'legacy-1001-1', product: {
+      format: 'membership', months: 3, zones: 'both', date: iso(-15).slice(0, 10), offer_id: '6',
+      offer_revision: 1, price_byn: '320.00', starts_at: iso(-15), ends_at: iso(75),
+      allows_group: true, allows_individual: true, amenities_included: true, single_entry: false,
+    } }],
+    attempts: [{ id: 'legacy-payment', status: 'succeeded', created_at: iso(-15), reason: null }],
+    access_ids: ['membership-1'],
+  }]
   const discounts: Discount[] = [{id:'1',code:'FORMA10',kind:'percent',value:'10',is_active:true}]
   const rates: ExchangeRate[] = [{id:'1',currency:'USD',byn_per_unit:'3.25000000',effective_at:iso(-1)}, {id:'2',currency:'EUR',byn_per_unit:'3.60000000',effective_at:iso(-1)}]
   const notifications: Notification[] = [{id:'1',recipient_user_id:'1',title_ru:'Вы записаны на тренировку',title_en:'Your training is confirmed',body_ru:'Силовая тренировка с Артёмом. До встречи в клубе!',body_en:'Strength training with Artem. See you at the club!',created_at:iso(-1),read_at:null}]

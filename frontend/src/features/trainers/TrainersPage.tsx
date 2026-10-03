@@ -8,7 +8,7 @@ export function TrainersPage() {
   const { t } = useTranslation()
   const trainers = useQuery({ queryKey: ['trainers'], queryFn: api.trainers })
   return (
-    <section className="container-shell pt-9 sm:pt-14">
+    <section className="container-shell page-section">
       <div className="page-intro">
         <h1 className="page-title">{t('coaches.title')}</h1>
         <p>{t('coaches.subtitle')}</p>

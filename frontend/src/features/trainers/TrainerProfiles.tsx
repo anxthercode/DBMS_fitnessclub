@@ -9,7 +9,7 @@ import './trainers.css'
 // Concept portraits belong only to these fictional fixtures, never to live API identities.
 const portraits: Record<string, string> = { '2': 'coach-artem', '3': 'coach-anna', '7': 'coach-mikhail' }
 
-export function TrainerProfiles({ trainers, headingLevel = 'h2' }: { trainers: Trainer[]; headingLevel?: 'h2' | 'h3' }) {
+export function TrainerProfiles({ trainers, headingLevel = 'h2', showDemoNote = true }: { trainers: Trainer[]; headingLevel?: 'h2' | 'h3'; showDemoNote?: boolean }) {
   const { t, i18n } = useTranslation()
   const locale = i18n.language === 'en' ? 'en' : 'ru'
   const Heading = headingLevel
@@ -28,6 +28,6 @@ export function TrainerProfiles({ trainers, headingLevel = 'h2' }: { trainers: T
         </article>
       })}
     </div>
-    {isMock && <p className="trainer-demo-note">{homeCopy[locale].coachesDemo}</p>}
+    {isMock && showDemoNote && <p className="trainer-demo-note">{homeCopy[locale].coachesDemo}</p>}
   </>
 }

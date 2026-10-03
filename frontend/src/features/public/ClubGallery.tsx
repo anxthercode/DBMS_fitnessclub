@@ -1,48 +1,38 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { facilityImages, homeCopy, type HomeLocale } from './home-content'
 
 const rooms = ['gym', 'cardio', 'pool', 'changing'] as const
 
-export function ClubGallery({ locale }: { locale: HomeLocale }) {
+// The photo controls and tabs share one selection; there is no second carousel.
+export function ClubGallery({ locale, active, onChange }: { locale: HomeLocale; active: number; onChange: (index: number) => void }) {
   const copy = homeCopy[locale]
-  const track = useRef<HTMLUListElement>(null)
-  const [active, setActive] = useState(0)
-
-  function goTo(index: number) {
-    const list = track.current
-    const slide = list?.children[Math.max(0, Math.min(rooms.length - 1, index))] as HTMLElement | undefined
-    if (!list || !slide) return
-    list.scrollTo({ left: slide.offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
-  }
-
-  function syncActive() {
-    const list = track.current
-    if (!list) return
-    const slides = Array.from(list.children) as HTMLElement[]
-    const nearest = slides.reduce((best, slide, index) => Math.abs(slide.offsetLeft - list.scrollLeft) < Math.abs(slides[best].offsetLeft - list.scrollLeft) ? index : best, 0)
-    setActive(nearest)
-  }
-
-  function navigate(event: KeyboardEvent<HTMLUListElement>) {
-    const index = { ArrowLeft: active - 1, ArrowRight: active + 1, Home: 0, End: rooms.length - 1 }[event.key]
-    if (index === undefined) return
-    event.preventDefault()
-    goTo(index)
-  }
-
-  return <section className="fp-gallery fp-section" aria-labelledby="fp-gallery-heading" aria-roledescription={copy.galleryLabel}>
-    <div className="fp-shell">
-      <div className="fp-section-heading"><h2 id="fp-gallery-heading">{copy.gallery}</h2><p>{copy.galleryIntro}</p></div>
-      <ul className="fp-gallery-track" ref={track} tabIndex={0} aria-label={copy.galleryLabel} aria-describedby="fp-gallery-help" onScroll={syncActive} onKeyDown={navigate}>
-        {rooms.map((room, index) => <li key={room} className="fp-gallery-slide">
-          <figure><img src={facilityImages[room]} alt={copy[`${room}Alt`]} width="1200" height="800" loading="lazy" decoding="async" /><figcaption><div><span className="fp-gallery-number" aria-hidden="true">0{index + 1}</span><h3>{copy[room]}</h3></div><p>{copy[`${room}Text`]}</p></figcaption></figure>
-        </li>)}
-      </ul>
-      <div className="fp-gallery-bottom">
-        <div><p id="fp-gallery-help">{copy.galleryHelp}</p><p className="fp-photo-note">{copy.photoNote}</p></div>
-        <div className="fp-gallery-controls"><span className="fp-gallery-count" aria-live="polite" aria-atomic="true">0{active + 1} / 0{rooms.length}<span className="sr-only"> — {copy[rooms[active]]}</span></span><button type="button" aria-label={copy.previousPhoto} disabled={active === 0} onClick={() => goTo(active - 1)}><ArrowLeft size={20} aria-hidden="true" /></button><button type="button" aria-label={copy.nextPhoto} disabled={active === rooms.length - 1} onClick={() => goTo(active + 1)}><ArrowRight size={20} aria-hidden="true" /></button></div>
-      </div>
+  const id = useId()
+  const touch = useRef<{ x: number; y: number } | null>(null)
+  function move(delta: number) { onChange((active + delta + rooms.length) % rooms.length) }
+  return <div className="space-gallery">
+    <div className="space-photo fp-photo-frame" aria-describedby={id}
+      onTouchStart={event => { const point = event.touches[0]; touch.current = { x: point.clientX, y: point.clientY } }}
+      onTouchCancel={() => { touch.current = null }}
+      onTouchEnd={event => {
+        const start = touch.current
+        touch.current = null
+        if (!start) return
+        const end = event.changedTouches[0]
+        const dx = end.clientX - start.x
+        const dy = end.clientY - start.y
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) move(dx < 0 ? 1 : -1)
+      }}>
+      {rooms.map((room, index) => <img key={room} src={facilityImages[room].src} alt={active === index ? copy[`${room}Alt`] : ''}
+        aria-hidden={active !== index} className={active === index ? 'is-active' : ''}
+        width={facilityImages[room].width} height={facilityImages[room].height} loading="lazy" decoding="async" />)}
+      <button className="space-arrow space-arrow-prev" type="button" aria-label={copy.previousPhoto} onClick={() => move(-1)}><ArrowLeft size={28} aria-hidden="true" /></button>
+      <button className="space-arrow space-arrow-next" type="button" aria-label={copy.nextPhoto} onClick={() => move(1)}><ArrowRight size={28} aria-hidden="true" /></button>
     </div>
-  </section>
+    <p className="sr-only" id={id}>{copy.galleryHelp}</p>
+    <div className="fp-gallery-controls">
+      <span className="fp-gallery-count" aria-live="polite" aria-atomic="true">0{active + 1} / 04<span className="sr-only"> — {copy[rooms[active]]}</span></span>
+      <span className="space-progress" aria-hidden="true">{rooms.map((room, index) => <span key={room} className={index === active ? 'is-active' : ''} />)}</span>
+    </div>
+  </div>
 }

@@ -61,7 +61,7 @@
   "home.bottomTitle": "Why wait for Monday?",
   "home.bottomText": "The right time to start is your time.",
   "plans.title": "Memberships",
-  "plans.subtitle": "Every membership includes the gym, cardio zone, swimming pool, changing rooms and showers. Choose a duration and coached training format.",
+  "plans.subtitle": "Choose your zones, term and date. Add your selection to the cart and check out in demo mode.",
   "plans.popular": "Club favourite",
   "plans.months1": "for 1 month",
   "plans.months3": "for 3 months",
@@ -328,5 +328,6 @@
   "nav.contacts": "Contact",
   "plans.conditionsTitle": "Visiting conditions",
   "plans.conditions": "Unlimited independent visits during opening hours while your membership is valid. Coached sessions require advance booking and approval; each plan lists its permitted formats.",
-  "coaches.demoNote": "Coursework project: coach profiles are fictional demo data. Session booking is not available yet."
+  "coaches.demoNote": "Coursework project: coach profiles are fictional demo data. Session booking is not available yet.",
+  "account.orders": "My orders"
 }

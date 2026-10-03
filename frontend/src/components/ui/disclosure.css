@@ -1,0 +1,9 @@
+.fp-disclosure { overflow: hidden; border-block-start: 1px solid var(--border); }
+.fp-disclosure summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 18px; min-height: 52px; list-style: none; cursor: pointer; font-size: 15px; }
+.fp-disclosure summary::-webkit-details-marker { display: none; }
+.fp-disclosure summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -3px; border-radius: 3px; }
+.fp-disclosure summary svg { flex-shrink: 0; }
+.fp-disclosure summary[aria-expanded='true'] { color: var(--primary); }
+.fp-disclosure summary[aria-expanded='true'] svg { transform: rotate(45deg); }
+.fp-disclosure-content { padding-bottom: 20px; }
+@media (prefers-reduced-motion: no-preference) { .fp-disclosure summary { transition: color 220ms; } .fp-disclosure summary svg { transition: transform 240ms ease; } }

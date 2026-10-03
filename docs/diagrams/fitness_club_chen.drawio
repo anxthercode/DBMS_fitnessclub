@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="ER (нотация Чена)" id="chen1">
-    <mxGraphModel dx="1373" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1800" math="0" shadow="0">
+    <mxGraphModel dx="2575" dy="1565" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1800" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -31,7 +31,7 @@
         <mxCell id="Pay" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=14;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Платёж" vertex="1">
           <mxGeometry height="60" width="160" x="1420" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="N" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=14;fontStyle=1;" value="Уведомление" vertex="1">
+        <mxCell id="N" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=14;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Уведомление" vertex="1">
           <mxGeometry height="60" width="160" x="275" y="610" as="geometry" />
         </mxCell>
         <mxCell id="rUT" parent="1" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=12;" value="Является" vertex="1">
