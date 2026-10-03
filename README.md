@@ -2,7 +2,7 @@
 
 Course project for **Database Management Systems**. The goal is to build a responsive web application for fitness club clients, trainers, and administrators, with a strong emphasis on designing and using **PostgreSQL directly through hand-written SQL, without an ORM**.
 
-> **Project status — 3 October 2026:** **Frontend Stages 1–2 are complete.** Public pages, authentication, profile editing, configured memberships/single visits, cart, immutable orders, simulated payment/retry and purchased access work through the in-memory mock API in RU/EN. Membership dates may overlap only for disjoint zones, as approved below. The next milestone is **Stage 3: account overview and schedule/bookings**. Trainer/admin interfaces follow later. Schema approval remains mandatory before migrations or seed data. The coursework report is out of scope.
+> **Project status — 3 October 2026:** **Frontend Stages 1–3 are complete.** Public pages, authentication, profile editing, configured memberships/single visits, cart, immutable orders, simulated payment/retry and purchased access work through the in-memory mock API in RU/EN. Membership dates may overlap only for disjoint zones, as approved below. The client now has an overview, public schedule, training requests/decisions, notifications and explicit authentication demos. The next milestone is **Stage 4: integration, accessibility and frontend acceptance**. Trainer/admin interfaces follow later. Schema approval remains mandatory before migrations or seed data. The coursework report is out of scope.
 
 ## 1. Technology Stack
 
@@ -93,11 +93,12 @@ Design references reviewed on 2 October 2026:
 
 Borrow interaction patterns, not branding, photographs, copy, yellow accents, billing rules or extra services. Earlier research, contrast calculations and the completed rollout are recorded in [frontend redesign history](docs/frontend-redesign-plan.md). **This README supersedes that document's old all-zone rules, page structure and implementation sequence.**
 
-- **Homepage sequence:** introduction → Spaces at FORMA → coaches → membership/single-visit selection → separate free-first-visit offer → FAQ → contacts. Keep the offer close enough to FAQ to avoid a large empty gap.
+- **Homepage sequence (implemented on 3 October 2026):** introduction → Spaces at FORMA → membership/single-visit selection → coaches → separate free-first-visit offer → FAQ → contacts. Move the membership/single-visit selection before coaches. Keep the offer close enough to FAQ to avoid a large empty gap.
 - **Spaces:** consolidate the repeated activity grid and gallery into one compact selector for gym, cardio, pool and changing rooms. Each selection shows a coherent photograph, two or three useful sentences, relevant activities and a link to visit options or available sessions. Retain strength, functional, cardio and aquatic content without duplicating it in another long gallery. Cardio and changing-room tabs are informational, not additional paid products.
 - **Photography:** use a small consistent set with brighter lighting and natural color. Replace weak/duplicate images rather than extending the carousel. Keep local optimized assets, image dimensions, alt text and source/license records in [asset credits](docs/frontend-assets.md). One shared note covers concept imagery and fictional coaches on the homepage; standalone pages carry an appropriate note. Do not invent facilities, pool specifications or contact details.
-- **Motion:** section fade-ins of 400–600 ms, image hover `scale(1.03)`, smooth button fill and arrow movement, animated FAQ opening/closing, and approximately 250–350 ms transitions between selected photos. Keep the photo area stable to avoid layout jumps. Use existing native/CSS mechanisms; respect reduced motion and keyboard focus. No autoplay, scroll interception, animated backgrounds or extra animation library.
-- **Gallery controls:** where multiple images are useful, use manual arrows, a counter/progress indicator and touch swiping. Remove persistent instructional paragraphs; retain accessible control labels and screen-reader help. Do not stack nested carousels.
+- **Motion:** section fade-ins of 400–600 ms, image hover `scale(1.03)`, smooth button fill and arrow movement, animated FAQ opening/closing, and approximately 300–400 ms transitions between selected space photos. Keep the photo area stable to avoid layout jumps. Use existing native/CSS mechanisms; respect reduced motion and keyboard focus. Autoplay is approved only for Spaces as specified below. No scroll interception, animated backgrounds or extra animation library.
+- **Spaces navigation (implemented on 3 October 2026):** replace the upper pill tabs and separate `01/04` counter/progress row with one navigation row below the photo. Use four equal clickable segments, each with its zone name above a thin progress track. Keep all zone names visible and allow direct selection through the whole segment, not just the line. Highlight the active name in turquoise and keep other names readable in neutral text. Use the short changing-room label in navigation and the full changing-room/shower title in the description. On narrow screens, use two rows if necessary to keep labels readable in RU/EN. Retain keyboard navigation, accessible names and touch swiping. Replace circular photo arrows with narrow edge controls spanning the photo height (approximately 64–80 px on desktop): small persistent arrows, with a subtle gradient appearing on hover or keyboard focus. Photo and adjacent description always share the selected zone. Do not stack nested carousels or add persistent instructional paragraphs.
+- **Spaces autoplay and progress (implemented on 3 October 2026):** cycle zones every 8 seconds. Only the active segment fills from left to right; other tracks stay neutral, including previously viewed zones. Use one shared elapsed-time source for slide changes and progress so they cannot drift apart. Hovering anywhere in the block, including its description/navigation, pauses both; leaving resumes from the saved position unless another pause reason remains. Manual selection (segment, arrow or swipe) stops autoplay and starts the newly selected segment at zero; keyboard focus entering the block also stops autoplay. Keep the active name highlighted while paused. Provide a small localized Pause/Continue button inside the photo; manual/focus pauses require explicit continuation. Suspend the timer and progress while the block is offscreen or the browser tab is hidden. Disable autoplay on load for reduced-motion preferences and respect reduced motion in transitions. Use lightweight native timing and CSS animation with optimized local images, without rendering the whole block on every animation frame. This supersedes the earlier no-autoplay and separate-counter decisions; the current implementation follows these decisions.
 - **Offer composition:** use a segmented Membership / Single visit switch. Under Membership retain three clear term cards; in either format show selectable gym/cardio and pool cards with explicit selection marks. Show the date, inclusions, exclusions and updated full price beside a light neutral summary panel. The mobile summary may sit near the bottom action but must not cover fields, focus or errors.
 - **Forms and checkout:** use a short progression from selection to order review and simulated payment. Keep visible labels, inline errors, back navigation and the selected product through sign-in/registration. Do not show a successful booking/payment before its mock operation succeeds.
 - **Navigation and coaches:** retain working cross-route About/Contact anchors and compact navigation; expose Schedule and Cart when their workflows work. Share trainer profiles between home and `/trainers`; connect each trainer to a filtered schedule. Keep profile descriptions, specialization and experience useful and concise.
@@ -184,6 +185,8 @@ Complete the **public website and full client account on the mock API first**. R
 
 #### Stage 3 — Full client account and schedule
 
+**Completed on 3 October 2026.** Current behavior and limitations are described below; see [frontend verification](docs/frontend-verification.md).
+
 - Replace the `/account` redirect with an overview: current/upcoming access, nearest booking, recent orders/notifications and relevant actions.
 - Complete memberships/passes, profile, order list/details and repeat purchase/renewal entry points that return to the configurator. Preserve safe profile fields, save/discard behavior and existing account ownership boundaries. Resolve differing-zone renewal rules before enabling that branch.
 - Add a public schedule with date, trainer and training-format filters, available places and a trainer-profile link into the filtered schedule. Explain when access/training permissions are missing and preserve the selected slot through sign-in.
@@ -219,13 +222,13 @@ Requirements: **Node.js 22.12+** and npm. The current milestone was checked with
 
 ```powershell
 cd frontend
-npm install
-npm run dev
+npm.cmd install
+npm.cmd run dev
 ```
 
-Open `http://127.0.0.1:5173`. Run commands from `frontend/`; `npm ci` can be used for a clean install from the committed lockfile. The dev server uses a strict port and will report an error if 5173 is occupied.
+Open `http://127.0.0.1:5173`. Windows PowerShell users can use `npm.cmd` for every npm command below to avoid execution-policy errors from `npm.ps1`; no policy change is needed. Run commands from `frontend/`; `npm ci` can be used for a clean install from the committed lockfile. The dev server uses a strict port and will report an error if 5173 is occupied.
 
-The compatibility address `/design-preview` renders the same homepage as `/`. Space tabs share selection with circular photo arrows and touch swiping; 64px arrows sit inside the photo edges (52px on narrow screens). FAQ, the separate guest-visit demo form, anchors and the RU/EN switch are interactive. Home and `/plans` share a working format/zone/term/date configurator. Added selections remain in the in-memory cart through navigation and sign-in/registration. A page reload resets the demo. See [asset credits](docs/frontend-assets.md) for image sources and font licensing.
+The compatibility address `/design-preview` renders the same homepage as `/`. Four labelled progress segments below the photo share selection with full-height edge arrows and touch swiping. Spaces cycle every 8 seconds using one browser animation clock, with hover, manual, focus, visibility and reduced-motion pauses and a Pause/Continue control. Reduced motion disables autoplay. FAQ, the separate guest-visit demo form, anchors and the RU/EN switch are interactive. Home and `/plans` share a working format/zone/term/date configurator. Added selections remain in the in-memory cart through navigation and sign-in/registration. A page reload resets the demo. See [asset credits](docs/frontend-assets.md) for image sources and font licensing.
 
 ```powershell
 npm run typecheck
@@ -249,14 +252,17 @@ Vite exposes `VITE_*` values to browsers; never put secrets in them. The existin
 
 ### Implemented public frontend
 
-Stages 1–2 share the approved design. Historical membership fixtures retain both-zone access; new purchases record their selected zones, dates, full prices and training permissions.
+Stages 1–3 share the approved design. Historical membership fixtures retain both-zone access; new purchases record their selected zones, dates, full prices and training permissions.
 
 | Route | Behavior |
 | --- | --- |
-| `/` | Photo introduction, four space tabs with shared photo controls, three coach profiles, membership/single-visit configurator, separate free-first-visit demo, animated FAQ and contacts |
+| `/` | Photo introduction, four labelled space segments with synchronized autoplay, membership/single-visit configurator, three coach profiles, separate free-first-visit demo, animated FAQ and contacts |
 | `/plans` | Shared format/zone/term/date configurator with full BYN prices; `?edit=<item-id>` edits a cart item |
 | `/cart` | Edit/remove configured items, apply FORMA10, choose BYN/USD/EUR, sign in and create an order |
-| `/trainers` | Three fictional trainer profiles with concept portraits, localized names, specializations, biographies and experience |
+| `/trainers` | Three fictional coach profiles with links to their filtered schedule |
+| `/schedule` | Public future sessions, Minsk dates, coach/format/zone/date filters and free-place counts |
+| `/schedule/:id` | Session details, sign-in return, eligibility check and training request |
+| `/recover` | Explicit password-recovery demonstration; no email or password change |
 | `/login` | Validated sign-in, demo credentials; clients continue to their account |
 | `/register` | Validated client registration, password confirmation, duplicate-email feedback; opens the client account |
 | `/design-preview` | Compatibility address for the same homepage, with the shared layout and current session controls |
@@ -264,22 +270,25 @@ Stages 1–2 share the approved design. Historical membership fixtures retain bo
 
 The shared layout includes active navigation, a keyboard-accessible mobile menu, footer, skip link, route titles and RU/EN switching. Only the language preference is saved in local storage. User data, demo passwords and session state exist in memory and reset on page refresh. No verification emails are sent. Use fictional data and a test password.
 
-Use **`client@forma.demo` / `Forma2026!`** or the fill-demo-details button on the sign-in page. Registration immediately opens a demo session. Clients continue to `/account/memberships`, the requested account page or `/cart`; logout is available in the header/mobile menu. Guest cart items are claimed by the signed-in client without losing dates or zones. Legacy `?plan=` authentication links still display their old plan summary; only the configurator adds an actual cart item.
+Use **`client@forma.demo` / `Forma2026!`** or the fill-demo-details button on the sign-in page. Registration immediately opens a demo session. Clients continue to `/account`, the requested account page, `/cart` or an allowlisted `/schedule/:id`; logout is available in the header/mobile menu. Guest cart items are claimed by the signed-in client without losing dates or zones. Legacy `?plan=` authentication links still display their old plan summary; only the configurator adds an actual cart item.
 
-Shared tokens, page spacing and selection pills live in `src/styles.css`; public interactions in `features/public/`; `OfferPreview` and trainer profiles are shared between home and their catalogues. FAQ uses `components/ui/disclosure`. Images/fonts are local; the hero has loading priority and lower images load lazily. Photos transition in 300 ms within a fixed area, with reduced-motion support. Auth/account screens and the guest form load separately. `dist/` and `test-results/` are ignored, regenerable outputs. Schedule and backend behavior remain unimplemented; the HTTP commerce paths are provisional contracts for later integration.
+Shared tokens, page spacing and selection pills live in `src/styles.css`; public interactions in `features/public/`; `OfferPreview` and trainer profiles are shared between home and their catalogues. FAQ uses `components/ui/disclosure`. Images/fonts are local; the hero has loading priority and lower images load lazily. Photos transition in 300 ms within a fixed area, with reduced-motion support. Auth/account screens and the guest form load separately. `dist/` and `test-results/` are ignored, regenerable outputs. Backend behavior remains unimplemented; the HTTP commerce paths are provisional contracts for later integration.
 
 ### Implemented client account
 
 | Route | Behavior |
 | --- | --- |
-| `/account` | Redirects to the membership list |
+| `/account` | Overview with access counts, nearest training request, recent orders/notifications and explicit demo auth controls |
+| `/account/bookings` | Own upcoming/history/all training requests |
+| `/account/bookings/:id` | Request state, cancellation, original membership and simulated trainer decision |
+| `/account/notifications` | Own read/unread notifications and links to bookings/orders |
 | `/account/memberships` | Own memberships with zone badges, dates, permissions, filters and detail links; single-visit status examples |
 | `/account/orders` | Own order list and payment state |
 | `/account/orders/:id` | Immutable order review, demo success/failure/retry, attempt history, cancellation before payment and issued-access links |
 | `/account/access/:id` | Owned membership/pass zones, validity, purchased conditions, status and linked order |
 | `/account/profile` | Edit first/last name, optional phone and language; save/discard, validation and save feedback |
 
-The account uses the existing public header/footer and a dedicated sidebar (three navigation links on mobile). Guests are redirected to sign-in with an allowlisted return path; trainers and administrators see an access message rather than client data. This frontend guard is a UI boundary only; real authorization must be enforced by the future backend. The mock API checks authentication, client roles and cart/order/access ownership and only updates allowlisted profile fields. Email and role are read-only. Unverified clients can explicitly simulate email verification in the cart; no email is sent.
+The account uses the existing public header/footer and a dedicated sidebar (six navigation links on mobile). Guests are redirected to sign-in with an allowlisted return path; trainers and administrators see an access message rather than client data. This frontend guard is a UI boundary only; real authorization must be enforced by the future backend. The mock API checks authentication, client roles and cart/order/access/booking/notification ownership and only updates allowlisted profile fields. Email and role are read-only. Unverified clients can explicitly simulate email verification in the cart, eligible session details or account overview; no email is sent.
 
 Private query keys include the client ID. Account queries are cancelled and removed on logout or sign-in, and delayed profile responses cannot restore a logged-out session. Profile changes persist within the current mock instance, including after logout/login, but reset on refresh. Saving the profile language also switches the interface; the header language switch changes the browser preference independently.
 
@@ -294,9 +303,21 @@ The demo client has active, upcoming, expired and cancelled membership examples.
 - A paid membership appears in the existing membership list. A single visit is unused until reception records entry (only read-only examples exist now). Demo client passes illustrate unused, used, expired and cancelled states. Buying a pass never marks physical admission.
 - Mock mutations execute atomically within one browser tab and private requests capture their caller. This demonstrates the contract, not real multi-process concurrency or backend authorization; PostgreSQL transactions, durable idempotency, real verification and atomic redemption remain future work.
 
-**Next step:** Stage 3 of the frontend roadmap: account overview, schedule, training requests and notifications. Stages 3–4 complete the remaining frontend workflows before database/backend work.
+### Stage 3 schedule and client workflow
+
+- The public schedule lists future scheduled sessions and supports URL-backed date, trainer, format and zone filters. Coach cards link to a filtered schedule. Session dates and cancellation boundaries use `Europe/Minsk`. Guest sign-in/registration preserves the selected session; it does not submit a request automatically.
+- A verified client must have a non-cancelled membership covering the entire session, the required gym/pool zone and the permitted group/individual format. Future memberships qualify if they cover that session. Single-visit passes never qualify. Pending/approved requests reserve one place each and cannot overlap across any memberships/zones; adjacent intervals are allowed. API operations recheck availability and permissions, including at approval. Duplicate submissions cannot reserve another place.
+- Clients see pending, approved, rejected, cancelled, completed/attended and completed/no-show bookings. Cancellation requires a reason of 1–500 characters and is allowed at or before exactly 12 hours before start; later self-service cancellation is rejected. Terminal states cannot be overwritten. Pending requests older than 12 hours or whose session has begun are marked for attention.
+- An explicitly labelled demo panel can approve/reject only the current client's pending booking; there is no trainer dashboard or real trainer message. Approval rechecks the original entitlement and does not reserve a second place. Rejection/cancellation releases capacity. Fixtures include swimming, a full personal session, completed/no-show records, expired/cancelled memberships and single-visit status examples.
+- Booking changes and successful payments create owned in-app notifications with record links. Read state, unread counters, lists, session capacity and overview queries refresh together. Private requests capture their caller; session changes clear private caches, and delayed mutation callbacks cannot restore the previous user.
+- Buy-again links on paid order items and access details reopen the configurator using current catalogue prices. Renew links on membership details prefill its zone/term and the first selectable Minsk day after its end (legacy non-midnight endings round up), or today if it expired. The date is visible/editable; it must still pass the approved zone-overlap rules. No paid period is extended or changed automatically.
+- Overview offers explicit demo email verification and session expiry. Expiry clears private UI data and shows a sign-in explanation. `/recover` validates an email and displays a simulation outcome; it sends no email, reveals no account existence and changes no password. All mock state still resets on reload.
+
+**Next step:** Stage 4: integrated frontend acceptance, accessibility/reflow review and cleanup. Schema review and backend integration follow only after frontend acceptance and schema approval.
 
 ### Shared-design verification
+
+Stage 3 passed TypeScript, the production build and 68 unit tests. Browser coverage totals 58 passing cases with two expected desktop skips: 46 passed in the full run, then all 12 corrected/new cases passed in a targeted desktop/mobile run. Reviewed overview, booking and 320px schedule screenshots. See [Stage 3 verification](docs/frontend-verification.md#stage-3--client-account-schedule-and-training-requests) for scope and limitations.
 
 Stage 2 passed TypeScript, the production build and 55 unit tests. Browser coverage totals 50 passing cases and two expected desktop skips, including corrected account tests rerun separately. It covers cart editing, login/registration recovery, promo/currency totals, payment failure/retry, zone overlap and issued access on desktop/mobile. See [the Stage 2 verification record](docs/frontend-verification.md#stage-2--configured-access-cart-and-simulated-purchase) for execution details and limitations.
 

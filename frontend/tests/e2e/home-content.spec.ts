@@ -17,7 +17,7 @@ test('space tabs share photo controls, keyboard focus and translated selection',
   await page.goto('/#club')
   const spaces = page.locator('#club')
   const tabs = spaces.getByRole('tab')
-  const count = spaces.locator('.fp-gallery-count')
+  await expect(spaces.locator('.fp-gallery-count')).toHaveCount(0)
   const photo = spaces.locator('.space-photo')
   const height = (await photo.boundingBox())!.height
   await expect(tabs).toHaveCount(4)
@@ -27,7 +27,7 @@ test('space tabs share photo controls, keyboard focus and translated selection',
   await tabs.nth(1).focus()
   await page.keyboard.press('ArrowRight')
   await expect(tabs.nth(2)).toBeFocused()
-  await expect(count).toContainText('03 / 04')
+  await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true')
   await expect(spaces.getByRole('tabpanel')).toContainText('не включает автоматическую запись')
   await expect(spaces.getByRole('img')).toHaveAttribute('src', '/images/home/pool-daylight.webp')
   expect((await photo.boundingBox())!.height).toBe(height)
@@ -45,7 +45,7 @@ test('space tabs share photo controls, keyboard focus and translated selection',
   await expect(tabs.nth(3)).toBeFocused()
   await page.keyboard.press('Home')
   await expect(tabs.nth(0)).toBeFocused()
-  await expect(count).toContainText('01 / 04')
+  await expect(tabs.nth(0)).toHaveAttribute('aria-selected', 'true')
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await tabs.nth(2).click()
   const duration = await photo.locator('.is-active').evaluate(el => getComputedStyle(el).transitionDuration)
@@ -71,7 +71,7 @@ test('native touch swipe changes spaces without trapping vertical page scrolling
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - bounds!.width * .7 * step / 8, y }] })
   }
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
-  await expect(page.locator('.fp-gallery-count')).toContainText('02 / 04')
+  await expect(page.locator('#club').getByRole('tab').nth(1)).toHaveAttribute('aria-selected', 'true')
   const before = await page.evaluate(() => scrollY)
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: x - 100, y: y + 40 }] })
   for (let step = 1; step <= 8; step++) {
@@ -79,7 +79,7 @@ test('native touch swipe changes spaces without trapping vertical page scrolling
   }
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(before + 30)
-  await expect(page.locator('.fp-gallery-count')).toContainText('02 / 04')
+  await expect(page.locator('#club').getByRole('tab').nth(1)).toHaveAttribute('aria-selected', 'true')
   await session.detach()
 })
 

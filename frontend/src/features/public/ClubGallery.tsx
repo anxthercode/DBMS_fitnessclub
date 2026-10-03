@@ -1,11 +1,14 @@
-import { useId, useRef } from 'react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useId, useRef, type ReactNode } from 'react'
+import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
 import { facilityImages, homeCopy, type HomeLocale } from './home-content'
 
 const rooms = ['gym', 'cardio', 'pool', 'changing'] as const
 
 // The photo controls and tabs share one selection; there is no second carousel.
-export function ClubGallery({ locale, active, onChange }: { locale: HomeLocale; active: number; onChange: (index: number) => void }) {
+export function ClubGallery({ locale, active, onChange, navigation, stopped, reduced, onToggle }: {
+  locale: HomeLocale; active: number; onChange: (index: number) => void; navigation: ReactNode
+  stopped: boolean; reduced: boolean; onToggle: () => void
+}) {
   const copy = homeCopy[locale]
   const id = useId()
   const touch = useRef<{ x: number; y: number } | null>(null)
@@ -28,11 +31,13 @@ export function ClubGallery({ locale, active, onChange }: { locale: HomeLocale; 
         width={facilityImages[room].width} height={facilityImages[room].height} loading="lazy" decoding="async" />)}
       <button className="space-arrow space-arrow-prev" type="button" aria-label={copy.previousPhoto} onClick={() => move(-1)}><ArrowLeft size={28} aria-hidden="true" /></button>
       <button className="space-arrow space-arrow-next" type="button" aria-label={copy.nextPhoto} onClick={() => move(1)}><ArrowRight size={28} aria-hidden="true" /></button>
+      <button className="space-autoplay" type="button" onClick={onToggle} disabled={reduced}
+        aria-label={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}
+        title={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}>
+        {stopped ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
+      </button>
     </div>
     <p className="sr-only" id={id}>{copy.galleryHelp}</p>
-    <div className="fp-gallery-controls">
-      <span className="fp-gallery-count" aria-live="polite" aria-atomic="true">0{active + 1} / 04<span className="sr-only"> — {copy[rooms[active]]}</span></span>
-      <span className="space-progress" aria-hidden="true">{rooms.map((room, index) => <span key={room} className={index === active ? 'is-active' : ''} />)}</span>
-    </div>
+    {navigation}
   </div>
 }

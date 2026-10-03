@@ -1,6 +1,21 @@
 # Shared Frontend Design Verification
 
 
+## Stage 3 — Client account, schedule and training requests
+
+Completed on 3 October 2026. The changes use the existing mock architecture, local assets and approved theme. No dependencies, migrations, database files, diagrams, real email, external publication or trainer/admin dashboards were added.
+
+- TypeScript and production build passed. New account/schedule screens and their translation dictionary load in separate chunks; the main bundle remains below Vite's 500 kB warning threshold. Only the two pre-existing Zod/Rollup annotation warnings remain.
+- **68 unit tests passed** across five files. Added coverage: request/approval/cancellation and capacity, original entitlement checks, email/zone/format gates, single-visit exclusion, overlap across gym/pool memberships, duplicate and last-place requests, ownership/roles, terminal states, exactly-12-hour cancellation boundary, inactive trainers, past approval rejection, delayed private requests after client changes, recovery/expiry demos, membership coverage boundaries, adjacent bookings, renewal date rounding, safe session redirects and RU/EN key parity.
+- **58 browser cases passed in aggregate, two desktop-only skips remain expected.** The initial full suite passed 46 cases and found the old default-account assertions, select-label test matching and a session-expiry explanation race. After fixing the application race and updating selectors/default-page expectations, all 12 affected cases passed on desktop and mobile. No test failures remain unresolved. Training scenarios fix browser time to Minsk midday so cancellation tests do not depend on the hour of execution.
+- Returning-client journey: guest session link → login preserving the slot → pending request → simulated approval → notification read state and link → cancellation → restored free place → another request → simulated rejection, including English details.
+- New-client journey: selected pool session → registration → explicit demo verification → missing-membership explanation → pool-only purchase → renewal configurator prefill → eligible pool booking → approval → consistent overview.
+- Public checks cover coach-to-schedule links, URL-backed filters, empty results, a full slot, English copy and 320px reflow. Account checks cover overview, booking history (attended/no-show/rejected/cancelled), session-expiry cache cleanup, explanatory sign-in state and password-recovery simulation without email or credential mutation. Existing Stage 1–2 browser checks still cover profile, cart/payment, privacy, gallery, language and navigation.
+- Visually reviewed desktop overview, mobile English booking details and the 320px English schedule. Cards, filters, dates, badges and account navigation remain readable. Screenshots/traces are regenerable ignored files under `frontend/test-results/`.
+
+Limitations: mutations are atomic only in the single in-memory demo instance; genuine concurrent transactions and authorization require the later backend. No trainer message or recovery/verification email is sent. The recovery form validates input and shows a demo result, but does not change passwords. Session expiry is an explicit demo action. Reload resets mock data. Actual reception redemption and production authentication remain outside the frontend stage. Broad accessibility/native zoom and final cross-route acceptance belong to Stage 4.
+
+
 ## Stage 2 — Configured access, cart and simulated purchase
 
 Implemented and checked on 3 October 2026. The user approved overlapping membership periods only for disjoint zones. The gym/cardio option is one zone; a combined product intersects both gym and pool. No database or schema work was performed for this frontend milestone.
@@ -94,3 +109,9 @@ Screenshots and Playwright traces are local generated artifacts under the ignore
 ## Remaining project scope
 
 The interface still uses the in-memory mock API. Real authentication, purchasing, bookings and trainer/admin workflows remain separate roadmap milestones. Contact details require agreement; guest-visit storage and handling require a separate design review. No backend, database schema, migrations, seeds or original diagrams were changed during that rollout. Its former database-first next step is superseded by README's four frontend stages and the current Stage 1 record above.
+
+### Spaces navigation and homepage order — 3 October 2026
+
+Implemented the approved labelled progress navigation beneath space photos, full-height edge arrows, touch and keyboard selection, and an 8-second slideshow. One Web Animations clock drives both progress and slide advancement without per-frame React rendering. Hover pauses preserve elapsed time; manual selection and keyboard focus stop rotation until explicit continuation. Offscreen and hidden-document states suspend rotation; reduced motion disables it. Membership/single-visit selection now precedes coaches. README reflects the implemented behavior.
+
+Validation: production build (including TypeScript) passed; all 68 unit tests passed. Targeted Playwright checks passed on desktop and mobile: 11 passed, one expected desktop skip for native touch. Coverage includes direct/keyboard selection, RU/EN, wrapping edge arrows, swipe versus vertical scrolling, automatic advancement, hover/manual/focus/offscreen pauses, explicit resume, reduced motion, section order and 320px overflow. Reviewed desktop and mobile gallery screenshots, including 320px English layout. Hidden-tab suspension is implemented through visibilitychange but was not separately exercised by these browser tests. Full unrelated purchase/account regression suite was not rerun. Existing two Zod/Rollup annotation warnings remain non-blocking.

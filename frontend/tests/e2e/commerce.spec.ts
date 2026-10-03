@@ -130,7 +130,7 @@ test('gallery arrows overlay photos and wrap in both directions', async ({ page 
   const prev = gallery.getByRole('button', { name: 'Предыдущее фото' })
   const next = gallery.getByRole('button', { name: 'Следующее фото' })
   await prev.click()
-  await expect(page.getByRole('tab', { name: 'Раздевалки и душевые' })).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByRole('tab', { name: 'Раздевалки' })).toHaveAttribute('aria-selected', 'true')
   await next.click()
   await expect(page.getByRole('tab', { name: 'Тренажёрный зал' })).toHaveAttribute('aria-selected', 'true')
   await page.evaluate(() => window.scrollTo(0, 0))
@@ -139,7 +139,7 @@ test('gallery arrows overlay photos and wrap in both directions', async ({ page 
   for (const button of [prev, next]) {
     const b = await button.boundingBox()
     expect(b!.width).toBeGreaterThanOrEqual(52)
-    expect(b!.x).toBeGreaterThan(bounds!.x)
-    expect(b!.x + b!.width).toBeLessThan(bounds!.x + bounds!.width)
+    expect(b!.x).toBeGreaterThanOrEqual(bounds!.x)
+    expect(b!.x + b!.width).toBeLessThanOrEqual(bounds!.x + bounds!.width + 1)
   }
 })

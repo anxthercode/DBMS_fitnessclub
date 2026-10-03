@@ -38,17 +38,17 @@ export function HomePage() {
 
         <ClubSpaces locale={locale} />
 
-        <section className="fp-shell fp-section fp-coaches" data-reveal aria-labelledby="fp-coaches-heading">
-          <div className="fp-section-heading"><h2 id="fp-coaches-heading">{copy.coaches}</h2><div><p>{copy.coachesIntro}</p><Link className="fp-inline-link" to="/trainers">{copy.allCoaches}<ArrowUpRight size={17} aria-hidden="true" /></Link></div></div>
-          {trainers.isPending ? <p role="status">{copy.loading}</p> : trainers.isError ? <div role="alert"><p>{copy.coachesError}</p><button className="fp-inline-link" type="button" onClick={() => void trainers.refetch()}>{copy.retry}</button></div> : !trainers.data.length ? <p>{copy.coachesEmpty}</p> : <TrainerProfiles trainers={trainers.data.slice(0, 3)} headingLevel="h3" showDemoNote={false} />}
-        </section>
-
         <section className="fp-memberships" data-reveal id="memberships" tabIndex={-1} aria-labelledby="fp-memberships-heading">
           <div className="fp-shell">
             <div className="fp-section-heading"><h2 id="fp-memberships-heading">{copy.plans}</h2><p>{copy.plansIntro}</p></div>
             <OfferPreview />
             <div className="fp-plans-bottom"><Link className="fp-inline-link" to="/plans">{copy.allPlans}<ArrowRight size={17} aria-hidden="true" /></Link></div>
           </div>
+        </section>
+
+        <section className="fp-shell fp-section fp-coaches" data-reveal aria-labelledby="fp-coaches-heading">
+          <div className="fp-section-heading"><h2 id="fp-coaches-heading">{copy.coaches}</h2><div><p>{copy.coachesIntro}</p><Link className="fp-inline-link" to="/trainers">{copy.allCoaches}<ArrowUpRight size={17} aria-hidden="true" /></Link></div></div>
+          {trainers.isPending ? <p role="status">{copy.loading}</p> : trainers.isError ? <div role="alert"><p>{copy.coachesError}</p><button className="fp-inline-link" type="button" onClick={() => void trainers.refetch()}>{copy.retry}</button></div> : !trainers.data.length ? <p>{copy.coachesEmpty}</p> : <TrainerProfiles trainers={trainers.data.slice(0, 3)} headingLevel="h3" showDemoNote={false} />}
         </section>
 
         <div className="fp-shell fp-guest-section" data-reveal><GuestVisit locale={locale} /></div>
