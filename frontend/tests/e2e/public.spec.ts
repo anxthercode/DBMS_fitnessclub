@@ -68,6 +68,8 @@ test('registration validates values, handles duplicates and supports logout/logi
   await expect(page.getByRole('alert')).toContainText('email')
   await page.getByLabel('Электронная почта').fill('new@forma.demo')
   await page.getByRole('button', { name: 'Создать аккаунт', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Обзор кабинета', exact: true })).toBeVisible()
+  await page.getByRole('navigation', { name: 'Разделы кабинета' }).getByRole('link', { name: 'Мои абонементы' }).click()
   await expect(page.getByRole('heading', { name: 'Абонементов пока нет' })).toBeVisible()
   if (await page.getByRole('button', { name: 'Открыть меню' }).isVisible()) await page.getByRole('button', { name: 'Открыть меню' }).click()
   await page.getByRole('button', { name: 'Выйти', exact: true }).filter({ visible: true }).first().click()
@@ -93,7 +95,7 @@ test('login handles invalid credentials and password visibility', async ({ page 
   await expect(page.getByRole('alert')).toContainText('Неверный')
   await page.getByRole('button', { name: 'Заполнить демоданные' }).click()
   await page.getByRole('button', { name: 'Войти в аккаунт' }).click()
-  await expect(page.getByRole('heading', { name: 'Мои абонементы' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Обзор кабинета', exact: true })).toBeVisible()
 })
 
 test('mobile menu supports navigation, Escape and browser back', async ({ page }, testInfo) => {

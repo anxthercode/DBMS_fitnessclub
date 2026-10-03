@@ -1,4 +1,4 @@
-import { ApiError, type User, type Membership, type Discount, type ExchangeRate } from '../types'
+import { ApiError, type User, type Membership, type Discount, type ExchangeRate, type Notification } from '../types'
 import type { AccessGrant, Cart, CommerceApi, Offer, Order, Product, Quote, QuoteInput, Selection } from '../commerce-types'
 import { amount, assertNoMembershipOverlap, cents, minskDay, period, validateSelection } from '../commerce-rules'
 import { accessOfferPreviews } from './access-offers'
@@ -9,7 +9,7 @@ export const defaultOffers = (): Offer[] => accessOfferPreviews.map((o, index) =
 interface Context {
   now(): number; nextId(): string; currentId(): string | null; client(): User
   run<T>(fn: () => T): Promise<T>
-  notify(id: string, ru: string, en: string, bodyRu: string, bodyEn: string): unknown
+  notify(id: string, ru: string, en: string, bodyRu: string, bodyEn: string, target?: Notification['target']): unknown
 }
 interface State { memberships: Membership[]; orders: Order[]; discounts: Discount[]; rates: ExchangeRate[] }
 
@@ -176,7 +176,7 @@ export function createCommerce(state: State, ctx: Context, catalogue = defaultOf
           zones: product.zones, order_id: order.id, allows_group: product.allows_group, allows_individual: product.allows_individual })
       }
       order.status = 'paid'
-      ctx.notify(owner, 'Доступ оформлен', 'Access issued', 'Оплата подтверждена. Доступ появился в кабинете.', 'Payment confirmed. Your access is in your account.')
+      ctx.notify(owner, 'Доступ оформлен', 'Access issued', 'Оплата подтверждена. Доступ появился в кабинете.', 'Payment confirmed. Your access is in your account.', { kind: 'order', id: order.id })
       return order
     }),
     accesses: () => invoke(accessFor),

@@ -27,7 +27,7 @@ test('memberships show states, dates, filters and localized responsive account p
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
-  await page.goto('/account')
+  await page.goto('/account/memberships')
   await signIn(page)
   await expect(page.locator('main article').filter({ has: page.locator('time') })).toHaveCount(4)
   for (const status of ['Активен', 'Начнётся позже', 'Завершён', 'Отменён']) await expect(page.locator('main article').filter({ has: page.locator('time') }).getByText(status, { exact: true })).toBeVisible()
@@ -119,7 +119,7 @@ test('logout prevents back-navigation leaks and changing clients isolates member
 test('trainer cannot render the client area and external redirects are ignored', async ({ page }) => {
   await page.goto('/login?redirect=https://example.com')
   await signIn(page)
-  await expect(page).toHaveURL(/\/account\/memberships$/)
+  await expect(page).toHaveURL(/\/account$/)
   await signOut(page)
   await signIn(page, 'trainer@forma.demo')
   await expect(page.getByRole('heading', { name: 'Вы вошли, Артём' })).toBeVisible()

@@ -17,6 +17,8 @@ export const httpApi: ClubApi = {
   profile: body => request('/users/me', 'PATCH', body),
   club: () => request('/club'), plans: () => request('/membership-plans'), trainers: () => request('/trainers'), slots: () => request('/training-slots'),
   memberships: () => request('/memberships'), bookings: () => request('/bookings'), book: body => request('/bookings', 'POST', body), decide: (key, body) => request(`/bookings/${id(key)}/decision`, 'POST', body),
+  booking: key => request(`/bookings/${id(key)}`), eligibility: key => request(`/training-slots/${id(key)}/eligibility`),
+  demoDecision: () => Promise.reject(new ApiError('demo_only')), expireDemoSession: () => Promise.reject(new ApiError('demo_only')), recoverDemoPassword: () => Promise.reject(new ApiError('demo_only')),
   createSlot: body => request('/training-slots', 'POST', body), cancelSlot: key => request(`/training-slots/${id(key)}/cancel`, 'POST'),
   offers: () => request('/access-offers'),
   cart: () => request('/cart'), putCartItem: body => request('/cart/items', 'PUT', body),

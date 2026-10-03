@@ -329,5 +329,11 @@
   "plans.conditionsTitle": "Visiting conditions",
   "plans.conditions": "Unlimited independent visits during opening hours while your membership is valid. Coached sessions require advance booking and approval; each plan lists its permitted formats.",
   "coaches.demoNote": "Coursework project: coach profiles are fictional demo data. Session booking is not available yet.",
-  "account.orders": "My orders"
+  "account.orders": "My orders",
+  "account.overview": "Account overview",
+  "account.bookings": "My training",
+  "account.notifications": "Notifications",
+  "auth.recovery": "Password recovery",
+  "plans.repeatNote": "Review the new term, date and current price. Purchasing creates a separate order.",
+  "plans.renewNote": "The suggested date follows the selected membership. Review it: other memberships in the same zones may overlap."
 }

@@ -2,7 +2,7 @@ import type { User, Trainer, Plan, Slot, Membership, Booking, Order, Discount, E
 import { demoAccounts } from './demo'
 export { demoAccounts, demoPassword } from './demo'
 export function createFixtures(now: number) {
-  const iso = (days: number, hour = 18) => { const d = new Date(now); d.setUTCHours(hour - 3, 0, 0, 0); d.setUTCDate(d.getUTCDate() + days); return d.toISOString() }
+  const iso = (days: number, hour = 18) => { const d = new Date(now + 10_800_000); d.setUTCHours(hour - 3, 0, 0, 0); d.setUTCDate(d.getUTCDate() + days); return d.toISOString() }
   const users: User[] = [
     { id: '1', email: demoAccounts.CLIENT, first_name: 'Александра', last_name: 'Миронова', role: 'CLIENT', phone: '+375 29 555-01-20', locale: 'ru', is_active: true, email_verified_at: iso(-30) },
     { id: '2', email: demoAccounts.TRAINER, first_name: 'Артём', last_name: 'Волков', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
@@ -26,8 +26,13 @@ export function createFixtures(now: number) {
     ['Функциональный тренинг','Functional training','2',1,9,'group',12], ['Пилатес','Pilates','3',1,10,'group',10], ['Силовая тренировка','Strength training','2',1,18,'group',8], ['Мягкая йога','Gentle yoga','3',1,18,'group',10],
     ['Персональная тренировка','Personal training','2',2,12,'individual',1], ['Пилатес','Pilates','3',2,19,'group',10], ['Функциональный тренинг','Functional training','2',3,18,'group',12], ['Мобильность','Mobility','3',3,19,'group',10],
     ['Силовая тренировка','Strength training','2',4,18,'group',8], ['Мягкая йога','Gentle yoga','3',5,11,'group',10], ['Функциональный тренинг','Functional training','2',-1,18,'group',12],
+    ['Аквааэробика','Aqua aerobics','7',1,9,'group',6], ['Техника плавания','Swimming technique','7',2,16,'individual',1],
+    ['Плавание в группе','Group swimming','7',3,18,'group',6],
+    ['Пилатес','Pilates','3',-2,10,'group',10], ['Силовая тренировка','Strength training','2',-3,18,'group',8],
+    ['Аквааэробика','Aqua aerobics','7',4,10,'group',6],
+
   ]
-  const slots: Slot[] = definitions.map(([title_ru,title_en,trainer_id,day,hour,training_type,capacity],i) => ({ id:String(i+1), title_ru,title_en,trainer_id, starts_at:iso(day,hour), ends_at:iso(day,hour+1),training_type,capacity,status:'scheduled',reserved_count:0,trainer_name: trainer_id === '2' ? 'Артём Волков' : 'Анна Белова' }))
+  const slots: Slot[] = definitions.map(([title_ru,title_en,trainer_id,day,hour,training_type,capacity],i) => ({ zone: trainer_id === '7' ? 'pool' : 'gym', id:String(i+1), title_ru,title_en,trainer_id, starts_at:iso(day,hour), ends_at:iso(day,hour+1),training_type,capacity,status: day < 0 ? 'completed' : 'scheduled',reserved_count:0,trainer_name: trainers.find(t => t.user_id === trainer_id)!.name_ru }))
   const memberships: Membership[] = ['1','5','6'].map((client_id,i) => ({ id:String(i+1),client_id,starts_at:iso(-15),ends_at:iso(75),cancelled_at:null,plan_name_ru:'Ритм',plan_name_en:'Rhythm',allows_group:true,allows_individual:true }))
   memberships.push(
     { id: '4', client_id: '1', starts_at: iso(-60), ends_at: iso(-30), cancelled_at: null, plan_name_ru: 'Старт', plan_name_en: 'Start', allows_group: true, allows_individual: false },
@@ -35,7 +40,7 @@ export function createFixtures(now: number) {
     { id: '6', client_id: '1', starts_at: iso(-160), ends_at: iso(-130), cancelled_at: iso(-150), plan_name_ru: 'Старт', plan_name_en: 'Start', allows_group: true, allows_individual: false },
   )
   const booking = (id:string, membership_id:string, slotIndex:number, status:Booking['status'], old=false): Booking => ({ id,membership_id, training_slot_id:slots[slotIndex].id, status,created_at:old ? iso(-2) : new Date(now).toISOString(),client_name:users.find(u=>u.id===memberships.find(m=>m.id===membership_id)?.client_id)!.first_name,slot:slots[slotIndex],requires_attention:old,reason:null })
-  const bookings: Booking[] = [booking('1','1',2,'approved'),booking('2','2',0,'pending',true),booking('3','3',4,'approved'),booking('4','1',10,'approved'),booking('5','1',5,'pending')]
+  const bookings: Booking[] = [booking('1','1',2,'approved'),booking('2','2',0,'pending',true),booking('3','3',4,'approved'),booking('4','1',10,'attended'),booking('5','1',5,'pending'),booking('6','1',14,'no_show'),booking('7','1',13,'rejected'),booking('8','1',15,'cancelled')]
   memberships[0].order_id = '1001'
   const orders: Order[] = [{
     id: '1001', client_id: '1', status: 'paid', created_at: iso(-15), cart_version: 1,
@@ -51,6 +56,6 @@ export function createFixtures(now: number) {
   }]
   const discounts: Discount[] = [{id:'1',code:'FORMA10',kind:'percent',value:'10',is_active:true}]
   const rates: ExchangeRate[] = [{id:'1',currency:'USD',byn_per_unit:'3.25000000',effective_at:iso(-1)}, {id:'2',currency:'EUR',byn_per_unit:'3.60000000',effective_at:iso(-1)}]
-  const notifications: Notification[] = [{id:'1',recipient_user_id:'1',title_ru:'Вы записаны на тренировку',title_en:'Your training is confirmed',body_ru:'Силовая тренировка с Артёмом. До встречи в клубе!',body_en:'Strength training with Artem. See you at the club!',created_at:iso(-1),read_at:null}]
+  const notifications: Notification[] = [{id:'1',recipient_user_id:'1',target:{kind:'booking',id:'1'},title_ru:'Вы записаны на тренировку',title_en:'Your training is confirmed',body_ru:'Силовая тренировка с Артёмом. До встречи в клубе!',body_en:'Strength training with Artem. See you at the club!',created_at:iso(-1),read_at:null}]
   return { users, trainers, plans, slots, memberships, bookings, orders, discounts, rates, notifications }
 }

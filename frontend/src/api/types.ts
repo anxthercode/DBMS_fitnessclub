@@ -22,17 +22,18 @@ export interface ClubContent {
   zones: { id: 'gym' | 'cardio' | 'aquatics'; title_ru: string; title_en: string; description_ru: string; description_en: string }[]
   amenities: { title_ru: string; title_en: string; description_ru: string; description_en: string }
 }
-export interface Slot { id: Id; trainer_id: Id; title_ru: string; title_en: string; training_type: 'individual' | 'group'; starts_at: string; ends_at: string; capacity: number; status: 'scheduled' | 'cancelled' | 'completed'; reserved_count: number; trainer_name: string }
+export interface Slot { zone: 'gym' | 'pool'; id: Id; trainer_id: Id; title_ru: string; title_en: string; training_type: 'individual' | 'group'; starts_at: string; ends_at: string; capacity: number; status: 'scheduled' | 'cancelled' | 'completed'; reserved_count: number; trainer_name: string }
 export interface Membership { id: Id; client_id: Id; starts_at: string; ends_at: string; cancelled_at: string | null; plan_name_ru: string; plan_name_en: string; allows_individual: boolean; allows_group: boolean; zones?: 'gym' | 'pool' | 'both'; order_id?: Id }
 export interface Booking { id: Id; membership_id: Id; training_slot_id: Id; status: BookingStatus; created_at: string; client_name: string; slot: Slot; requires_attention: boolean; reason: string | null }
-export interface Notification { id: Id; recipient_user_id: Id; title_ru: string; title_en: string; body_ru: string; body_en: string; created_at: string; read_at: string | null }
+export interface Notification { target?: { kind: 'booking' | 'order'; id: Id }; id: Id; recipient_user_id: Id; title_ru: string; title_en: string; body_ru: string; body_en: string; created_at: string; read_at: string | null }
 export interface Discount { id: Id; code: string; kind: 'percent' | 'fixed'; value: string; is_active: boolean }
 export interface ExchangeRate { id: Id; currency: 'USD' | 'EUR'; byn_per_unit: string; effective_at: string }
 export interface Analytics { revenue_byn: Money; active_memberships: number; clients: number; attendance: number; weeks: { label: string; revenue_byn: Money }[] }
 export interface LoginInput { email: string; password: string }
 export interface RegisterInput extends LoginInput { first_name: string; last_name: string; locale: Locale }
-export interface SlotInput { title_ru: string; title_en: string; training_type: Slot['training_type']; starts_at: string; ends_at: string; capacity: number }
+export interface SlotInput { zone: 'gym' | 'pool'; title_ru: string; title_en: string; training_type: Slot['training_type']; starts_at: string; ends_at: string; capacity: number }
 export interface BookingDecision { status: Exclude<BookingStatus, 'pending'>; reason?: string }
+export interface BookingEligibility { eligible: boolean; code: string | null; membership_id: Id | null }
 export interface ClubApi extends CommerceApi {
   accessOfferPreviews(): Promise<AccessOfferPreview[]>;
   session(): Promise<User | null>; login(input: LoginInput): Promise<User>; register(input: RegisterInput): Promise<User>; logout(): Promise<void>; verifyDemoEmail(): Promise<User>;
@@ -40,6 +41,9 @@ export interface ClubApi extends CommerceApi {
   club(): Promise<ClubContent>; plans(): Promise<Plan[]>; trainers(): Promise<Trainer[]>; slots(): Promise<Slot[]>;
   memberships(): Promise<Membership[]>; bookings(): Promise<Booking[]>;
   book(input: { training_slot_id: Id }): Promise<Booking>; decide(id: Id, input: BookingDecision): Promise<Booking>;
+  booking(id: Id): Promise<Booking>; eligibility(id: Id): Promise<BookingEligibility>;
+  demoDecision(id: Id, input: { status: 'approved' | 'rejected' }): Promise<Booking>;
+  expireDemoSession(): Promise<void>; recoverDemoPassword(email: string): Promise<void>;
   createSlot(input: SlotInput): Promise<Slot>; cancelSlot(id: Id): Promise<void>;
   notifications(): Promise<Notification[]>; readNotification(id: Id): Promise<void>;
   users(): Promise<User[]>; setUserActive(id: Id, active: boolean): Promise<User>;

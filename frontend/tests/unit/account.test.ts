@@ -107,7 +107,7 @@ describe('membership periods', () => {
 
 describe('safe post-login navigation', () => {
   it.each([null, 'https://example.com', '//example.com', '/admin', '/account/../admin', '/account?redirect=https://example.com'])('rejects an unsupported redirect: %s', value => {
-    expect(accountDestination(value)).toBe('/account/memberships')
+    expect(accountDestination(value)).toBe('/account')
   })
   it('preserves the requested profile page', () => {
     expect(accountDestination('/account/profile')).toBe('/account/profile')

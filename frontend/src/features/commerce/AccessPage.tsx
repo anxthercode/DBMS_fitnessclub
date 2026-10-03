@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useOutletContext, useParams } from 'react-router'
+import { purchaseLink } from '@/features/memberships/purchase-link'
+import { useTrainingCopy } from '@/features/training/copy'
 import { api } from '@/api'
 import type { User } from '@/api/types'
 import type { AccessGrant } from '@/api/commerce-types'
@@ -44,6 +46,7 @@ export function PassList() {
   </section>
 }
 export function AccessPage() {
+  const { copy: training } = useTrainingCopy()
   const { id } = useParams()
   const accesses = useAccesses()
   const { copy, locale } = useCommerceCopy()
@@ -56,6 +59,7 @@ export function AccessPage() {
   return <section className="commerce-page">
     <Link className="underline" to="/account/memberships">← {copy.access}</Link>
     <h1 className="page-title mt-6">{offerCopy[locale][access.format]}</h1><p className="commerce-intro">{copy.accessIntro}</p>
+    <div className="commerce-actions"><Link className="underline min-h-11 inline-flex items-center" to={purchaseLink(access)}>{training.repeat} ↗</Link>{access.format === 'membership' && <Link className="underline min-h-11 inline-flex items-center" to={purchaseLink(access, true)}>{training.renew} ↗</Link>}<Link className="underline min-h-11 inline-flex items-center" to="/schedule">{training.schedule} ↗</Link></div>
     <article className="commerce-card"><AccessBadge access={access} now={now} />
       {access.product ? <ProductDescription product={access.product} /> : <ZoneBadges zones={access.zones} />}
       <h2>{copy.accessDates}</h2><dl className="access-dates"><div><dt>{copy.starts}</dt><dd>{date(access.starts_at, locale, options)}</dd></div><div><dt>{copy.ends}</dt><dd>{date(access.ends_at, locale, options)}</dd></div></dl>

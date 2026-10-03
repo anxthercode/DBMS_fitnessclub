@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useOutletContext, useParams } from 'react-router'
+import { purchaseLink } from '@/features/memberships/purchase-link'
+import { useTrainingCopy } from '@/features/training/copy'
 import { api, isMock } from '@/api'
 import type { User } from '@/api/types'
 import { date, money } from '@/lib/format'
@@ -23,6 +25,7 @@ export function OrdersPage() {
 }
 
 export function OrderPage() {
+  const { copy: training } = useTrainingCopy()
   const user = useOutletContext<User>()
   const { id = '' } = useParams()
   const { copy, locale } = useCommerceCopy()
@@ -40,7 +43,7 @@ export function OrderPage() {
     <Link className="underline" to="/account/orders">← {copy.orders}</Link><h1 className="page-title mt-6">{copy.order} #{data.id}</h1><p className="commerce-intro">{copy[data.status]} · {date(data.created_at, locale)}</p>
     <PurchaseSteps step={data.status === 'paid' ? 'access' : 'payment'} />
     <p className="commerce-intro">{copy.immutable}</p>
-    <div className="commerce-grid order-grid"><div className="commerce-items">{data.items.map(item => <article key={item.id} className="commerce-card"><ProductDescription product={item.product} /></article>)}</div><aside className="commerce-summary"><Totals quote={data} /></aside></div>
+    <div className="commerce-grid order-grid"><div className="commerce-items">{data.items.map(item => <article key={item.id} className="commerce-card"><ProductDescription product={item.product} />{data.status === 'paid' && <Link className="underline min-h-11 inline-flex items-center" to={purchaseLink(item.product)}>{training.repeat} ↗</Link>}</article>)}</div><aside className="commerce-summary"><Totals quote={data} /></aside></div>
     {data.status === 'pending' && <div className="commerce-card payment-panel">
       <h2>{copy.payment}</h2><p>{copy.paymentNote}</p>
       {lastAttempt?.status === 'failed' && <div role="status"><p>{copy.failed}</p><CommerceError error={lastAttempt.reason} /></div>}

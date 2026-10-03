@@ -72,7 +72,7 @@ test('shared offer is keyboard accessible on home and plans with no dead navigat
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await preview.screenshot({ path: testInfo.outputPath(route === '/' ? 'home-offer-320.png' : 'plans-offer-320.png') })
     await expect(page.locator('a[href="/cart"]')).toBeVisible()
-    await expect(page.locator('a[href^="/schedule"]')).toHaveCount(0)
+    await expect(page.locator('header a[href="/schedule"]').first()).toBeAttached()
     await expect(preview.getByRole('link')).toHaveCount(0)
   }
 })

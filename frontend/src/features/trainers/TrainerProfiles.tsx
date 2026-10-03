@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { UserRound } from 'lucide-react'
 import { isMock } from '@/api'
@@ -25,6 +26,7 @@ export function TrainerProfiles({ trainers, headingLevel = 'h2', showDemoNote = 
           <Heading>{localized(coach, 'name', locale)}</Heading>
           <p className="trainer-specialization">{localized(coach, 'specialization', locale)}</p>
           <p className="trainer-bio">{localized(coach, 'bio', locale)}</p>
+        <Link className="underline inline-flex min-h-11 items-center mt-4" to={'/schedule?trainer=' + coach.user_id}>{t('nav.schedule')} ↗</Link>
         </article>
       })}
     </div>

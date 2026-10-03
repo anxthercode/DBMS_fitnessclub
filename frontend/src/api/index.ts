@@ -20,6 +20,7 @@ export const api: ClubApi = {
   verifyDemoEmail: method('verifyDemoEmail'), profile: method('profile'),
   club: method('club'), plans: method('plans'), trainers: method('trainers'), slots: method('slots'),
   memberships: method('memberships'), bookings: method('bookings'), book: method('book'), decide: method('decide'),
+  booking: method('booking'), eligibility: method('eligibility'), demoDecision: method('demoDecision'), expireDemoSession: method('expireDemoSession'), recoverDemoPassword: method('recoverDemoPassword'),
   createSlot: method('createSlot'), cancelSlot: method('cancelSlot'),
   offers: method('offers'), cart: method('cart'), putCartItem: method('putCartItem'), removeCartItem: method('removeCartItem'), refreshCart: method('refreshCart'), quote: method('quote'), checkout: method('checkout'),
   order: method('order'), cancelOrder: method('cancelOrder'), accesses: method('accesses'),

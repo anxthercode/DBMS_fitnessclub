@@ -191,6 +191,6 @@ describe('purchase dates and translations', () => {
     expect(Object.keys(commerceCopy.ru)).toEqual(Object.keys(commerceCopy.en))
     expect(Object.keys(commerceCopy.ru.errors)).toEqual(Object.keys(commerceCopy.en.errors))
     for (const path of ['/cart', '/account/orders/123', '/account/access/visit-123']) expect(accountDestination(path)).toBe(path)
-    for (const path of ['//evil.test', '/cart?next=https://evil.test', '/account/orders/../profile']) expect(accountDestination(path)).toBe('/account/memberships')
+    for (const path of ['//evil.test', '/cart?next=https://evil.test', '/account/orders/../profile']) expect(accountDestination(path)).toBe('/account')
   })
 })

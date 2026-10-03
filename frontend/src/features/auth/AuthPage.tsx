@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Loading, QueryError } from '@/components/feedback'
 import { asLocale, localized, money } from '@/lib/format'
 import { useSession } from './session'
+import { useTrainingCopy } from '@/features/training/copy'
 import { accountDestination } from './redirect'
 import { Field, PasswordInput } from './form-fields'
 import { loginSchema, registerSchema, type LoginValues, type RegisterValues } from './schemas'
@@ -24,6 +25,7 @@ function useAuthMutation() {
       await client.cancelQueries({ queryKey: ['session'] })
       await client.cancelQueries({ queryKey: ['account'] })
       client.removeQueries({ queryKey: ['account'] })
+      client.removeQueries({ queryKey: ['session-expired'] })
       client.setQueryData(['session'], user)
     },
   })
@@ -112,6 +114,8 @@ function SelectedPlan({ id }: { id: string }) {
 }
 
 export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
+  const { copy } = useTrainingCopy()
+  const queryClient = useQueryClient()
   const { t } = useTranslation()
   const session = useSession()
   const [params] = useSearchParams()
@@ -132,6 +136,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           <div className="mx-auto max-w-md">
             <h1 className="page-title">{t('auth.' + mode)}</h1>
             <p className="mt-3 mb-7 text-sm leading-6 text-muted-foreground">{t('auth.' + mode + 'Sub')}</p>
+            {(params.get('expired') === '1' || queryClient.getQueryData(['session-expired']) === true) && <p role="status" className="mb-5">{copy.expired}</p>}
             {selectedId && <SelectedPlan id={selectedId} />}
             {session.isPending ? <Loading /> : session.isError ? <QueryError retry={() => void session.refetch()} /> : session.data ? (
               <div role="status" className="rounded-md border border-border bg-muted/50 p-6">
@@ -143,6 +148,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               </div>
             ) : <>
               {isRegister ? <RegisterForm /> : <LoginForm />}
+              {!isRegister && <Link className="underline inline-flex min-h-11 items-center mt-4" to={'/recover?redirect=' + encodeURIComponent(destination)}>{copy.recoveryLink}</Link>}
               <p className="mt-6 text-center text-sm leading-7 text-muted-foreground">{t(isRegister ? 'auth.haveAccount' : 'auth.noAccount')}{' '}
                 <Link to={(isRegister ? '/login' : '/register') + suffix} className="font-semibold text-foreground underline underline-offset-4">{t(isRegister ? 'nav.login' : 'auth.create')}</Link>
               </p>

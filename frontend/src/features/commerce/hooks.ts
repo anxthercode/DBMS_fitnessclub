@@ -17,6 +17,6 @@ export function useCommerceAction<T, R>(fn: (input: T) => Promise<R>, success?: 
   return useMutation({ mutationFn: fn, onSuccess: async result => {
     if ((client.getQueryData<User | null>(['session'])?.id || 'guest') !== owner) return
     await client.invalidateQueries({ queryKey: ['account', owner] })
-    success?.(result)
+    if ((client.getQueryData<User | null>(['session'])?.id || 'guest') === owner) success?.(result)
   } })
 }

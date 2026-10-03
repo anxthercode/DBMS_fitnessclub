@@ -83,7 +83,7 @@ export const homeCopy = {
       },
       {
         "question": "Включены ли занятия с тренером?",
-        "answer": "Доступ в зоны предназначен для самостоятельных занятий. Для записи к тренеру нужны действующий на время занятия абонемент, нужная зона, разрешённый формат тренировки и свободное место. Разового посещения недостаточно. Расписание и запись появятся позже."
+        "answer": "Доступ в зоны предназначен для самостоятельных занятий. Для записи к тренеру нужны действующий на время занятия абонемент, нужная зона, разрешённый формат тренировки и свободное место. Разового посещения недостаточно. Выберите занятие в расписании и дождитесь подтверждения тренера."
       },
       {
         "question": "Можно ли уже оплатить выбранный вариант?",
@@ -190,7 +190,7 @@ export const homeCopy = {
       },
       {
         "question": "Are coached sessions included?",
-        "answer": "Zone access is for independent exercise. Booking a coach requires a membership valid at the session time, the required zone, training-format permission and an available place. A single visit is not enough. The schedule and bookings are coming later."
+        "answer": "Zone access is for independent exercise. Booking a coach requires a membership valid at the session time, the required zone, training-format permission and an available place. A single visit is not enough. Choose a session in the schedule and wait for trainer approval."
       },
       {
         "question": "Can I pay for my selection now?",

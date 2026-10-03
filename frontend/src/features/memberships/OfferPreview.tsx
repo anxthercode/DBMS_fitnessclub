@@ -17,7 +17,8 @@ import { useCommerceCopy } from '@/features/commerce/copy'
 import { CommerceError } from '@/features/commerce/shared'
 import { useSession } from '@/features/auth/session'
 
-export function OfferPreview({ item, version }: { item?: CartItem; version?: number }) {
+export function OfferPreview({ item, version, initial }: { item?: CartItem; version?: number; initial?: Selection }) {
+  const selection = item?.product || initial
   const { i18n } = useTranslation()
   const locale = i18n.language === 'en' ? 'en' : 'ru'
   const copy = offerCopy[locale]
@@ -28,12 +29,12 @@ export function OfferPreview({ item, version }: { item?: CartItem; version?: num
   const request = useRef({ fingerprint: '', key: '' })
   const add = useCommerceAction((input: PutCartItem) => api.putCartItem(input), () => navigate('/cart'))
   const offers = useQuery({ queryKey: ['access-offers'], queryFn: api.offers })
-  const [format, setFormat] = useState<AccessOfferPreview['format']>(item?.product.format || 'membership')
-  const [months, setMonths] = useState<1 | 3 | 12>(item?.product.months || 3)
-  const [gym, setGym] = useState(item?.product.zones !== 'pool')
-  const [pool, setPool] = useState(item?.product.zones !== 'gym')
+  const [format, setFormat] = useState<AccessOfferPreview['format']>(selection?.format || 'membership')
+  const [months, setMonths] = useState<1 | 3 | 12>(selection?.months || 3)
+  const [gym, setGym] = useState(selection?.zones !== 'pool')
+  const [pool, setPool] = useState(selection?.zones !== 'gym')
   const today = minskDay(Date.now())
-  const [dates, setDates] = useState({ membership: item?.product.date || today, single_visit: item?.product.date || today })
+  const [dates, setDates] = useState({ membership: selection?.date || today, single_visit: selection?.date || today })
   const date = dates[format]
   const zones = gym && pool ? 'both' : gym ? 'gym' : pool ? 'pool' : null
   const offer = offers.data?.find(item => item.format === format && item.zones === zones && item.months === (format === 'membership' ? months : null))

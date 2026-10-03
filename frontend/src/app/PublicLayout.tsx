@@ -11,9 +11,10 @@ import { useLogout, useSession } from '@/features/auth/session'
 import { useCart } from '@/features/commerce/hooks'
 import { useCommerceCopy } from '@/features/commerce/copy'
 
-const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/#contacts', 'contacts']] as const
+const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/schedule', 'schedule'], ['/#contacts', 'contacts']] as const
 const pageTitles: Record<string, string> = {
   '/': 'home.pageTitle', '/design-preview': 'home.pageTitle', '/plans': 'nav.plans', '/trainers': 'nav.trainers',
+  '/schedule': 'nav.schedule', '/account/bookings': 'account.bookings', '/account/notifications': 'account.notifications', '/recover': 'auth.recovery',
   '/login': 'auth.login', '/register': 'auth.register',
   '/account': 'nav.account', '/account/profile': 'profile.title', '/account/memberships': 'account.memberships',
 }
@@ -48,7 +49,7 @@ export function PublicLayout() {
   }, [location.key, location.pathname, location.hash])
 
   useEffect(() => {
-    document.title = (location.pathname === '/cart' ? copy.cart : location.pathname.startsWith('/account/orders') ? copy.orders : location.pathname.startsWith('/account/access/') ? copy.access : t(pageTitles[location.pathname] || 'notFound.title')) + ' — FORMA'
+    document.title = (location.pathname === '/cart' ? copy.cart : location.pathname.startsWith('/account/orders') ? copy.orders : location.pathname.startsWith('/account/access/') ? copy.access : t(location.pathname.startsWith('/schedule/') ? 'nav.schedule' : location.pathname.startsWith('/account/bookings/') ? 'account.bookings' : pageTitles[location.pathname] || 'notFound.title')) + ' — FORMA'
     document.querySelector('meta[name="description"]')?.setAttribute('content', t('home.meta'))
   }, [location.pathname, t, i18n.language, copy])
 
