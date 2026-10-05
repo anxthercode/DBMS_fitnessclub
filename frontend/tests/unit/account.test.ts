@@ -27,11 +27,11 @@ describe('profile validation and ownership', () => {
   it('updates only the current user and ignores protected fields', async () => {
     const api = createMockApi({ latency: 0 })
     await api.login({ email: demoAccounts.CLIENT, password: demoPassword })
-    const injected = { ...profile, first_name: '  Тест  ', phone: '  ', id: '5', role: 'ADMIN', email: 'changed@forma.demo', is_active: false }
+    const injected = { ...profile, first_name: '  Тест  ', phone: '  ', id: '5', role: 'ADMIN', email: 'changed@northside.demo', is_active: false }
     const result = await api.profile(injected)
     expect(result).toMatchObject({ id: '1', role: 'CLIENT', email: demoAccounts.CLIENT, first_name: 'Тест', phone: null, is_active: true })
     await api.logout()
-    await api.login({ email: 'max@forma.demo', password: demoPassword })
+    await api.login({ email: 'max@northside.demo', password: demoPassword })
     expect(await api.session()).toMatchObject({ id: '5', first_name: 'Максим' })
   })
 
@@ -50,7 +50,7 @@ describe('profile validation and ownership', () => {
     expect(memberships).toHaveLength(4)
     expect(memberships.every(item => item.client_id === '1')).toBe(true)
     await api.logout()
-    await api.login({ email: 'max@forma.demo', password: demoPassword })
+    await api.login({ email: 'max@northside.demo', password: demoPassword })
     expect((await api.memberships()).map(item => item.client_id)).toEqual(['5'])
     await api.logout()
     await api.login({ email: demoAccounts.TRAINER, password: demoPassword })
@@ -59,7 +59,7 @@ describe('profile validation and ownership', () => {
 
   it('gives new clients an empty membership list', async () => {
     const api = createMockApi({ latency: 0 })
-    await api.register({ first_name: 'Новый', last_name: 'Клиент', email: 'new@forma.demo', password: 'TestPass123!', locale: 'ru' })
+    await api.register({ first_name: 'Новый', last_name: 'Клиент', email: 'new@northside.demo', password: 'TestPass123!', locale: 'ru' })
     expect(await api.memberships()).toEqual([])
   })
 
@@ -78,7 +78,7 @@ describe('profile validation and ownership', () => {
       ])
       options.latency = 0
       await api.logout()
-      await api.login({ email: 'max@forma.demo', password: demoPassword })
+      await api.login({ email: 'max@northside.demo', password: demoPassword })
       await vi.advanceTimersByTimeAsync(50)
       await assertions
       expect(await api.session()).toMatchObject({ id: '5', first_name: 'Максим' })

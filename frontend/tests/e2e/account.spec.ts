@@ -1,8 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 
-async function signIn(page: Page, email = 'client@forma.demo') {
+async function signIn(page: Page, email = 'client@northside.demo') {
   await page.getByLabel('Электронная почта').fill(email)
-  await page.getByLabel('Пароль', { exact: true }).fill('Forma2026!')
+  await page.getByLabel('Пароль', { exact: true }).fill('Northside2026!')
   await page.getByRole('button', { name: 'Войти в аккаунт' }).click()
 }
 
@@ -90,12 +90,12 @@ test('profile validates, discards edits and saves contact details and language',
   await expect(page.getByRole('status')).toHaveText('Profile saved')
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   await expect(page.getByText('Новое имя Миронова', { exact: true })).toBeVisible()
-  await expect(page.getByText('client@forma.demo', { exact: true })).toBeVisible()
+  await expect(page.getByText('client@northside.demo', { exact: true })).toBeVisible()
   await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: 'My memberships' }).click()
   await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: 'Profile', exact: true }).click()
   await expect(page.getByLabel('First name', { exact: true })).toHaveValue('Новое имя')
   await expect(page.getByLabel('Phone (optional)')).toHaveValue('')
-  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['forma.language'])
+  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['northside.language'])
 })
 
 test('logout prevents back-navigation leaks and changing clients isolates membership data', async ({ page }) => {
@@ -108,7 +108,7 @@ test('logout prevents back-navigation leaks and changing clients isolates member
   await page.goBack()
   await expect(page.getByLabel('Электронная почта')).toBeVisible()
   await expect(page.getByText('Александра Миронова', { exact: true })).toHaveCount(0)
-  await signIn(page, 'max@forma.demo')
+  await signIn(page, 'max@northside.demo')
   await expect(page.getByRole('navigation', { name: 'Разделы кабинета' })).toBeVisible()
   await page.getByRole('navigation', { name: 'Разделы кабинета' }).getByRole('link', { name: 'Мои абонементы' }).click()
   await expect(page.locator('main article').filter({ has: page.locator('time') })).toHaveCount(1)
@@ -121,7 +121,7 @@ test('trainer cannot render the client area and external redirects are ignored',
   await signIn(page)
   await expect(page).toHaveURL(/\/account$/)
   await signOut(page)
-  await signIn(page, 'trainer@forma.demo')
+  await signIn(page, 'trainer@northside.demo')
   await expect(page.getByRole('heading', { name: 'Вы вошли, Артём' })).toBeVisible()
   // Simulate an internal deep link without reloading the in-memory mock session.
   await page.evaluate(() => {

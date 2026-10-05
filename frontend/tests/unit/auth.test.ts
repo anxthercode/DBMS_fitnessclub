@@ -4,15 +4,15 @@ import { demoAccounts, demoPassword } from '../../src/api/mock/fixtures'
 import { loginSchema, registerSchema } from '../../src/features/auth/schemas'
 
 const registration = {
-  first_name: '  Тест  ', last_name: 'Клиент', email: 'new@forma.demo',
+  first_name: '  Тест  ', last_name: 'Клиент', email: 'new@northside.demo',
   password: 'TestPass123!', confirm_password: 'TestPass123!',
 }
 
 describe('public form validation', () => {
   it('trims names and email but preserves the exact password', () => {
-    const result = registerSchema.parse({ ...registration, email: ' new@forma.demo ' })
+    const result = registerSchema.parse({ ...registration, email: ' new@northside.demo ' })
     expect(result.first_name).toBe('Тест')
-    expect(result.email).toBe('new@forma.demo')
+    expect(result.email).toBe('new@northside.demo')
     expect(result.password).toBe(registration.password)
   })
 
@@ -45,12 +45,12 @@ describe('mock authentication boundary', () => {
     expect(user).not.toHaveProperty('password')
     await api.logout()
     expect(await api.session()).toBeNull()
-    expect((await api.login({ email: ' NEW@FORMA.DEMO ', password: registration.password })).id).toBe(user.id)
+    expect((await api.login({ email: ' NEW@NORTHSIDE.DEMO ', password: registration.password })).id).toBe(user.id)
   })
 
   it('rejects a duplicate email regardless of case', async () => {
     const api = createMockApi({ latency: 0 })
-    await expect(api.register({ ...registration, email: ' CLIENT@FORMA.DEMO ', locale: 'ru' })).rejects.toMatchObject({ code: 'email_exists' })
+    await expect(api.register({ ...registration, email: ' CLIENT@NORTHSIDE.DEMO ', locale: 'ru' })).rejects.toMatchObject({ code: 'email_exists' })
     expect(await api.session()).toBeNull()
   })
 

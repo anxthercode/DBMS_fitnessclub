@@ -10,7 +10,19 @@
   --color-destructive: #fda4af; --color-success: #a3e0b4; --color-warning: #f4d28a; --color-info: #a9d6f5;
   --font-sans: 'Manrope', 'Segoe UI', Arial, sans-serif;
 }
-:root { --background: #0B0C10; --foreground: #C5C6C7; --card: #1F2833; --primary: #66FCF1; --primary-foreground: #0B0C10; --muted: #1F2833; --muted-foreground: #C5C6C7; --border: rgb(197 198 199 / .2); --input: #45A29E; --accent-ink: #45A29E; --ring: #66FCF1; font-synthesis: none; text-rendering: optimizeLegibility; color-scheme: dark; }
+:root { --background: #1F2833; --foreground: #D7DDDF; --heading: #F2F5F4; --card: #1F2833; --primary: #66FCF1; --primary-foreground: #0B0C10; --muted: #1F2833; --muted-foreground: #C5C6C7; --border: rgb(197 198 199 / .2); --input: #45A29E; --accent-ink: #45A29E; --ring: #66FCF1; font-synthesis: none; text-rendering: optimizeLegibility; color-scheme: dark; }
+:root[data-theme='orange'] {
+  --background: #24201E; --foreground: #FFF4E8; --heading: #FFF4E8; --card: #24201E;
+  --primary: #FF5A1F; --primary-foreground: #121212;
+  --muted: #24201E; --muted-foreground: #E0D4CA;
+  --border: rgb(255 244 232 / .22); --input: #FF7947; --accent-ink: #FF7947; --ring: #FF7947;
+}
+.theme-switch { display: inline-grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; color: var(--primary); border: 1px solid transparent; border-radius: 4px; background: transparent; }
+.theme-switch:hover { border-color: var(--input); background: var(--card); }
+@media (max-width: 399px) {
+  header > .container-shell { width: calc(100% - 24px); gap: 4px; }
+  header > .container-shell > div:last-child { gap: 0; }
+}
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; font-family: var(--font-sans); color: var(--foreground); background: var(--background); line-height: 1.65; }
 button, a, input, select { -webkit-tap-highlight-color: transparent; }
@@ -18,14 +30,14 @@ button:not(:disabled), select { cursor: pointer; }
 ::selection { background: var(--primary); color: var(--primary-foreground); }
 h1, h2, h3 { letter-spacing: -.03em; }
 a, button, input, select, textarea { outline-offset: 4px; }
-.container-shell { width: min(1200px, calc(100% - 96px)); margin-inline: auto; }
+.container-shell { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
 .eyebrow { font-size: 12px; font-weight: 500; }
 .page-title { font-size: clamp(1.875rem, 3.3vw, 2.875rem); font-weight: 500; line-height: 1.2; }
 .page-intro { display: grid; grid-template-columns: 1fr 1.12fr; gap: 64px; align-items: start; margin-bottom: 40px; }
 .page-intro p { max-width: 560px; font-size: 15px; line-height: 1.8; }
 .page-section { padding-top: 48px; }
 .page-section > .page-intro { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
-.site-footer { margin-top: 48px; background: var(--card); }
+.site-footer { margin-top: 0; padding-block: 48px; background: var(--background); }
 .choice-pill { min-height: 44px; border: 1px solid var(--input); border-radius: 24px; padding: 9px 16px; font-size: 13px; background: transparent; color: var(--foreground); }
 .choice-pill:is([aria-selected='true'],[aria-pressed='true']) { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
 .choice-pill:hover { border-color: var(--primary); }
@@ -42,6 +54,13 @@ html { scroll-padding-top: 112px; }
 .site-brand { display: inline-flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
 .site-brand span { font-size: 24px; letter-spacing: .13em; line-height: 1; font-weight: 600; }
 .site-brand small { font-size: 8px; letter-spacing: .28em; line-height: 1.3; }
+main#main:focus { outline: none; }
+@media (max-width: 639px) {
+  header .site-brand span { font-size: 15px; letter-spacing: .04em; }
+  header .site-brand small { font-size: 7px; letter-spacing: .14em; }
+  header > .container-shell { width: calc(100% - 24px); gap: 6px; }
+  header > .container-shell > div:last-child { gap: 0; }
+}
 .site-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; }
 .site-link:hover, .site-brand:hover { color: var(--primary); }
 @media (prefers-reduced-motion: no-preference) {
@@ -62,7 +81,7 @@ html { scroll-padding-top: 112px; }
   .page-intro { grid-template-columns: 1fr; gap: 18px; margin-bottom: 28px; }
   .page-intro p { font-size: 14px; }
   .page-section { padding-top: 28px; }
-  .site-footer { margin-top: 32px; }
+  .site-footer { margin-top: 0; padding-block: 32px; }
   .site-brand span { font-size: 21px; }
   .site-brand small { font-size: 7px; }
 }

@@ -97,7 +97,7 @@ describe('configured commerce', () => {
     await expect(checkout(api)).rejects.toMatchObject({ code: 'price_changed' })
     expect((await api.cart()).items[0].product.price_byn).toBe('80.00')
     await api.refreshCart(cart.version)
-    const { order } = await checkout(api, 'USD', 'forma10')
+    const { order } = await checkout(api, 'USD', 'northside10')
     expect(order).toMatchObject({ subtotal_byn: '100.00', discount_byn: '10.00', total_byn: '90.00', total_currency: '27.69', currency: 'USD' })
     offer.price_byn = '999.00'; offer.is_active = false; offer.allows_group = false
     const result = await pay(api, order.id)

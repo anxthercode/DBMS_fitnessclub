@@ -1,10 +1,10 @@
 export const offerCopy = {
   ru: {
-    format: '01 / Формат посещения', membership: 'Абонемент', single_visit: 'Разовое посещение',
-    term: '02 / Срок абонемента', zones: 'Зоны клуба', gym: 'Зал + кардио', pool: 'Бассейн', both: 'Зал + кардио и бассейн',
+    format: 'Формат посещения', membership: 'Абонемент', single_visit: 'Разовое посещение', conditions: 'Условия посещения',
+    term: 'Срок абонемента', zones: 'Зоны клуба', gym: 'Зал + кардио', pool: 'Бассейн', both: 'Зал + кардио и бассейн',
     gymText: 'Силовые и функциональные упражнения, кардиотренировки.', poolText: 'Самостоятельное плавание в часы работы клуба.',
     month1: '1 месяц', month3: '3 месяца', month12: '12 месяцев',
-    startDate: 'Дата начала', visitDate: 'Дата посещения', timezone: 'Дата по времени Минска (Europe/Minsk).',
+    startDate: 'Дата начала', visitDate: 'Дата посещения', timezone: 'По времени Минска.',
     summary: 'Ваш вариант', draft: 'Предварительный выбор', total: 'За весь срок', visitTotal: 'За одно посещение',
     demo: 'Демонстрационные цены, не публичная оферта.',
     unavailable: 'Оформление пока недоступно', previewNote: 'Можно сравнить варианты. Выбор не сохраняется и не создаёт заказ.',
@@ -17,11 +17,11 @@ export const offerCopy = {
     legacyNote: 'Прежний каталог с доступом во все зоны и указанными форматами тренировок. Ссылка сохраняет только этот тариф при регистрации; предварительный выбор выше не переносится. Покупка не выполняется.',
   },
   en: {
-    format: '01 / Visit format', membership: 'Membership', single_visit: 'Single visit',
-    term: '02 / Membership term', zones: 'Club zones', gym: 'Gym + cardio', pool: 'Pool', both: 'Gym + cardio and pool',
+    format: 'Visit format', membership: 'Membership', single_visit: 'Single visit', conditions: 'Visit conditions',
+    term: 'Membership term', zones: 'Club zones', gym: 'Gym + cardio', pool: 'Pool', both: 'Gym + cardio and pool',
     gymText: 'Strength and functional exercise, plus cardio training.', poolText: 'Independent swimming during club opening hours.',
     month1: '1 month', month3: '3 months', month12: '12 months',
-    startDate: 'Start date', visitDate: 'Visit date', timezone: 'Date in Minsk time (Europe/Minsk).',
+    startDate: 'Start date', visitDate: 'Visit date', timezone: 'Minsk local time.',
     summary: 'Your selection', draft: 'Explore your options', total: 'Full-term price', visitTotal: 'One-visit price',
     demo: 'Illustrative demo prices, not a commercial offer.',
     unavailable: 'Purchasing is not available yet', previewNote: 'Compare the options. Your selection is not saved and does not create an order.',

@@ -1,0 +1,65 @@
+import { expect, test } from '@playwright/test'
+
+test('the brand rename keeps existing language and theme preferences', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('northside-theme')) localStorage.setItem('forma-theme', 'orange')
+    if (!localStorage.getItem('northside.language')) localStorage.setItem('forma.language', 'en')
+  })
+  await page.goto('/plans')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'orange')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  await expect(page.locator('h1')).toHaveText('Memberships')
+  await expect(page.locator('header').getByRole('link', { name: 'NORTHSIDE Fitness Club', exact: true })).toBeVisible()
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual({ 'northside-theme': 'orange', 'northside.language': 'en' })
+  await page.getByRole('button', { name: 'Orange theme', exact: true }).click()
+  await page.getByRole('button', { name: 'RU', exact: true }).click()
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'turquoise')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ru')
+})
+
+test('theme switch persists across routes and reload, with RU/EN and keyboard controls', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const toggle = page.getByRole('button', { name: 'Оранжевая тема', exact: true })
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+  await toggle.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'orange')
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+  await page.locator('#club').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: testInfo.outputPath('orange-theme.png'), fullPage: true, scale: 'css' })
+  await page.goto('/plans')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'orange')
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Оранжевая тема', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'EN', exact: true }).click()
+  const english = page.getByRole('button', { name: 'Orange theme', exact: true })
+  await english.focus()
+  await page.keyboard.press('Space')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'turquoise')
+  await expect(english).toBeFocused()
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'turquoise')
+  await page.setViewportSize({ width: 320, height: 850 })
+  await expect(english).toBeVisible()
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  const controls = await page.locator('header').getByRole('button').all()
+  for (const control of controls) {
+    if (!await control.isVisible()) continue
+    const box = await control.boundingBox()
+    expect(box!.x).toBeGreaterThanOrEqual(0)
+    expect(box!.x + box!.width).toBeLessThanOrEqual(320)
+  }
+  await page.locator('header').screenshot({ path: testInfo.outputPath('theme-header-320.png'), scale: 'css' })
+})
+
+test('theme remains usable when browser storage is blocked', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('Blocked', 'SecurityError') } })
+  })
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Оранжевая тема', exact: true }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'orange')
+  await page.getByRole('button', { name: 'Оранжевая тема', exact: true }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'turquoise')
+})

@@ -59,14 +59,14 @@ describe('training API', () => {
     const results = await Promise.allSettled([api.book({ training_slot_id: '13' }), api.book({ training_slot_id: '13' })])
     expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(1)
     expect((await api.slots()).find(s => s.id === '13')!.reserved_count).toBe(1)
-    await login(api, 'max@forma.demo')
+    await login(api, 'max@northside.demo')
     await expect(api.book({ training_slot_id: '13' })).rejects.toMatchObject({ code: 'slot_full' })
   })
   it('enforces ownership, role checks, and terminal states', async () => {
     const api = createMockApi({ now: () => now, latency: 0 }); await login(api)
     const b = await api.book({ training_slot_id: '12' })
     await expect(api.decide(b.id, { status: 'approved' })).rejects.toMatchObject({ code: 'forbidden' })
-    await login(api, 'max@forma.demo')
+    await login(api, 'max@northside.demo')
     await expect(api.booking(b.id)).rejects.toMatchObject({ code: 'not_found' })
     await expect(api.demoDecision(b.id, { status: 'approved' })).rejects.toMatchObject({ code: 'not_found' })
     await expect(api.readNotification('1')).rejects.toMatchObject({ code: 'not_found' })
@@ -115,7 +115,7 @@ describe('training API', () => {
       const options = { latency: 0, now: () => now }; const api = createMockApi(options); await login(api)
       options.latency = 100
       const delayed = api.book({ training_slot_id: '12' }).catch(e => e)
-      options.latency = 0; await login(api, 'max@forma.demo'); await vi.advanceTimersByTimeAsync(100)
+      options.latency = 0; await login(api, 'max@northside.demo'); await vi.advanceTimersByTimeAsync(100)
       expect(await delayed).toMatchObject({ code: 'unauthorized' })
       expect((await api.slots()).find(s => s.id === '12')!.reserved_count).toBe(0)
     } finally { vi.useRealTimers() }

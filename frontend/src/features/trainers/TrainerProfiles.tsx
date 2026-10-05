@@ -8,7 +8,11 @@ import { homeCopy } from '@/features/public/home-content'
 import './trainers.css'
 
 // Concept portraits belong only to these fictional fixtures, never to live API identities.
-const portraits: Record<string, string> = { '2': 'coach-artem', '3': 'coach-anna', '7': 'coach-mikhail' }
+const portraits: Record<string, { file: string; width: number; height: number }> = {
+  '2': { file: 'trainer-01', width: 843, height: 1264 },
+  '3': { file: 'trainer-03', width: 1408, height: 768 },
+  '7': { file: 'trainer-02', width: 1408, height: 768 },
+}
 
 export function TrainerProfiles({ trainers, headingLevel = 'h2', showDemoNote = true }: { trainers: Trainer[]; headingLevel?: 'h2' | 'h3'; showDemoNote?: boolean }) {
   const { t, i18n } = useTranslation()
@@ -16,11 +20,12 @@ export function TrainerProfiles({ trainers, headingLevel = 'h2', showDemoNote = 
   const Heading = headingLevel
   return <>
     <div className="trainer-grid">
-      {trainers.map(coach => {
+      {trainers.map((coach, index) => {
         const portrait = isMock ? portraits[coach.user_id] : undefined
         return <article className="trainer-profile" key={coach.user_id}>
           <div className="trainer-portrait">
-            {portrait ? <img src={`/images/home/${portrait}.webp`} alt="" width="640" height="960" loading="lazy" decoding="async" /> : <UserRound size={64} strokeWidth={1} aria-hidden="true" />}
+            {portrait ? <img src={`/images/trainers/${portrait.file}.webp`} alt="" width={portrait.width} height={portrait.height} loading="lazy" decoding="async" /> : <UserRound size={64} strokeWidth={1} aria-hidden="true" />}
+            <span className="trainer-number" aria-hidden="true">0{index + 1}</span>
             <p className="trainer-experience">{t('coaches.experience', { count: coach.experience_years })}</p>
           </div>
           <Heading>{localized(coach, 'name', locale)}</Heading>

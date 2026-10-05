@@ -6,11 +6,11 @@ export function createFixtures(now: number) {
   const users: User[] = [
     { id: '1', email: demoAccounts.CLIENT, first_name: 'Александра', last_name: 'Миронова', role: 'CLIENT', phone: '+375 29 555-01-20', locale: 'ru', is_active: true, email_verified_at: iso(-30) },
     { id: '2', email: demoAccounts.TRAINER, first_name: 'Артём', last_name: 'Волков', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
-    { id: '3', email: 'anna@forma.demo', first_name: 'Анна', last_name: 'Белова', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
+    { id: '3', email: 'anna@northside.demo', first_name: 'Анна', last_name: 'Белова', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
     { id: '4', email: demoAccounts.ADMIN, first_name: 'Мария', last_name: 'Соколова', role: 'ADMIN', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
-    { id: '5', email: 'max@forma.demo', first_name: 'Максим', last_name: 'Орлов', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
-    { id: '6', email: 'elena@forma.demo', first_name: 'Елена', last_name: 'Ким', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
-    { id: '7', email: 'mikhail@forma.demo', first_name: 'Михаил', last_name: 'Соколов', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
+    { id: '5', email: 'max@northside.demo', first_name: 'Максим', last_name: 'Орлов', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
+    { id: '6', email: 'elena@northside.demo', first_name: 'Елена', last_name: 'Ким', role: 'CLIENT', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
+    { id: '7', email: 'mikhail@northside.demo', first_name: 'Михаил', last_name: 'Соколов', role: 'TRAINER', phone: null, locale: 'ru', is_active: true, email_verified_at: iso(-30) },
   ]
   const trainers: Trainer[] = [
     { user_id: '2', name_ru: 'Артём Волков', name_en: 'Artem Volkov', experience_years: 8, first_name: 'Артём', last_name: 'Волков', specialization_ru: 'Силовые и функциональные тренировки', specialization_en: 'Strength & functional training', bio_ru: 'Проводит силовые и функциональные занятия. Основные направления — техника упражнений и последовательное увеличение нагрузки.', bio_en: 'Leads strength and functional sessions, focusing on exercise technique and gradual progression.' },
@@ -54,7 +54,7 @@ export function createFixtures(now: number) {
     attempts: [{ id: 'legacy-payment', status: 'succeeded', created_at: iso(-15), reason: null }],
     access_ids: ['membership-1'],
   }]
-  const discounts: Discount[] = [{id:'1',code:'FORMA10',kind:'percent',value:'10',is_active:true}]
+  const discounts: Discount[] = [{id:'1',code:'NORTHSIDE10',kind:'percent',value:'10',is_active:true}]
   const rates: ExchangeRate[] = [{id:'1',currency:'USD',byn_per_unit:'3.25000000',effective_at:iso(-1)}, {id:'2',currency:'EUR',byn_per_unit:'3.60000000',effective_at:iso(-1)}]
   const notifications: Notification[] = [{id:'1',recipient_user_id:'1',target:{kind:'booking',id:'1'},title_ru:'Вы записаны на тренировку',title_en:'Your training is confirmed',body_ru:'Силовая тренировка с Артёмом. До встречи в клубе!',body_en:'Strength training with Artem. See you at the club!',created_at:iso(-1),read_at:null}]
   return { users, trainers, plans, slots, memberships, bookings, orders, discounts, rates, notifications }

@@ -115,3 +115,32 @@ The interface still uses the in-memory mock API. Real authentication, purchasing
 Implemented the approved labelled progress navigation beneath space photos, full-height edge arrows, touch and keyboard selection, and an 8-second slideshow. One Web Animations clock drives both progress and slide advancement without per-frame React rendering. Hover pauses preserve elapsed time; manual selection and keyboard focus stop rotation until explicit continuation. Offscreen and hidden-document states suspend rotation; reduced motion disables it. Membership/single-visit selection now precedes coaches. README reflects the implemented behavior.
 
 Validation: production build (including TypeScript) passed; all 68 unit tests passed. Targeted Playwright checks passed on desktop and mobile: 11 passed, one expected desktop skip for native touch. Coverage includes direct/keyboard selection, RU/EN, wrapping edge arrows, swipe versus vertical scrolling, automatic advancement, hover/manual/focus/offscreen pauses, explicit resume, reduced motion, section order and 320px overflow. Reviewed desktop and mobile gallery screenshots, including 320px English layout. Hidden-tab suspension is implemented through visibilitychange but was not separately exercised by these browser tests. Full unrelated purchase/account regression suite was not rerun. Existing two Zod/Rollup annotation warnings remain non-blocking.
+
+### Color-theme switch — 3 October 2026
+
+Added a header palette button for the existing turquoise palette and a black/orange palette, using shared CSS tokens across public/account routes. The orange theme uses warm off-white light panels. Theme selection is stored under forma-theme and restored before first paint; storage failure does not disable switching. Header controls remain accessible at 320px.
+
+Validation: TypeScript/production build passed; four targeted Playwright tests passed across desktop/mobile, covering default state, switching, route/reload persistence, RU/EN, keyboard activation/focus, blocked storage and 320px reflow. Reviewed orange homepage and narrow header captures. Calculated contrast: primary orange on card 5.18:1, primary orange on background 6.01:1, light text on card 14.89:1, dark text on light panels 17.27:1. Full unrelated regression suite was not rerun. Existing Zod annotation warnings remain; the main bundle now slightly exceeds Vite's 500 kB warning threshold (500.32 kB minified, 158.36 kB gzip), without a build failure.
+
+### Homepage copy and gallery refinement — 3 October 2026
+
+Reviewed the public pages of [Third Space](https://www.thirdspace.london/) and [Equinox](https://www.equinox.com/). Applied short service descriptions, direct membership/visit actions and separate access to detailed conditions. These are design references, not evidence of measured conversion improvements. Gymbox could not be fetched during this review.
+
+Implemented one photo-edge progress line, four clickable zone names, 650 ms photo crossfades with an opaque previous-image backing, sequential 130 ms text fade-out/fade-in, stable stacked descriptions, no gallery zoom, a Paused label and hover scope limited to gallery content. The clock allows 8 seconds of viewing after the transition. Removed repeated hero/section introductions, gallery rule paragraphs, duplicate configurator labels and unused localized strings. Guest conditions remain beside the opened form; project disclosure and detailed purchase conditions are expandable. RU/EN and both themes are preserved. No new services or business rules were introduced.
+
+Validation: TypeScript and final production build passed, plus all 68 unit tests. Full browser run: 59 passed, 2 expected skips, 7 failures from obsolete copy expectations. Updated those assertions and reran affected navigation, offers, gallery and theme cases: 20 passed, 2 expected skips. Final reduced-motion text-delay fix passed both desktop/mobile cases. All original failures resolved. Inspected desktop hero/gallery and 320px English gallery screenshots; tested hover heading versus content, one progress track, explicit pause, swipes, focus, purchase and account workflows. Main bundle is now 494.52 kB (156.70 kB gzip), below the previous size warning; two existing Zod annotation warnings remain.
+
+## NORTHSIDE frontend update — 5 October 2026
+
+Implemented the approved NORTHSIDE Fitness Club rename across public/account copy, wordmarks, titles, metadata, favicon, demo credentials, promo code and preference storage. Legacy language/theme preferences migrate without breaking blocked-storage handling. Added the supplied generated 10-second hero video with a matching poster, pause/resume, offscreen/hidden-tab suspension, reduced-motion non-download and media-error fallback. Integrated three supplied generated trainer images with fictional-profile disclosure; preserved old assets. Unified the page canvas/footer, expanded space imagery with compact descriptions, updated typography and mobile header, and retained existing commercial/client workflows.
+
+Validation:
+
+- TypeScript and production build passed. Two existing Zod/Rollup comment-annotation warnings remain non-blocking.
+- All 76 unit tests passed, including eight preference migration/storage-failure cases.
+- Full Playwright regression: 74 passed, two expected desktop skips for touch/mobile-only tests. Covers purchase/payment retry, membership conflicts, registration/login, profile, bookings, notifications, RU/EN, gallery controls, keyboard navigation and responsive layouts.
+- After the final poster/gym-image and theme metadata adjustments: production build and all 76 unit tests passed again; 21 relevant browser checks passed, one expected desktop touch skip.
+- Added tests for actual muted playback and persistent manual pause, offscreen suspension, reduced-motion poster with no MP4 request, video-failure fallback, local trainer image loading, a consistent canvas, and 320px overflow.
+- Visually reviewed desktop/mobile hero, space gallery, trainer cards and narrow header in Chrome. The site supports both existing palettes. Hidden-tab handling is implemented but not separately automated; reduced-motion, media errors and offscreen behavior are automated.
+
+The reviewed local development server for this worktree is http://127.0.0.1:5174/ (the original checkout may occupy 5173). Assets remain local. No backend, PostgreSQL, diagram or deployment changes were made.

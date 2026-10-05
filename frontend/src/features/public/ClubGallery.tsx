@@ -5,9 +5,9 @@ import { facilityImages, homeCopy, type HomeLocale } from './home-content'
 const rooms = ['gym', 'cardio', 'pool', 'changing'] as const
 
 // The photo controls and tabs share one selection; there is no second carousel.
-export function ClubGallery({ locale, active, onChange, navigation, stopped, reduced, onToggle }: {
+export function ClubGallery({ locale, active, previous, onChange, navigation, progress, paused, stopped, reduced, onToggle }: {
   locale: HomeLocale; active: number; onChange: (index: number) => void; navigation: ReactNode
-  stopped: boolean; reduced: boolean; onToggle: () => void
+  previous: number; progress: ReactNode; paused: boolean; stopped: boolean; reduced: boolean; onToggle: () => void
 }) {
   const copy = homeCopy[locale]
   const id = useId()
@@ -27,7 +27,7 @@ export function ClubGallery({ locale, active, onChange, navigation, stopped, red
         if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) move(dx < 0 ? 1 : -1)
       }}>
       {rooms.map((room, index) => <img key={room} src={facilityImages[room].src} alt={active === index ? copy[`${room}Alt`] : ''}
-        aria-hidden={active !== index} className={active === index ? 'is-active' : ''}
+        aria-hidden={active !== index} className={active === index ? 'is-active' : previous === index ? 'is-previous' : ''}
         width={facilityImages[room].width} height={facilityImages[room].height} loading="lazy" decoding="async" />)}
       <button className="space-arrow space-arrow-prev" type="button" aria-label={copy.previousPhoto} onClick={() => move(-1)}><ArrowLeft size={28} aria-hidden="true" /></button>
       <button className="space-arrow space-arrow-next" type="button" aria-label={copy.nextPhoto} onClick={() => move(1)}><ArrowRight size={28} aria-hidden="true" /></button>
@@ -36,6 +36,8 @@ export function ClubGallery({ locale, active, onChange, navigation, stopped, red
         title={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}>
         {stopped ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
       </button>
+      {paused && <span className="space-pause-label">{copy.photosPaused}</span>}
+      {progress}
     </div>
     <p className="sr-only" id={id}>{copy.galleryHelp}</p>
     {navigation}

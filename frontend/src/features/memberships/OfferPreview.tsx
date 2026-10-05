@@ -44,7 +44,6 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
 
   return <div className="offer-preview">
     <div className="offer-fields">
-      <p className="offer-draft">{copy.format}</p>
       <fieldset><legend>{copy.format}</legend>
         <div className="offer-segments">{(['membership', 'single_visit'] as const).map(value => <label key={value} className="offer-option">
           <input type="radio" name={id + '-format'} value={value} checked={format === value} onChange={() => setFormat(value)} />
@@ -73,7 +72,6 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
       <p className="offer-included"><Check size={18} aria-hidden="true" /><span><strong>{copy.included}</strong>{copy.amenities}</span></p>
     </div>
     <aside className="offer-summary" aria-labelledby={id + '-summary'}>
-      <p className="eyebrow">FORMA / {copy.format}</p>
       <h3 id={id + '-summary'}>{copy.summary}</h3>
       <div aria-live="polite" aria-atomic="true" className="offer-selection">
         <p className="offer-selection-title">{copy[format]}{format === 'membership' && ' · ' + copy[`month${months}`]}</p>
@@ -86,9 +84,12 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
         </>}
       </div>
       <p className="offer-demo">{purchase.demo}</p>
-      <p className="offer-conditions">{format === 'single_visit' ? purchase.visitRule : purchase.membershipRule}</p>
-      {format === 'single_visit' && <p className="offer-conditions">{copy.visitTraining}</p>}
-      {format === 'membership' && <><p className="offer-conditions">{purchase.coaching}: {offer?.allows_individual ? purchase.individual : offer?.allows_group ? purchase.group : purchase.independent}</p><p className="offer-conditions">{purchase.coachingNote}</p><p className="offer-conditions">{purchase.overlap}</p></>}
+      {format === 'membership' && <p className="offer-conditions">{purchase.coaching}: {offer?.allows_individual ? purchase.individual : offer?.allows_group ? purchase.group : purchase.independent}</p>}
+      {format === 'single_visit' && <p className="offer-conditions">{copy.visitRule}</p>}
+      <details className="offer-details"><summary>{copy.conditions}</summary>
+        <p className="offer-conditions">{format === 'single_visit' ? copy.visitTraining : purchase.membershipRule}</p>
+        {format === 'membership' && <><p className="offer-conditions">{purchase.coachingNote}</p><p className="offer-conditions">{purchase.overlap}</p></>}
+      </details>
       <CommerceError error={add.error} />
       {add.error && <button type="button" className="underline min-h-11" onClick={() => void offers.refetch()}>{purchase.refresh}</button>}
       <Button type="button" disabled={!offer || dateInvalid || !zones || add.isPending || session.isPending || session.isError || (!!session.data && session.data.role !== 'CLIENT')} className="w-full" onClick={() => {

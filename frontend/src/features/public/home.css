@@ -70,7 +70,7 @@
 .fp-plans-bottom p { font-size: 12px; }
 .fp-plans-bottom p + p { margin-top: 5px; }
 .fp-plans-bottom .fp-inline-link { flex-shrink: 0; }
-.fp-guest-section { padding-top: 36px; }
+.fp-guest-section { padding-block: 24px 36px; }
 .fp-guest { padding: 28px; background: var(--fp-surface); border: 1px solid var(--fp-accent); border-radius: 5px; }
 .fp-guest-overview { display: grid; grid-template-columns: .95fr 1.6fr auto; gap: 28px; align-items: center; }
 .club-content .fp-guest h2 { max-width: 260px; font-size: 23px; line-height: 1.4; }
@@ -204,6 +204,7 @@
 .club-content .space-arrow:focus-visible { outline-offset: -3px; outline-color: var(--primary); }
 .space-autoplay { position: absolute; z-index: 3; right: 12px; bottom: 12px; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgb(102 252 241 / .45); border-radius: 4px; background: rgb(11 12 16 / .8); color: var(--primary); }
 .space-autoplay:hover:not(:disabled) { background: var(--background); }
+:root[data-theme='orange'] .space-autoplay { border-color: var(--input); }
 .space-autoplay:disabled { opacity: .55; cursor: default; }
 .space-photo img[src*='cardio'] { object-position: center 57%; }
 @media (max-width: 700px) { .space-arrow { width: 52px; } }
@@ -226,3 +227,29 @@
   .space-photo img { transition: opacity 300ms ease, transform 550ms cubic-bezier(.2,.7,.2,1); }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) { .fp-photo-frame:hover img { transform: scale(1.03); } }
+
+/* A single timer at the photo edge; navigation labels stay quiet and readable. */
+.space-photo .space-track { position: absolute; bottom: 0; left: 0; z-index: 4; background: rgb(0 0 0 / .3); height: 3px; }
+.space-tab { justify-content: center; min-height: 44px; transition: color 250ms ease; }
+.space-photo img.is-previous { opacity: 1; z-index: 0; transition: none; }
+.space-photo img.is-active { z-index: 1; }
+.space-pause-label { position: absolute; z-index: 3; bottom: 22px; right: 68px; padding: 3px 9px; border-radius: 3px; background: rgb(11 12 16 / .85); color: #fff; font-size: 11px; pointer-events: none; }
+.space-copy { justify-content: center; }
+.space-copy-stack { display: grid; width: 100%; }
+.space-copy-slide { grid-area: 1 / 1; opacity: 0; pointer-events: none; transition: opacity 130ms ease; }
+.space-copy-slide.is-active { opacity: 1; pointer-events: auto; transition-delay: 130ms; }
+@media (prefers-reduced-motion: reduce) { .space-copy-slide, .space-copy-slide.is-active { transition: none; transition-delay: 0s; } }
+.space-copy h3 { margin: 0 0 20px; font-size: clamp(25px, 2.4vw, 34px); }
+.space-copy-slide p { max-width: 34ch; font-size: 15px; line-height: 1.75; }
+.club-content .space-copy .fp-inline-link { margin-top: 36px; }
+.fp-hero h1 { white-space: pre-line; }
+.fp-section-heading > .fp-inline-link { justify-self: end; align-self: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .space-photo img { transition: none; }
+  .space-photo img.is-active { transition: opacity 650ms cubic-bezier(.22,.61,.36,1); }
+  .fp-photo-frame.space-photo:hover img { transform: none; }
+}
+@media (max-width: 700px) {
+  .fp-section-heading > .fp-inline-link { justify-self: start; }
+  .space-copy { padding-block: 28px; }
+}

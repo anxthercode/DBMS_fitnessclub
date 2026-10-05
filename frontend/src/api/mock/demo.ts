@@ -1,3 +1,3 @@
 // Public, fictional credentials for the in-memory demonstration only.
-export const demoAccounts = { CLIENT: 'client@forma.demo', TRAINER: 'trainer@forma.demo', ADMIN: 'admin@forma.demo' } as const
-export const demoPassword = 'Forma2026!'
+export const demoAccounts = { CLIENT: 'client@northside.demo', TRAINER: 'trainer@northside.demo', ADMIN: 'admin@northside.demo' } as const
+export const demoPassword = 'Northside2026!'

@@ -87,3 +87,20 @@ Use case: photorealistic-natural. Website photography for FORMA, a fictional con
 Final asset: `frontend/public/images/home/coach-mikhail.webp`
 
 Use case: photorealistic-natural. Website photography for FORMA, a fictional contemporary fitness club. Premium editorial sports photography, natural skin and material textures, understated charcoal and slate gym interiors, soft cool daylight, restrained neutral colors, authentic approachable adults, no text, no logos, no watermarks, no neon effects. Asset: vertical waist-up portrait, 1024x1536, fictional male swimming coach aged 35, short dark blond hair, clean shaven, plain dark navy athletic polo shirt, relaxed arms by sides, friendly subtle smile, looking at camera. Subject centered, head fully in frame, softly blurred cool indoor pool and windows behind, same subdued editorial treatment as a modern gym portrait.
+
+
+## NORTHSIDE user-supplied media — 5 October 2026
+
+The user supplied these files in the original project and confirmed on 4 October 2026 that the video and portraits were generated with GPT and Gemini and authorized their use. The exact model/prompt for each individual file was not supplied; no stock author, external license or real person is claimed. The website identifies the club imagery and coach identities as a coursework concept.
+
+| Delivery asset | Source and processing | Dimensions / size |
+| --- | --- | --- |
+| `frontend/public/videos/home/club-tour.mp4` | User's original `videos/home/club-tour.mp4`; H.264 frames copied losslessly, audio removed, MP4 fast-start enabled. Original input remains in the original project. | 1280 × 720, 24 fps, 10 seconds; 5,257,276 bytes |
+| `frontend/public/images/home/club-tour-poster.webp` | Frame at 5.6 seconds of the supplied clip, encoded as WebP quality 88. No AI retouching. | 1280 × 720; 75,906 bytes |
+| `frontend/public/images/trainers/trainer-01.webp` | Byte-identical copy of user-supplied `trainer_01.webp`, connected to fictional mock ID 2. | 843 × 1264; 74,026 bytes |
+| `frontend/public/images/trainers/trainer-02.webp` | Byte-identical copy of user-supplied `trainer_02.webp`, connected to fictional mock ID 7. | 1408 × 768; 147,900 bytes |
+| `frontend/public/images/trainers/trainer-03.webp` | Byte-identical copy of user-supplied `trainer_03.webp`, connected to fictional mock ID 3. | 1408 × 768; 143,092 bytes |
+
+The video is muted and has a visible pause/resume control, offscreen/hidden-tab suspension and a static reduced-motion/error fallback. Reduced motion does not request the video. CSS handles responsive cover cropping. Trainer portraits were visually checked in the rendered cards; no source portrait was overwritten. The previous `home/coach-*.webp`, `hero-training.webp` and `functional-training.webp` assets are preserved.
+
+The wide gym-space view now reuses the previously credited Max Vakhtbovych / Pexels `home/hero-gym.webp`, avoiding a crop that cut the exercising person's head. Existing cardio, pool and changing-room source records above still apply. Historical FORMA attribution and generation prompts are retained as history.

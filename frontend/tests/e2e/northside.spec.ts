@@ -1,0 +1,56 @@
+import { expect, test } from '@playwright/test'
+
+test('video can be paused and stays paused after leaving and returning to the hero', async ({ page }) => {
+  await page.goto('/')
+  const video = page.locator('.hero-media video')
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => !el.paused && el.currentTime > 0)).toBe(true)
+  expect(await video.evaluate((el: HTMLVideoElement) => el.muted)).toBe(true)
+  await page.getByRole('button', { name: 'Пауза видео', exact: true }).click()
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true)
+  await page.locator('#contacts').scrollIntoViewIfNeeded()
+  await page.locator('.fp-hero').scrollIntoViewIfNeeded()
+  expect(await video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true)
+  await page.getByRole('button', { name: 'Включить видео', exact: true }).click()
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => !el.paused)).toBe(true)
+  await page.locator('#contacts').scrollIntoViewIfNeeded()
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true)
+})
+
+test('reduced motion keeps a loaded poster and does not download the video', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const videos: string[] = []
+  page.on('request', req => { if (req.url().endsWith('.mp4')) videos.push(req.url()) })
+  await page.goto('/')
+  await expect(page.locator('h1')).toHaveText('NORTHSIDEFitness Club')
+  await expect(page.locator('.hero-media video')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Движение отключено' })).toBeDisabled()
+  await expect.poll(() => page.locator('.hero-poster').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true)
+  expect(videos).toEqual([])
+  const backgrounds = await page.evaluate(() => ['body', '.fp-home', '#memberships', 'footer'].map(s => getComputedStyle(document.querySelector(s)!).backgroundColor))
+  expect(backgrounds[0]).toBe(backgrounds[1])
+  expect(backgrounds[2]).toBe('rgba(0, 0, 0, 0)')
+  expect(backgrounds[3]).toBe(backgrounds[0])
+  await page.screenshot({ path: testInfo.outputPath('northside-hero.png') })
+  await page.locator('#club').scrollIntoViewIfNeeded()
+  await page.locator('#club').screenshot({ path: testInfo.outputPath('northside-spaces.png') })
+  await page.locator('.fp-coaches').scrollIntoViewIfNeeded()
+  await expect(page.locator('.trainer-portrait img')).toHaveCount(3)
+  for (const img of await page.locator('.trainer-portrait img').all()) {
+    await expect(img).toHaveAttribute('src', /\/images\/trainers\/trainer-/)
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true)
+  }
+  await page.locator('.fp-coaches').screenshot({ path: testInfo.outputPath('northside-trainers.png') })
+  await page.setViewportSize({ width: 320, height: 850 })
+  await page.evaluate(() => window.scrollTo(0, 0))
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({ path: testInfo.outputPath('northside-320.png') })
+})
+
+test('unavailable video leaves the poster and primary actions usable', async ({ page }) => {
+  await page.route('**/videos/home/club-tour.mp4', route => route.abort())
+  await page.goto('/')
+  await expect(page.getByRole('button', { name: 'Видео недоступно' })).toBeDisabled()
+  await expect(page.locator('.hero-poster')).toBeVisible()
+  await page.getByRole('link', { name: 'Первое посещение бесплатно', exact: true }).click()
+  await expect(page.locator('#guest-visit')).toBeFocused()
+})

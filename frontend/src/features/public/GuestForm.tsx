@@ -27,6 +27,7 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
     onChange={() => setChecked(false)}
     onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); close() } }}>
     <h4 id="fp-guest-form-heading">{copy.guestFormTitle}</h4>
+    <p className="fp-guest-terms">{copy.guestTerms}</p>
     <p id="fp-guest-demo" className="fp-guest-demo">{copy.guestDemo}</p>
     <div className="fp-guest-fields">
       <div>
@@ -45,4 +46,3 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
     {checked && <p className="fp-guest-result" role="status">{copy.guestResult}</p>}
   </form>
 }
-

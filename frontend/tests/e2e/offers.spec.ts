@@ -31,7 +31,9 @@ test('preview compares full catalogue prices, validates choices before adding to
   await gym.check()
   await pool.uncheck()
   await expect(total).toContainText('15,00')
-  await expect(preview).toContainText('После выхода повторный вход')
+  await expect(preview).toContainText('повторный вход не предусмотрен')
+  await preview.locator('.offer-details summary').click()
+  await expect(preview.locator('.offer-details')).toHaveAttribute('open', '')
   await expect(preview).toContainText('не даёт права на запись к тренеру')
   await preview.getByLabel('Дата посещения', { exact: true }).fill('2000-01-01')
   await expect(preview.getByRole('alert')).toHaveText('Укажите сегодняшнюю или будущую дату.')
@@ -49,7 +51,7 @@ test('preview compares full catalogue prices, validates choices before adding to
   await expect(preview.getByRole('checkbox', { name: /Pool/ })).toBeChecked()
   await expect(preview.getByRole('radio', { name: '3 months', exact: true })).toBeChecked()
   await expect(preview.getByLabel('Start date', { exact: true })).not.toHaveValue('2099-04-05')
-  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['forma.language'])
+  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['northside.language'])
 })
 
 test('shared offer is keyboard accessible on home and plans with no dead navigation', async ({ page }, testInfo) => {
