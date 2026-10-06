@@ -104,3 +104,18 @@ The user supplied these files in the original project and confirmed on 4 October
 The video is muted and has a visible pause/resume control, offscreen/hidden-tab suspension and a static reduced-motion/error fallback. Reduced motion does not request the video. CSS handles responsive cover cropping. Trainer portraits were visually checked in the rendered cards; no source portrait was overwritten. The previous `home/coach-*.webp`, `hero-training.webp` and `functional-training.webp` assets are preserved.
 
 The wide gym-space view now reuses the previously credited Max Vakhtbovych / Pexels `home/hero-gym.webp`, avoiding a crop that cut the exercising person's head. Existing cardio, pool and changing-room source records above still apply. Historical FORMA attribution and generation prompts are retained as history.
+
+## User-selected facility photos — 7 October 2026
+
+The user supplied the files in `frontend/public/images/there/` and explicitly requested their integration. Authors, original URLs and licenses were not supplied; no stock attribution or AI origin is inferred. The selected delivery copies are byte-identical to the originals; only CSS cover cropping is used. Original files, unused `swimming_pool_inside_1.webp` and previous imagery are preserved.
+
+| Delivery asset | Supplied source | Dimensions / size |
+| --- | --- | --- |
+| `frontend/public/images/club/gym.webp` | `there/gym.webp` | 1400 × 934; 291,550 bytes |
+| `frontend/public/images/club/cardio.webp` | `there/cardiozone.webp` | 6720 × 4480; 1,385,358 bytes |
+| `frontend/public/images/club/pool-inside.webp` | `there/swimming_pool_inside_2.webp` | 5626 × 4219; 2,872,526 bytes |
+| `frontend/public/images/club/pool-outside.webp` | `there/swimming_pool_outside.webp` | 3456 × 4608; 1,579,246 bytes |
+
+The warm timber interior in `inside_2` was selected to match the gym. The portrait outdoor photo uses `object-position: center 65%` to keep the water, trees and open sky in the wide gallery viewport. Gym and cardio photos replace the existing space photos; the changing-room image and hero video/poster remain. The four space tabs are preserved; the Pool tab has two accessible pressed-state buttons for indoor/outdoor views. Both views belong to the same existing purchasable pool zone. No separate tariff, dimensions, seasonal opening policy or heated-outdoor-pool claim was introduced. Localized alt text describes the actual supplied images; these images illustrate a fictional club and do not establish the location of real facilities. High-resolution original WebP sizes are retained rather than claiming image optimization.
+
+Existing portrait IDs 2, 3 and 7 now represent Daniel Moreau, Sofia Koval and Maksim Savitski. Their biographies and education are explicitly fictional in RU/EN; this does not claim any real person's qualification or affiliation. The programme names used as references are [Loughborough BSc Sport and Exercise Science](https://www.lboro.ac.uk/study/undergraduate/courses/sport-and-exercise-science/) and [German Sport University Cologne Sport und Leistung](https://www.dshs-koeln.de/studium/vor-dem-studium/bachelorstudium/sport-und-leistung). Sofia's fictional profile names the Belarusian State University of Physical Culture without claiming a specific verified programme or certification. No Russian institution is used.

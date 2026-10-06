@@ -134,6 +134,16 @@ describe('training API', () => {
 })
 
 describe('membership time boundaries and repeat purchases', () => {
+  it('carries all homepage choices with visible Minsk-date and membership-term defaults', () => {
+    const nearMidnight = Date.parse('2026-10-07T21:30:00Z')
+    for (const zones of ['gym', 'pool', 'both']) {
+      expect(selectionFromParams(new URLSearchParams({ format: 'membership', zones }), nearMidnight)).toEqual({ format: 'membership', zones, date: '2026-10-08', months: 3 })
+      expect(selectionFromParams(new URLSearchParams({ format: 'single_visit', zones }), nearMidnight)).toEqual({ format: 'single_visit', zones, date: '2026-10-08', months: null })
+    }
+    for (const extra of ['date=', 'date=2026-02-30', 'months=0', 'months=', 'months=6']) {
+      expect(selectionFromParams(new URLSearchParams('format=membership&zones=pool&' + extra), nearMidnight)).toBeUndefined()
+    }
+  })
   it('accepts exact coverage and adjacent bookings but rejects expired/cancelled/short access', () => {
     const f = createFixtures(now), slot = f.slots[11]
     const m = { ...f.memberships[0], starts_at: slot.starts_at, ends_at: slot.ends_at }

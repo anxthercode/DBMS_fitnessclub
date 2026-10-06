@@ -122,7 +122,7 @@ test('trainer cannot render the client area and external redirects are ignored',
   await expect(page).toHaveURL(/\/account$/)
   await signOut(page)
   await signIn(page, 'trainer@northside.demo')
-  await expect(page.getByRole('heading', { name: 'Вы вошли, Артём' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Вы вошли, Даниэль' })).toBeVisible()
   // Simulate an internal deep link without reloading the in-memory mock session.
   await page.evaluate(() => {
     history.pushState(null, '', '/account/profile')

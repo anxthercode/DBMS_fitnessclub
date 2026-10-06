@@ -116,7 +116,7 @@ export function PublicLayout() {
         </nav>}
       </header>
       <main id="main" ref={main} tabIndex={-1} className="flex-1 focus:outline-none"><Outlet /></main>
-      <footer id="contacts" className="site-footer border-t border-border py-8">
+      <footer id="contacts" tabIndex={-1} className="site-footer border-t border-border py-8">
         <div className="container-shell">
           <div className="flex flex-wrap items-start justify-between gap-8">
             <div><Brand /><p className="mt-4 text-xs">{t('footer.text')}</p></div>

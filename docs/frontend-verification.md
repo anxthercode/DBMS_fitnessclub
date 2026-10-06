@@ -144,3 +144,22 @@ Validation:
 - Visually reviewed desktop/mobile hero, space gallery, trainer cards and narrow header in Chrome. The site supports both existing palettes. Hidden-tab handling is implemented but not separately automated; reduced-motion, media errors and offscreen behavior are automated.
 
 The reviewed local development server for this worktree is http://127.0.0.1:5174/ (the original checkout may occupy 5173). Assets remain local. No backend, PostgreSQL, diagram or deployment changes were made.
+
+## Compact homepage selection and supplied photos — 7 October 2026
+
+Replaced the full homepage purchase form with a compact membership/single-visit picker and three zone choices. Its link carries only format and zones to `/plans`; that page displays editable Minsk-date and three-month membership defaults, prices, terms, conditions and cart actions. Explicit invalid query dates/terms still fail validation. Homepage navigation does not create an order or add an item to the cart, and its selection no longer displays the repeat-purchase notice.
+
+Homepage trainer cards show three portraits, names and specializations. Detailed biographies, experience, fictional education at Belarusian/European institutions and trainer schedule links appear on `/trainers`. Names are consistent in user fixtures, schedules and notifications. RU/EN disclosure explicitly identifies the biographies and qualifications as fictional. Education fields are optional in the shared API type; live API identities never receive mock portraits.
+
+Integrated four byte-identical user-supplied facility photos in `frontend/public/images/club/`, preserving originals and the existing changing-room image. The Pool tab switches indoor/outdoor views within one existing access zone. Preserved four tabs, swipe/keyboard navigation, previous-image crossfade, pauses, autoplay and reduced motion. Adjusted the portrait outdoor crop after visual review to retain water and trees. Also fixed the existing Contacts anchor's missing keyboard focus by adding `tabIndex={-1}` to its footer target.
+
+Validation:
+
+- Final TypeScript/production build passed. All 77 unit tests passed, including the six homepage selection combinations, Minsk midnight defaults and invalid explicit query values.
+- Initial full Playwright regression: 72 passed, two expected desktop skips, two navigation failures caused by the obsolete exact pool-copy assertion. Updating it exposed the footer focus problem, which was then fixed.
+- With final pool copy/cropping: nine homepage/gallery cases passed and the desktop touch case was skipped. Final navigation run: all four desktop/mobile cases passed, including Contacts focus, back/reload and keyboard activation. All failures from the full run were resolved; unrelated workflows were not repeated after the final crop/focus changes.
+- The full run also passed all six homepage-to-plans combinations, empty-cart preservation, RU/EN selection retention, 320px reflow, detailed coach education, signup/login, purchases, payment retry, bookings and notifications.
+- Visually reviewed desktop and 320px pool views, the compact selection, homepage coach cards and detailed trainer page. Checked all four copied image hashes against their sources. Screenshots are generated in the ignored `frontend/test-results/` directory and may be replaced by later runs.
+- Vitest's first sandbox temporary-cache rename failed; rerunning with TEMP/TMP pointing to an ignored workspace cache passed. Browser checks required approved local-network access outside the sandbox. No pending approval or blocked check remains.
+
+Two existing Zod/Rollup annotation warnings remain non-blocking; the main JavaScript chunk is 500.09 kB (158.23 kB gzip), slightly above Vite's warning threshold. Supplied photo resolutions are retained; image optimization is not claimed. README remains unchanged at the user's request. No backend, database, original diagram or deployment changes were made. The current local review preview uses `http://127.0.0.1:4175/`.

@@ -1,4 +1,14 @@
 .offer-preview { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.visit-picker { display: grid; grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr); gap: 40px; align-items: end; }
+.visit-picker .offer-fields fieldset:last-child { margin-bottom: 0; }
+.visit-picker-zones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.visit-picker-zones .offer-option > span { min-height: 64px; }
+.visit-picker-zones svg { flex-shrink: 0; visibility: hidden; }
+.visit-picker-next { padding: 26px; border-top: 3px solid var(--primary); background: var(--foreground); color: var(--primary-foreground); }
+.visit-picker-next p { font-size: 14px; line-height: 1.75; margin-bottom: 22px !important; }
+.visit-picker-next .fp-primary { width: 100%; justify-content: space-between; gap: 14px; }
+@media (max-width: 959px) { .visit-picker { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 500px) { .visit-picker-zones { grid-template-columns: 1fr; gap: 8px; } .visit-picker-zones .offer-option > span { min-height: 52px; } .visit-picker-next { padding: 22px 20px; } }
 .offer-fields { min-width: 0; }
 .offer-draft { margin: 0 0 22px !important; font-size: 12px; color: var(--primary); }
 .offer-fields fieldset { min-width: 0; margin: 0 0 24px; padding: 0; border: 0; }

@@ -16,7 +16,7 @@ export function PlansPage() {
   return <section className="container-shell page-section">
     <div className="page-intro"><h1 className="page-title">{t('plans.title')}</h1><p>{t('plans.subtitle')}</p></div>
     <PurchaseSteps step="selection" />
-    {initial && <p className="commerce-intro">{t(params.get('repeat') === 'renew' ? 'plans.renewNote' : 'plans.repeatNote')}</p>}
+    {initial && ['again', 'renew'].includes(params.get('repeat') || '') && <p className="commerce-intro">{t(params.get('repeat') === 'renew' ? 'plans.renewNote' : 'plans.repeatNote')}</p>}
     {edit && cart.isPending ? <Loading /> : edit && !item ? <CommerceError error={cart.error || 'not_found'} /> : <OfferPreview key={item?.id || params.toString() || 'new'} initial={initial} item={item} version={cart.data?.version} />}
   </section>
 }

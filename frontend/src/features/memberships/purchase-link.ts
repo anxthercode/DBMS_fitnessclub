@@ -15,9 +15,13 @@ export function purchaseLink(product: Product | AccessGrant, renew = false, now 
   const params = new URLSearchParams({ format: product.format, zones: product.zones, date, ...(product.format === 'membership' ? { months: String(months) } : {}), repeat: renew ? 'renew' : 'again' })
   return '/plans?' + params
 }
-export function selectionFromParams(params: URLSearchParams): Selection | undefined {
-  const format = params.get('format'), zones = params.get('zones'), date = params.get('date'), months = Number(params.get('months'))
-  if (!zones || !['gym', 'pool', 'both'].includes(zones) || !date || !validDate(date)) return undefined
+export function selectionFromParams(params: URLSearchParams, now = Date.now()): Selection | undefined {
+  const format = params.get('format'), zones = params.get('zones')
+  // The homepage supplies only format/zones. Defaults become visible on /plans;
+  // malformed explicit dates and terms still fail validation.
+  const date = params.get('date') ?? minskDay(now)
+  const months = Number(params.get('months') ?? 3)
+  if (!zones || !['gym', 'pool', 'both'].includes(zones) || !validDate(date)) return undefined
   if (format === 'membership' && [1, 3, 12].includes(months)) return { format, zones, date, months } as Selection
   if (format === 'single_visit') return { format, zones, date, months: null } as Selection
   return undefined

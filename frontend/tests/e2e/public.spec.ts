@@ -34,7 +34,7 @@ test('public routes render in RU and EN without console errors or overflow', asy
 test('language survives reload and translates trainer names', async ({ page }) => {
   await page.goto('/trainers')
   await page.getByRole('button', { name: 'EN', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Artem Volkov' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Daniel Moreau' })).toBeVisible()
   await page.reload()
   await expect(page.getByRole('heading', { name: 'Coaches' })).toBeVisible()
   await expect(page).toHaveTitle('Coaches — NORTHSIDE Fitness Club')

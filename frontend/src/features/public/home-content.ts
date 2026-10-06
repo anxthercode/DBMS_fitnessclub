@@ -26,7 +26,7 @@ export const homeCopy = {
     "autoplayReduced": "Автосмена отключена: уменьшение движения",
     "coaches": "Тренеры",
     "allCoaches": "Все тренеры",
-    "coachesDemo": "Учебные профили: тренеры вымышлены, изображения созданы с помощью ИИ.",
+    "coachesDemo": "Учебные профили: тренеры вымышлены, биографии и образование придуманы. Портреты созданы с помощью ИИ.",
     "coachesError": "Не удалось загрузить тренеров.",
     "coachesEmpty": "Профили тренеров скоро появятся.",
     "gym": "Тренажёрный зал",
@@ -36,13 +36,17 @@ export const homeCopy = {
     "cardioText": "Беговые дорожки, велотренажёры и эллипсы для разминки и кардиотренировок.",
     "cardioAlt": "Беговые дорожки у больших окон",
     "pool": "Бассейн",
-    "poolText": "Плавание в своём темпе и занятия с инструктором.",
-    "poolAlt": "Светлый крытый бассейн с бирюзовой водой и большими окнами",
+    "poolText": "Плавание в своём темпе и занятия с инструктором. Крытый бассейн и открытая часть — в одной водной зоне.",
+    "poolAlt": "Крытый бассейн с дорожками, деревянным потолком и шезлонгами",
+    "poolOutsideAlt": "Открытый бассейн с террасой, деревьями и высокими прожекторами",
+    "poolViews": "Виды бассейна",
+    "poolInside": "В здании",
+    "poolOutside": "На улице",
     "changing": "Раздевалки и душевые",
     "changingText": "Личный шкафчик и душ после тренировки. Включены в любое посещение.",
     "changingAlt": "Индивидуальные шкафчики в раздевалке",
     "allPlans": "Подробнее об абонементах",
-    "plansIntro": "Ваши зоны. Ваш срок. Один понятный абонемент.",
+    "plansIntro": "Выберите формат и зоны. Срок, дата и стоимость — на следующем шаге.",
     "training": "Занятия с тренером",
     "price": "За весь срок",
     "group": "Групповые",
@@ -127,7 +131,7 @@ export const homeCopy = {
     "autoplayReduced": "Slideshow disabled: reduced motion",
     "coaches": "Coaches",
     "allCoaches": "All coaches",
-    "coachesDemo": "Demo profiles: coaches are fictional and images are AI-generated.",
+    "coachesDemo": "Demo profiles: coaches, biographies and educational backgrounds are fictional. Portraits are AI-generated.",
     "coachesError": "Could not load coaches.",
     "coachesEmpty": "Coach profiles are coming soon.",
     "gym": "Gym floor",
@@ -137,13 +141,17 @@ export const homeCopy = {
     "cardioText": "Treadmills, bikes and cross-trainers for warm-ups and cardio sessions.",
     "cardioAlt": "Treadmills beside large windows",
     "pool": "Pool",
-    "poolText": "Swim at your own pace or join an instructor-led session.",
-    "poolAlt": "A bright indoor swimming pool with turquoise water and large windows",
+    "poolText": "Swim at your own pace or join an instructor-led session. Indoor and outdoor pools share one aquatics zone.",
+    "poolAlt": "An indoor lane pool with a wooden ceiling and loungers",
+    "poolOutsideAlt": "An outdoor pool with a terrace, trees and tall floodlights",
+    "poolViews": "Pool views",
+    "poolInside": "Indoors",
+    "poolOutside": "Outdoors",
     "changing": "Changing rooms & showers",
     "changingText": "A locker for your things and a shower after training. Included with every visit.",
     "changingAlt": "Individual lockers in a changing room",
     "allPlans": "Membership details",
-    "plansIntro": "Your zones. Your term. One clear membership.",
+    "plansIntro": "Choose your format and zones. Review the term, date and price next.",
     "training": "Coached training",
     "price": "Full-term price",
     "group": "Group sessions",
@@ -206,19 +214,24 @@ export const homeCopy = {
 
 export const facilityImages = {
   "gym": {
-    "src": "/images/home/hero-gym.webp",
-    "width": 1920,
-    "height": 1281
+    "src": "/images/club/gym.webp",
+    "width": 1400,
+    "height": 934
   },
   "cardio": {
-    "src": "/images/design/cardio.jpg",
-    "width": 1200,
-    "height": 1800
+    "src": "/images/club/cardio.webp",
+    "width": 6720,
+    "height": 4480
   },
   "pool": {
-    "src": "/images/home/pool-daylight.webp",
-    "width": 1536,
-    "height": 1024
+    "src": "/images/club/pool-inside.webp",
+    "width": 5626,
+    "height": 4219
+  },
+  "poolOutside": {
+    "src": "/images/club/pool-outside.webp",
+    "width": 3456,
+    "height": 4608
   },
   "changing": {
     "src": "/images/design/changing-room.jpg",

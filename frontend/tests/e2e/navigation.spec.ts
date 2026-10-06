@@ -18,7 +18,7 @@ test('home anchors work across routes, on reload and with keyboard focus', async
   await pool.focus()
   await page.keyboard.press('Enter')
   await expect(pool).toHaveAttribute('aria-selected', 'true')
-  await expect(page.getByText('Плавание в своём темпе и занятия с инструктором.', { exact: true })).toBeVisible()
+  await expect(page.locator('#club').getByRole('tabpanel')).toContainText('Крытый бассейн и открытая часть — в одной водной зоне.')
   await follow('Контакты')
   await expect(page.locator('#contacts')).toBeFocused()
   const rect = await page.locator('#contacts').boundingBox()

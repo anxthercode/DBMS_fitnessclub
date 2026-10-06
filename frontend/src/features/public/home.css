@@ -241,6 +241,11 @@
 @media (prefers-reduced-motion: reduce) { .space-copy-slide, .space-copy-slide.is-active { transition: none; transition-delay: 0s; } }
 .space-copy h3 { margin: 0 0 20px; font-size: clamp(25px, 2.4vw, 34px); }
 .space-copy-slide p { max-width: 34ch; font-size: 15px; line-height: 1.75; }
+.space-photo img[data-view='outside'] { object-position: center 65%; }
+.pool-views { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.pool-views button { min-height: 44px; padding: 9px 16px; border: 1px solid currentColor; border-radius: 4px; font-size: 13px; cursor: pointer; }
+.pool-views button[aria-pressed='true'] { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+.pool-views button:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
 .club-content .space-copy .fp-inline-link { margin-top: 36px; }
 .fp-hero h1 { white-space: pre-line; }
 .fp-section-heading > .fp-inline-link { justify-self: end; align-self: center; }

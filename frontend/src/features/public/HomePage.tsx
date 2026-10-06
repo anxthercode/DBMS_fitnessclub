@@ -1,13 +1,13 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { api } from '@/api'
 import { localized } from '@/lib/format'
 import { homeCopy } from './home-content'
 import { ClubHero } from './ClubHero'
 import { GuestVisit } from './GuestVisit'
-import { OfferPreview } from '@/features/memberships/OfferPreview'
+import { VisitPicker } from '@/features/memberships/VisitPicker'
 import { TrainerProfiles } from '@/features/trainers/TrainerProfiles'
 import { ClubSpaces } from './ClubSpaces'
 import { AnimatedDisclosure } from '@/components/ui/disclosure'
@@ -33,14 +33,13 @@ export function HomePage() {
         <section className="fp-memberships" data-reveal id="memberships" tabIndex={-1} aria-labelledby="fp-memberships-heading">
           <div className="fp-shell">
             <div className="fp-section-heading"><div><p className="section-index">02 / {copy.accessLabel}</p><h2 id="fp-memberships-heading">{copy.plans}</h2></div><p>{copy.plansIntro}</p></div>
-            <OfferPreview />
-            <div className="fp-plans-bottom"><Link className="fp-inline-link" to="/plans">{copy.allPlans}<ArrowRight size={17} aria-hidden="true" /></Link></div>
+            <VisitPicker />
           </div>
         </section>
 
         <section className="fp-shell fp-section fp-coaches" data-reveal aria-labelledby="fp-coaches-heading">
           <div className="fp-section-heading"><div><p className="section-index">03 / {copy.teamLabel}</p><h2 id="fp-coaches-heading">{copy.coaches}</h2></div><Link className="fp-inline-link" to="/trainers">{copy.allCoaches}<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
-          {trainers.isPending ? <p role="status">{copy.loading}</p> : trainers.isError ? <div role="alert"><p>{copy.coachesError}</p><button className="fp-inline-link" type="button" onClick={() => void trainers.refetch()}>{copy.retry}</button></div> : !trainers.data.length ? <p>{copy.coachesEmpty}</p> : <TrainerProfiles trainers={trainers.data.slice(0, 3)} headingLevel="h3" />}
+          {trainers.isPending ? <p role="status">{copy.loading}</p> : trainers.isError ? <div role="alert"><p>{copy.coachesError}</p><button className="fp-inline-link" type="button" onClick={() => void trainers.refetch()}>{copy.retry}</button></div> : !trainers.data.length ? <p>{copy.coachesEmpty}</p> : <TrainerProfiles trainers={trainers.data.slice(0, 3)} headingLevel="h3" compact />}
         </section>
 
         <section className="fp-shell fp-section fp-visiting" data-reveal aria-labelledby="fp-visiting-heading">

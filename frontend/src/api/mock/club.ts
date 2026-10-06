@@ -1,7 +1,7 @@
 import type { ClubContent } from '../types'
 
 export const clubContent: ClubContent = {
-  image: '/images/club.jpg',
+  image: '/images/club/gym.webp',
   location_ru: 'Минск, Беларусь',
   location_en: 'Minsk, Belarus',
   hours: '07:00–23:00',
@@ -24,8 +24,8 @@ export const clubContent: ClubContent = {
       id: 'aquatics',
       title_ru: 'Зона водных программ',
       title_en: 'Aquatics zone',
-      description_ru: 'Бассейн для плавания и аквааэробики. Добавь к привычным тренировкам движение в воде.',
-      description_en: 'A pool for swimming and aqua aerobics. Bring movement in the water into your training routine.',
+      description_ru: 'Крытый бассейн и открытая часть в одной водной зоне. Самостоятельное плавание и занятия с инструктором.',
+      description_en: 'Indoor and outdoor pools in one aquatics zone. Swim independently or join an instructor-led session.',
     },
   ],
   amenities: {

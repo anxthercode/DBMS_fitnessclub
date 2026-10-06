@@ -13,7 +13,7 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const progress = useRef<HTMLSpanElement>(null)
   const animation = useRef<Animation | null>(null)
-  const [selection, setSelection] = useState({ active: 0, previous: 0, revision: 0 })
+  const [selection, setSelection] = useState({ active: 0, previous: 0, revision: 0, poolView: 'inside', previousPoolView: 'inside' })
   const { active } = selection
   const [stopped, setStopped] = useState(false)
   const [hovered, setHovered] = useState(false)
@@ -47,7 +47,7 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
     if (!node) return
     const clock = node.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 8000, delay: reduced ? 0 : 650, fill: 'both' })
     clock.pause()
-    clock.onfinish = () => setSelection(current => ({ active: (current.active + 1) % rooms.length, previous: current.active, revision: current.revision + 1 }))
+    clock.onfinish = () => setSelection(current => ({ ...current, active: (current.active + 1) % rooms.length, previous: current.active, previousPoolView: current.poolView, revision: current.revision + 1 }))
     animation.current = clock
     return () => { clock.onfinish = null; clock.cancel(); animation.current = null }
   }, [active, selection.revision, reduced])
@@ -59,7 +59,12 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
 
   function select(index: number) {
     setStopped(true)
-    setSelection(current => ({ active: index, previous: current.active, revision: current.revision + 1 }))
+    setSelection(current => ({ ...current, active: index, previous: current.active, previousPoolView: current.poolView, revision: current.revision + 1 }))
+  }
+  function selectPool(view: string) {
+    if (view === selection.poolView) return
+    setStopped(true)
+    setSelection(current => ({ ...current, previous: current.active, previousPoolView: current.poolView, poolView: view, revision: current.revision + 1 }))
   }
   function navigate(event: KeyboardEvent) {
     const index = { ArrowLeft: (active + 3) % 4, ArrowRight: (active + 1) % 4, Home: 0, End: 3 }[event.key]
@@ -84,13 +89,17 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
     <div className="space-panel" ref={root}
       onPointerMove={event => { if (event.pointerType === 'mouse') setHovered(event.target instanceof Element && !!event.target.closest('.space-photo, .space-tabs, .space-copy')) }}
       onPointerLeave={() => setHovered(false)}>
-      <ClubGallery locale={locale} active={active} previous={selection.previous} onChange={select} navigation={navigation}
+      <ClubGallery locale={locale} active={active} previous={selection.previous} poolView={selection.poolView} previousPoolView={selection.previousPoolView} onChange={select} navigation={navigation}
         progress={<span className="space-track" aria-hidden="true"><span ref={progress} /></span>}
         paused={!running} stopped={stopped || reduced} reduced={reduced} onToggle={() => setStopped(value => !value)} />
       <div className="space-copy" id={id + '-panel'} role="tabpanel" aria-labelledby={id + '-tab-' + active} tabIndex={0} aria-live={stopped || reduced ? 'polite' : 'off'}>
         <div className="space-copy-stack">
           {rooms.map(key => <div key={key} className={'space-copy-slide' + (key === room ? ' is-active' : '')} aria-hidden={key !== room} inert={key !== room}>
-            <h3>{copy[key]}</h3><p>{copy[`${key}Text`]}</p>
+            <h3>{copy[key]}</h3><div><p>{copy[`${key}Text`]}</p>
+              {key === 'pool' && <div className="pool-views" role="group" aria-label={copy.poolViews}>
+                {(['inside', 'outside'] as const).map(view => <button key={view} type="button" aria-pressed={selection.poolView === view} onClick={() => selectPool(view)}>{view === 'inside' ? copy.poolInside : copy.poolOutside}</button>)}
+              </div>}
+            </div>
           </div>)}
         </div>
         <Link className="fp-inline-link" to="#memberships">{room === 'changing' ? copy.visitOptions : copy[`${room}Action`]}<ArrowUpRight size={17} aria-hidden="true" /></Link>
