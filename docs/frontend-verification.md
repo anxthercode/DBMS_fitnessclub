@@ -163,3 +163,24 @@ Validation:
 - Vitest's first sandbox temporary-cache rename failed; rerunning with TEMP/TMP pointing to an ignored workspace cache passed. Browser checks required approved local-network access outside the sandbox. No pending approval or blocked check remains.
 
 Two existing Zod/Rollup annotation warnings remain non-blocking; the main JavaScript chunk is 500.09 kB (158.23 kB gzip), slightly above Vite's warning threshold. Supplied photo resolutions are retained; image optimization is not claimed. README remains unchanged at the user's request. No backend, database, original diagram or deployment changes were made. The current local review preview uses `http://127.0.0.1:4175/`.
+
+## Gallery composition and footer cleanup — 7 October 2026
+
+Reviewed the official [Third Space Moorgate](https://www.thirdspace.london/clubs/moorgate/) and [1Rebel South Bank](https://www.1rebel.com/en-gb/clubs/south-bank/) pages, including their rendered galleries and contact/footer layouts. Used their grouped photo captions and clearly separated footer information as references; no conversion-performance claims are made.
+
+At the user's request, removed the hero slogan, the entire location/explore strip below the hero, decorative section and portrait numbers, visible fictional-trainer disclosure, and the repeated demo/reset paragraph in plans, cart and orders. Trainer biographies and education remain on the detailed page; their fictional provenance remains documented in the repository. Existing simulated payment controls and guest-form results retain their actual behavior.
+
+Replaced gallery underlines/progress bars with four compact zone buttons above a single photo/detail panel. The selected button uses fill and a dot. Title, description, indoor/outdoor pool choices and membership action share one caption column beside the photo on desktop, and one block below it on mobile. The invisible animation clock still advances photos after eight viewing seconds. Hovering photo, caption or zone buttons no longer pauses rotation; manual selection, keyboard focus, explicit pause, offscreen suspension and reduced-motion handling are preserved. Mobile photo arrows retain 52px touch areas.
+
+The shared footer now groups the brand/guest-visit action, address, opening hours and four navigation links, followed by copyright and a working back-to-top action. The address, Minsk, 19 Nezavisimosti Avenue, is fictional content explicitly authorized by the user. RU/EN, both palettes, 768px two-column and 320px single-column layouts are supported. Contacts remains a focusable anchor from other routes.
+
+Validation:
+
+- Final production build, including TypeScript, passed. All 77 unit tests passed.
+- Initial full browser regression: 75 passed, two expected desktop skips and one failure from reducing the mobile arrow width to 48px. Restoring 52px resolved it.
+- Repeated commerce, homepage content, gallery autoplay, footer and navigation suites: 27 passed, one expected desktop touch skip. No unresolved failures remain. Other workflows passed in the initial full run.
+- Browser coverage includes rotation while hovered, manual pause/resume, offscreen and keyboard pauses, reduced motion, touch swipes, both pool views, local image loading, RU/EN, footer links across routes, address/hours, Contacts and back-to-top focus, themes and 320px overflow.
+- Inspected desktop gallery/footer and 320px English/turquoise gallery plus English/orange footer screenshots. Also inspected the actual 320px Russian pool caption/action and footer in the in-app browser, then reset its viewport. Local screenshots remain in ignored `frontend/test-results/`.
+- The final main bundle is 498.77 kB (157.68 kB gzip), below Vite's size-warning threshold. Two existing Zod/Rollup annotation warnings remain non-blocking.
+
+README remains unchanged as requested; the explicit user choices above supersede its earlier presentation guidance about hover pauses and visible notices. No backend, database, original diagram, asset-source, payment-processing or deployment changes were made. Preview: `http://127.0.0.1:4175/`.

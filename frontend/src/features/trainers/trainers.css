@@ -3,7 +3,6 @@
 .trainer-portrait { position: relative; aspect-ratio: 4 / 4.6; background: var(--card); display: grid; place-items: center; overflow: hidden; }
 .trainer-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 .trainer-portrait img[src*='trainer-02'], .trainer-portrait img[src*='trainer-03'] { object-position: 50% center; }
-.trainer-number { position: absolute; left: 18px; top: 15px; font-size: 12px; letter-spacing: .12em; color: #fff; background: #1f2833bb; padding: 4px 8px; }
 .trainer-experience { position: absolute; bottom: 16px; left: 16px; right: 16px; width: fit-content; max-width: calc(100% - 32px); padding: 7px 12px; font-size: 12px; background: var(--background); color: var(--foreground); }
 .trainer-profile :is(h2, h3) { font-size: 24px; font-weight: 500; line-height: 1.35; margin: 22px 0 10px; }
 .trainer-specialization { font-size: 13px; min-height: 44px; color: var(--primary); }
@@ -12,7 +11,6 @@
 .trainer-profile .trainer-education h3 { font-size: 12px; font-weight: 600; margin: 0 0 8px; letter-spacing: .04em; }
 .trainer-education p { font-size: 13px; line-height: 1.75; }
 .trainer-grid-compact .trainer-specialization { min-height: 0; margin-bottom: 0; }
-.trainer-demo-note { font-size: 12px; padding-top: 24px; margin-top: 30px !important; border-top: 1px solid var(--border); }
 @media (prefers-reduced-motion: no-preference) { .trainer-portrait img { transition: transform 550ms cubic-bezier(.2,.7,.2,1); } }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) { .trainer-portrait:hover img { transform: scale(1.03); } }
 @media (max-width: 959px) { .trainer-grid { gap: 20px; } .trainer-profile :is(h2, h3) { font-size: 21px; } }

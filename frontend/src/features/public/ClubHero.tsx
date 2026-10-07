@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
-import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react'
+import { ArrowUpRight, Pause, Play } from 'lucide-react'
 import { homeCopy, type HomeLocale } from './home-content'
 
 const poster = '/images/home/club-tour-poster.webp'
 
-export function ClubHero({ locale, location, hours }: { locale: HomeLocale; location: string; hours: string }) {
+export function ClubHero({ locale, hours }: { locale: HomeLocale; hours: string }) {
   const copy = homeCopy[locale]
   const root = useRef<HTMLElement>(null)
   const video = useRef<HTMLVideoElement>(null)
@@ -57,7 +57,7 @@ export function ClubHero({ locale, location, hours }: { locale: HomeLocale; loca
     </div>
     <div className="fp-shell hero-content">
       <div className="hero-topline"><p>{copy.intro}</p><span>{hours}</span></div>
-      <div className="hero-heading"><p className="hero-eyebrow">{copy.heroEyebrow}</p><h1 id="fp-title">NORTHSIDE<span>Fitness Club</span></h1></div>
+      <div className="hero-heading"><h1 id="fp-title">NORTHSIDE<span>Fitness Club</span></h1></div>
       <div className="hero-bottom">
         <div className="fp-hero-actions"><Link className="fp-primary" to="#guest-visit">{copy.heroAction}<ArrowUpRight size={20} aria-hidden="true" /></Link><Link className="hero-secondary" to="#memberships">{copy.choose}<ArrowUpRight size={18} aria-hidden="true" /></Link></div>
         <button className="hero-playback" type="button" onClick={toggleVideo} disabled={reduced || failed}
@@ -67,6 +67,5 @@ export function ClubHero({ locale, location, hours }: { locale: HomeLocale; loca
         </button>
       </div>
     </div>
-    <div className="hero-caption fp-shell"><p>{location}<span aria-hidden="true"> / </span>{copy.daily}</p><Link to="#club">{copy.directions}<ArrowDown size={16} aria-hidden="true" /></Link></div>
   </section>
 }

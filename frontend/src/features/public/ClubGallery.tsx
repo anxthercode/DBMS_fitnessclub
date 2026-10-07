@@ -1,4 +1,4 @@
-import { useId, useRef, type ReactNode } from 'react'
+import { useId, useRef } from 'react'
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
 import { facilityImages, homeCopy, type HomeLocale } from './home-content'
 
@@ -12,9 +12,9 @@ const photos = [
 ] as const
 
 // The photo controls and tabs share one selection; there is no second carousel.
-export function ClubGallery({ locale, active, previous, poolView, previousPoolView, onChange, navigation, progress, paused, stopped, reduced, onToggle }: {
-  locale: HomeLocale; active: number; onChange: (index: number) => void; navigation: ReactNode
-  previous: number; progress: ReactNode; paused: boolean; stopped: boolean; reduced: boolean; onToggle: () => void
+export function ClubGallery({ locale, active, previous, poolView, previousPoolView, onChange, stopped, reduced, onToggle }: {
+  locale: HomeLocale; active: number; onChange: (index: number) => void
+  previous: number; stopped: boolean; reduced: boolean; onToggle: () => void
   poolView: string; previousPoolView: string
 }) {
   const copy = homeCopy[locale]
@@ -49,10 +49,7 @@ export function ClubGallery({ locale, active, previous, poolView, previousPoolVi
         title={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}>
         {stopped ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
       </button>
-      {paused && <span className="space-pause-label">{copy.photosPaused}</span>}
-      {progress}
     </div>
     <p className="sr-only" id={id}>{copy.galleryHelp}</p>
-    {navigation}
   </div>
 }

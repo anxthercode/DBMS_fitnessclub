@@ -16,12 +16,10 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
   const [selection, setSelection] = useState({ active: 0, previous: 0, revision: 0, poolView: 'inside', previousPoolView: 'inside' })
   const { active } = selection
   const [stopped, setStopped] = useState(false)
-  const [hovered, setHovered] = useState(false)
   const [visible, setVisible] = useState(false)
   const [hidden, setHidden] = useState(document.hidden)
   const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
-  const running = !stopped && !hovered && visible && !hidden && !reduced
-  const room = rooms[active]
+  const running = !stopped && visible && !hidden && !reduced
 
   useEffect(() => {
     const node = root.current
@@ -86,23 +84,22 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
       if (!(event.target instanceof Element) || !event.target.closest('.space-autoplay') || event.target.matches(':focus-visible')) setStopped(true)
     }}>
     <div className="fp-section-heading"><h2 id="fp-spaces-heading">{copy.spaces}</h2></div>
-    <div className="space-panel" ref={root}
-      onPointerMove={event => { if (event.pointerType === 'mouse') setHovered(event.target instanceof Element && !!event.target.closest('.space-photo, .space-tabs, .space-copy')) }}
-      onPointerLeave={() => setHovered(false)}>
-      <ClubGallery locale={locale} active={active} previous={selection.previous} poolView={selection.poolView} previousPoolView={selection.previousPoolView} onChange={select} navigation={navigation}
-        progress={<span className="space-track" aria-hidden="true"><span ref={progress} /></span>}
-        paused={!running} stopped={stopped || reduced} reduced={reduced} onToggle={() => setStopped(value => !value)} />
+    {navigation}
+    <span ref={progress} className="space-clock sr-only" aria-hidden="true" />
+    <div className="space-panel" ref={root}>
+      <ClubGallery locale={locale} active={active} previous={selection.previous} poolView={selection.poolView} previousPoolView={selection.previousPoolView} onChange={select}
+        stopped={stopped || reduced} reduced={reduced} onToggle={() => setStopped(value => !value)} />
       <div className="space-copy" id={id + '-panel'} role="tabpanel" aria-labelledby={id + '-tab-' + active} tabIndex={0} aria-live={stopped || reduced ? 'polite' : 'off'}>
         <div className="space-copy-stack">
-          {rooms.map(key => <div key={key} className={'space-copy-slide' + (key === room ? ' is-active' : '')} aria-hidden={key !== room} inert={key !== room}>
-            <h3>{copy[key]}</h3><div><p>{copy[`${key}Text`]}</p>
+          {rooms.map((key, index) => <div key={key} className={'space-copy-slide' + (index === active ? ' is-active' : '')} aria-hidden={index !== active} inert={index !== active}>
+            <h3>{key === 'changing' ? copy.changingShort : copy[key]}</h3><div className="space-details"><p>{copy[`${key}Text`]}</p>
               {key === 'pool' && <div className="pool-views" role="group" aria-label={copy.poolViews}>
                 {(['inside', 'outside'] as const).map(view => <button key={view} type="button" aria-pressed={selection.poolView === view} onClick={() => selectPool(view)}>{view === 'inside' ? copy.poolInside : copy.poolOutside}</button>)}
               </div>}
             </div>
+            <Link className="fp-inline-link" to="#memberships">{key === 'changing' ? copy.visitOptions : copy[`${key}Action`]}<ArrowUpRight size={17} aria-hidden="true" /></Link>
           </div>)}
         </div>
-        <Link className="fp-inline-link" to="#memberships">{room === 'changing' ? copy.visitOptions : copy[`${room}Action`]}<ArrowUpRight size={17} aria-hidden="true" /></Link>
       </div>
     </div>
   </section>

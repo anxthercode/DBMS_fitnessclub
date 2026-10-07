@@ -1,0 +1,26 @@
+footer.site-footer { background: var(--background); border-top: 1px solid var(--border); padding-block: 64px 24px; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1.2fr .9fr .75fr; gap: 48px; }
+.footer-grid > div { min-width: 0; }
+.footer-grid h2 { margin: 0 0 22px; color: var(--muted-foreground); font-size: 12px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; }
+.footer-intro > p { margin: 20px 0 24px; max-width: 26ch; font-size: 13px; line-height: 1.8; }
+.footer-visit { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 48px; padding: 12px 16px; border: 1px solid var(--primary); border-radius: 4px; color: var(--primary); font-size: 13px; }
+.footer-visit:hover { background: var(--primary); color: var(--primary-foreground); }
+.footer-address address { display: grid; gap: 9px; font-style: normal; }
+.footer-address address span, .footer-hours p { font-size: 13px; }
+.footer-address strong, .footer-hours strong { display: block; color: var(--heading); font-size: 19px; font-weight: 500; line-height: 1.6; }
+.footer-hours strong { margin-top: 9px; white-space: nowrap; }
+.footer-navigation nav { display: flex; flex-direction: column; align-items: start; }
+.footer-navigation a { display: inline-flex; align-items: center; min-height: 40px; font-size: 13px; }
+.footer-navigation a:hover, .footer-bottom a:hover { color: var(--primary); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted-foreground); }
+.footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; gap: 12px; }
+@media (max-width: 1100px) { .footer-grid { grid-template-columns: 1.3fr 1fr; gap: 36px 48px; } }
+@media (max-width: 600px) {
+  footer.site-footer { padding-block: 40px 16px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-grid h2 { margin-bottom: 12px; }
+  .footer-intro { padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .footer-intro > p { max-width: none; }
+  .footer-navigation nav { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .footer-bottom { margin-top: 28px; }
+}

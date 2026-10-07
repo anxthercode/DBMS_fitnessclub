@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { Link, Outlet, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, Menu, X, ShoppingBag } from 'lucide-react'
-import { api } from '@/api'
+import { ClubFooter } from '@/components/ClubFooter'
 import { Brand } from '@/components/brand'
 import { LanguageSwitch } from '@/components/language-switch'
 import { ThemeSwitch } from '@/components/theme-switch'
@@ -12,7 +11,6 @@ import { useLogout, useSession } from '@/features/auth/session'
 
 import { useCart } from '@/features/commerce/hooks'
 import { useCommerceCopy } from '@/features/commerce/copy'
-import { localized } from '@/lib/format'
 
 const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/schedule', 'schedule'], ['/#contacts', 'contacts']] as const
 const pageTitles: Record<string, string> = {
@@ -27,7 +25,6 @@ export function PublicLayout() {
   const { copy } = useCommerceCopy()
   const { t, i18n } = useTranslation()
   const { data: user } = useSession()
-  const club = useQuery({ queryKey: ['club'], queryFn: api.club })
   const location = useLocation()
   const [open, setOpen] = useState(false)
   const menuButton = useRef<HTMLButtonElement>(null)
@@ -116,20 +113,7 @@ export function PublicLayout() {
         </nav>}
       </header>
       <main id="main" ref={main} tabIndex={-1} className="flex-1 focus:outline-none"><Outlet /></main>
-      <footer id="contacts" tabIndex={-1} className="site-footer border-t border-border py-8">
-        <div className="container-shell">
-          <div className="flex flex-wrap items-start justify-between gap-8">
-            <div><Brand /><p className="mt-4 text-xs">{t('footer.text')}</p></div>
-            <nav aria-label={t('nav.footer')} className="flex flex-wrap gap-x-6 gap-y-1">
-              {links.map(([to, label]) => <Link key={to} to={to} className="site-link">{t('nav.' + label)}</Link>)}
-            </nav>
-          </div>
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-border pt-5 text-xs">
-            <p>© {new Date().getFullYear()} NORTHSIDE Fitness Club</p>
-            <p>{club.data ? localized(club.data, 'location', i18n.language === 'en' ? 'en' : 'ru') : t('footer.location')} · {t('footer.daily')}, {club.data?.hours || '07:00–23:00'}</p>
-          </div>
-        </div>
-      </footer>
+      <ClubFooter links={links} />
     </div>
   )
 }

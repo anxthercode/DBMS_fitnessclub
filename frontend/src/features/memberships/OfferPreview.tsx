@@ -83,7 +83,6 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
           {zones && !offer && <p>{copy.missing}</p>}
         </>}
       </div>
-      <p className="offer-demo">{purchase.demo}</p>
       {format === 'membership' && <p className="offer-conditions">{purchase.coaching}: {offer?.allows_individual ? purchase.individual : offer?.allows_group ? purchase.group : purchase.independent}</p>}
       {format === 'single_visit' && <p className="offer-conditions">{copy.visitRule}</p>}
       <details className="offer-details"><summary>{copy.conditions}</summary>

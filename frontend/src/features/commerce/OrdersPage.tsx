@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useOutletContext, useParams } from 'react-router'
 import { purchaseLink } from '@/features/memberships/purchase-link'
 import { useTrainingCopy } from '@/features/training/copy'
-import { api, isMock } from '@/api'
+import { api } from '@/api'
 import type { User } from '@/api/types'
 import { date, money } from '@/lib/format'
 import { Loading, QueryError } from '@/components/feedback'
@@ -57,6 +57,5 @@ export function OrderPage() {
     {data.status === 'paid' && <div className="commerce-card payment-panel" role="status"><h2>{copy.success}</h2><div className="commerce-actions">{data.access_ids.map((accessId, index) => <Link className="underline min-h-11 inline-flex items-center" key={accessId} to={'/account/access/' + accessId}>{copy.access} {index + 1} ↗</Link>)}</div><p>{copy.accessIntro}</p></div>}
     {data.status === 'cancelled' && <p role="status" className="commerce-intro">{copy.cancelledOrder}</p>}
     {!!data.attempts.length && <div className="commerce-card payment-panel"><h2>{copy.attempts}</h2><ol>{data.attempts.map((item, i) => <li className="attempt-row" key={item.id}><p>{i + 1}. {date(item.created_at, locale, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit' })} · {item.status === 'succeeded' ? copy.succeeded : copy.declined}</p>{item.reason && <p>{copy.errors[item.reason as keyof typeof copy.errors] || copy.errors.unknown}</p>}</li>)}</ol></div>}
-    {isMock && <p className="commerce-demo">{copy.demo}</p>}
   </section>
 }

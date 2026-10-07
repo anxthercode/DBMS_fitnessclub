@@ -45,7 +45,6 @@
 .offer-selection .offer-selection-title { font-size: 16px; font-weight: 600; }
 .offer-selection .offer-total { font-size: clamp(28px, 3vw, 38px); letter-spacing: -.04em; font-weight: 600; line-height: 1.2; margin: 24px 0 6px; font-variant-numeric: tabular-nums; }
 .offer-selection .offer-total-label { margin: 0; font-size: 12px; }
-.offer-demo { margin-top: 14px !important; font-size: 11px; }
 .offer-conditions { margin: 20px 0 !important; font-size: 13px; line-height: 1.8; }
 .offer-summary button:disabled { opacity: 1; background: transparent; border: 1px solid rgb(11 12 16 / .45); color: var(--background); }
 .offer-summary button:focus-visible { outline-color: var(--background); }

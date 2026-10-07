@@ -60,6 +60,5 @@ export function CartPage() {
         </>}
       </aside>
     </div>}
-    {isMock && <p className="commerce-demo">{copy.demo}</p>}
   </section>
 }
