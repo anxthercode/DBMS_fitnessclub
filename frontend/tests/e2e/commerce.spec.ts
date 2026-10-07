@@ -124,15 +124,15 @@ test('disjoint zones can overlap, combined access conflicts and unpaid order can
   await expect(page.getByRole('button', { name: 'Оплатить в деморежиме' })).toHaveCount(0)
 })
 
-test('gallery arrows overlay photos and wrap in both directions', async ({ page }, testInfo) => {
+test('gallery title and arrows wrap in both directions with generous targets', async ({ page }, testInfo) => {
   await page.goto('/#club')
-  const gallery = page.locator('.space-photo')
+  const gallery = page.locator('#club')
   const prev = gallery.getByRole('button', { name: 'Предыдущее фото' })
   const next = gallery.getByRole('button', { name: 'Следующее фото' })
   await prev.click()
-  await expect(page.getByRole('tab', { name: 'Раздевалки' })).toHaveAttribute('aria-selected', 'true')
+  await expect(gallery.locator('.space-current-title')).toHaveText('Раздевалки')
   await next.click()
-  await expect(page.getByRole('tab', { name: 'Тренажёрный зал' })).toHaveAttribute('aria-selected', 'true')
+  await expect(gallery.locator('.space-current-title')).toHaveText('Тренажёрный зал')
   await page.evaluate(() => window.scrollTo(0, 0))
   await page.locator('#club').screenshot({ path: testInfo.outputPath('gallery-arrows.png') })
   const bounds = await gallery.boundingBox()

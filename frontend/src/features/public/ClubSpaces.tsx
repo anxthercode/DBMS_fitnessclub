@@ -1,7 +1,7 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { Link } from 'react-router'
-import { ArrowUpRight } from 'lucide-react'
-import { ClubGallery } from './ClubGallery'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react'
+import { ClubGallery, photoFadeDuration } from './ClubGallery'
 import { homeCopy, type HomeLocale } from './home-content'
 
 const rooms = ['gym', 'cardio', 'pool', 'changing'] as const
@@ -10,10 +10,10 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
   const copy = homeCopy[locale]
   const id = useId()
   const root = useRef<HTMLDivElement>(null)
-  const tabs = useRef<(HTMLButtonElement | null)[]>([])
+  const pointerFocus = useRef(false)
   const progress = useRef<HTMLSpanElement>(null)
   const animation = useRef<Animation | null>(null)
-  const [selection, setSelection] = useState({ active: 0, previous: 0, revision: 0, poolView: 'inside', previousPoolView: 'inside' })
+  const [selection, setSelection] = useState({ active: 0, revision: 0, poolView: 'inside' })
   const { active } = selection
   const [stopped, setStopped] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -27,13 +27,16 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting))
     observer.observe(node)
     const visibility = () => setHidden(document.hidden)
+    const keyboard = () => { pointerFocus.current = false }
     const media = matchMedia('(prefers-reduced-motion: reduce)')
     const motion = () => { setReduced(media.matches); if (media.matches) setStopped(true) }
     document.addEventListener('visibilitychange', visibility)
+    document.addEventListener('keydown', keyboard, true)
     media.addEventListener('change', motion)
     return () => {
       observer.disconnect()
       document.removeEventListener('visibilitychange', visibility)
+      document.removeEventListener('keydown', keyboard, true)
       media.removeEventListener('change', motion)
     }
   }, [])
@@ -43,9 +46,9 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
   useEffect(() => {
     const node = progress.current
     if (!node) return
-    const clock = node.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 8000, delay: reduced ? 0 : 650, fill: 'both' })
+    const clock = node.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 8000, delay: reduced ? 0 : photoFadeDuration, fill: 'both' })
     clock.pause()
-    clock.onfinish = () => setSelection(current => ({ ...current, active: (current.active + 1) % rooms.length, previous: current.active, previousPoolView: current.poolView, revision: current.revision + 1 }))
+    clock.onfinish = () => setSelection(current => ({ ...current, active: (current.active + 1) % rooms.length, revision: current.revision + 1 }))
     animation.current = clock
     return () => { clock.onfinish = null; clock.cancel(); animation.current = null }
   }, [active, selection.revision, reduced])
@@ -56,43 +59,52 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
   }, [running, active, selection.revision, reduced])
 
   function select(index: number) {
-    setStopped(true)
-    setSelection(current => ({ ...current, active: index, previous: current.active, previousPoolView: current.poolView, revision: current.revision + 1 }))
+    setSelection(current => ({ ...current, active: index, revision: current.revision + 1 }))
   }
   function selectPool(view: string) {
     if (view === selection.poolView) return
-    setStopped(true)
-    setSelection(current => ({ ...current, previous: current.active, previousPoolView: current.poolView, poolView: view, revision: current.revision + 1 }))
+    setSelection(current => ({ ...current, poolView: view, revision: current.revision + 1 }))
   }
   function navigate(event: KeyboardEvent) {
     const index = { ArrowLeft: (active + 3) % 4, ArrowRight: (active + 1) % 4, Home: 0, End: 3 }[event.key]
     if (index === undefined) return
     event.preventDefault()
+    setStopped(true)
     select(index)
-    tabs.current[index]?.focus()
   }
-  const navigation = <div className="space-tabs" role="tablist" aria-label={copy.spaces} onKeyDown={navigate}>
-    {rooms.map((key, index) => <button className="space-tab" key={key} ref={node => { tabs.current[index] = node }} type="button" role="tab"
-      id={id + '-tab-' + index} aria-controls={id + '-panel'} aria-selected={active === index} tabIndex={active === index ? 0 : -1}
-      onClick={() => select(index)}>
-      <span>{key === 'changing' ? copy.changingShort : copy[key]}</span>
-    </button>)}
-  </div>
+  const room = rooms[active]
 
   return <section className="fp-shell fp-section fp-spaces" data-reveal id="club" tabIndex={-1} aria-labelledby="fp-spaces-heading"
-    onFocusCapture={event => {
-      if (!(event.target instanceof Element) || !event.target.closest('.space-autoplay') || event.target.matches(':focus-visible')) setStopped(true)
-    }}>
+    style={{ '--space-fade-duration': `${photoFadeDuration}ms` } as CSSProperties}>
     <div className="fp-section-heading"><h2 id="fp-spaces-heading">{copy.spaces}</h2></div>
-    {navigation}
-    <span ref={progress} className="space-clock sr-only" aria-hidden="true" />
+    <div className="space-browser" role="region" aria-roledescription={copy.carousel} aria-labelledby={id + '-title'} onKeyDown={navigate}
+      onPointerDownCapture={() => { pointerFocus.current = true }}
+      onClickCapture={() => { pointerFocus.current = false }}
+      onFocusCapture={() => {
+        if (!pointerFocus.current) setStopped(true)
+        pointerFocus.current = false
+      }}>
+      <div className="space-navigation">
+        <h3 id={id + '-title'} className="space-current-title">{room === 'changing' ? copy.changingShort : copy[room]}</h3>
+        <div className="space-arrows">
+          <button className="space-arrow" type="button" aria-label={copy.previousPhoto} onClick={() => select((active + 3) % 4)}><ArrowLeft size={22} aria-hidden="true" /></button>
+          <button className="space-arrow" type="button" aria-label={copy.nextPhoto} onClick={() => select((active + 1) % 4)}><ArrowRight size={22} aria-hidden="true" /></button>
+        </div>
+      </div>
+      <div className="space-timeline">
+        <div className="space-track" aria-hidden="true"><span ref={progress} className="space-clock" /></div>
+        <button className="space-autoplay" type="button" onClick={() => setStopped(value => !value)} disabled={reduced}
+          aria-label={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}
+          title={reduced ? copy.autoplayReduced : stopped ? copy.resumePhotos : copy.pausePhotos}>
+          {stopped || reduced ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}
+        </button>
+      </div>
     <div className="space-panel" ref={root}>
-      <ClubGallery locale={locale} active={active} previous={selection.previous} poolView={selection.poolView} previousPoolView={selection.previousPoolView} onChange={select}
-        stopped={stopped || reduced} reduced={reduced} onToggle={() => setStopped(value => !value)} />
-      <div className="space-copy" id={id + '-panel'} role="tabpanel" aria-labelledby={id + '-tab-' + active} tabIndex={0} aria-live={stopped || reduced ? 'polite' : 'off'}>
+      <ClubGallery locale={locale} active={active} poolView={selection.poolView} revision={selection.revision} onChange={select} reduced={reduced} />
+      <div className="space-copy" role="group" aria-labelledby={id + '-title'} tabIndex={0} aria-live={running ? 'off' : 'polite'}>
         <div className="space-copy-stack">
           {rooms.map((key, index) => <div key={key} className={'space-copy-slide' + (index === active ? ' is-active' : '')} aria-hidden={index !== active} inert={index !== active}>
-            <h3>{key === 'changing' ? copy.changingShort : copy[key]}</h3><div className="space-details"><p>{copy[`${key}Text`]}</p>
+            <div className="space-details"><p>{copy[`${key}Text`]}</p>
               {key === 'pool' && <div className="pool-views" role="group" aria-label={copy.poolViews}>
                 {(['inside', 'outside'] as const).map(view => <button key={view} type="button" aria-pressed={selection.poolView === view} onClick={() => selectPool(view)}>{view === 'inside' ? copy.poolInside : copy.poolOutside}</button>)}
               </div>}
@@ -101,6 +113,7 @@ export function ClubSpaces({ locale }: { locale: HomeLocale }) {
           </div>)}
         </div>
       </div>
+    </div>
     </div>
   </section>
 }

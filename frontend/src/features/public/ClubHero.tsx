@@ -61,9 +61,9 @@ export function ClubHero({ locale, hours }: { locale: HomeLocale; hours: string 
       <div className="hero-bottom">
         <div className="fp-hero-actions"><Link className="fp-primary" to="#guest-visit">{copy.heroAction}<ArrowUpRight size={20} aria-hidden="true" /></Link><Link className="hero-secondary" to="#memberships">{copy.choose}<ArrowUpRight size={18} aria-hidden="true" /></Link></div>
         <button className="hero-playback" type="button" onClick={toggleVideo} disabled={reduced || failed}
-          aria-label={reduced ? copy.videoReduced : failed ? copy.videoUnavailable : playing ? copy.pauseVideo : copy.playVideo}>
-          {playing ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
-          <span>{reduced ? copy.videoReduced : failed ? copy.videoUnavailable : playing ? copy.pauseVideo : copy.playVideo}</span>
+          aria-label={reduced ? copy.videoReduced : failed ? copy.videoUnavailable : playing ? copy.pauseVideo : copy.playVideo}
+          title={reduced ? copy.videoReduced : failed ? copy.videoUnavailable : playing ? copy.pauseVideo : copy.playVideo}>
+          {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
         </button>
       </div>
     </div>

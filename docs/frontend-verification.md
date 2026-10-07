@@ -184,3 +184,21 @@ Validation:
 - The final main bundle is 498.77 kB (157.68 kB gzip), below Vite's size-warning threshold. Two existing Zod/Rollup annotation warnings remain non-blocking.
 
 README remains unchanged as requested; the explicit user choices above supersede its earlier presentation guidance about hover pauses and visible notices. No backend, database, original diagram, asset-source, payment-processing or deployment changes were made. Preview: `http://127.0.0.1:4175/`.
+
+## Title-and-arrows gallery and photo dissolves — 7 October 2026
+
+Implemented the user's selected title-and-arrows variant. A single current-zone heading and two plain 52px arrow targets replace the four filled zone buttons. A separate 2px elapsed-time line and 44px pause/play target sit above the existing photo/caption panel. Indoor/outdoor pool views, touch swipes, RU/EN and both palettes remain supported.
+
+Photos dissolve over the existing visible composition for 1100ms. Incoming images are decoded before starting their fade. Rapid selections preserve incomplete underlying fades; only completion of the latest fade removes older layers. Completed photos use a settled opacity without retaining an animation. Reduced motion switches immediately and disables automatic rotation. The shared browser animation clock waits for the nominal fade duration, then counts eight viewing seconds; progress and automatic advancement use the same clock.
+
+Pointer selection resets the clock without stopping a running slideshow. Explicit pause survives arrow/swipe/pool selection. Hover does not pause. Keyboard focus within the carousel and arrow/Home/End shortcuts pause until explicit resume, while focus on the outer About anchor no longer stops rotation. Offscreen and hidden-document suspension remain supported. The hero now uses an unframed 44px icon control with a translated accessible name and tooltip; existing video pause, reduced-motion and poster fallback behavior remains intact.
+
+Validation:
+
+- Final TypeScript/production build passed; all 77 unit tests passed. The main bundle is 499.54 kB (158.02 kB gzip). Existing Zod/Rollup annotation warnings remain non-blocking.
+- Initial full browser regression: 78 passed, two expected desktop skips, two failures caused by a newly written test expecting `Gym` instead of the existing `Gym floor` translation. Corrected that assertion; the next homepage/motion run passed 13 cases with one expected desktop touch skip.
+- After final image decoding and settled-animation handling, reran homepage content, navigation, autoplay and motion suites: 21 passed, one expected desktop touch skip. No unresolved test failures remain. Unrelated account, purchase, training and theme workflows passed in the full run and were not repeated after the final gallery-only adjustment.
+- Browser tests cover mid-fade opacity, preservation of partially visible layers on rapid navigation, removal of completed layers, progress timing/freeze/reset, hover, pointer selection, pool selection, manual/keyboard/offscreen pauses, About anchor focus, swipe scrolling, RU/EN, reduced motion and 320px reflow. Hero tests verify the icon-only control, translated labels, minimum hit area and actual pause/resume behavior.
+- Visually inspected final desktop/mobile gallery and hero screenshots, plus 320px RU/turquoise and EN/orange gallery layouts in the in-app browser. Reset viewport/theme/language after review. Final desktop/mobile photo-dissolve screenshots show the actual pool image and elapsed-time line. Screenshots remain in ignored `frontend/test-results/` and may be replaced by future test runs.
+
+README remains unchanged at the user's request. No backend, database, original diagram, source-photo, payment-processing or deployment changes were made. Local review preview: `http://127.0.0.1:4175/#club`.
