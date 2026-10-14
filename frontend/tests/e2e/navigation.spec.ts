@@ -2,11 +2,13 @@ import { expect, test } from '@playwright/test'
 
 test('home anchors work across routes, on reload and with keyboard focus', async ({ page }) => {
   await page.goto('/plans')
+  await expect(page.getByRole('banner').getByRole('link', { name: 'Контакты', exact: true })).toHaveCount(0)
   async function follow(label: string) {
     const toggle = page.getByRole('button', { name: 'Открыть меню' })
     const mobile = await toggle.isVisible()
     if (mobile) await toggle.click()
     const navigation = page.getByRole('navigation', { name: mobile ? 'Мобильная навигация' : 'Основная навигация' })
+    await expect(navigation.getByRole('link', { name: 'Контакты', exact: true })).toHaveCount(0)
     await navigation.getByRole('link', { name: label, exact: true }).focus()
     await page.keyboard.press('Enter')
   }
@@ -19,7 +21,7 @@ test('home anchors work across routes, on reload and with keyboard focus', async
   await next.press('ArrowRight')
   await expect(page.locator('.space-current-title')).toHaveText('Бассейн')
   await expect(page.locator('.space-copy')).toContainText('Крытый бассейн и открытая часть — в одной водной зоне.')
-  await follow('Контакты')
+  await page.goto('/#contacts')
   await expect(page.locator('#contacts')).toBeFocused()
   const rect = await page.locator('#contacts').boundingBox()
   const header = await page.locator('header').boundingBox()

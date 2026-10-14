@@ -44,8 +44,7 @@ export const homeCopy = {
     "plansIntro": "Выберите формат и зоны. Срок, дата и стоимость — на следующем шаге.",
     "training": "Занятия с тренером",
     "price": "За весь срок",
-    "group": "Групповые",
-    "individual": "Групповые и индивидуальные",
+    "individual": "Персональные тренировки",
     "month1": "1 месяц",
     "month3": "3 месяца",
     "month12": "12 месяцев",
@@ -143,8 +142,7 @@ export const homeCopy = {
     "plansIntro": "Choose your format and zones. Review the term, date and price next.",
     "training": "Coached training",
     "price": "Full-term price",
-    "group": "Group sessions",
-    "individual": "Group and individual sessions",
+    "individual": "Personal training",
     "month1": "1 month",
     "month3": "3 months",
     "month12": "12 months",
@@ -208,18 +206,18 @@ export const facilityImages = {
   },
   "cardio": {
     "src": "/images/club/cardio.webp",
-    "width": 6720,
-    "height": 4480
+    "width": 1920,
+    "height": 1280
   },
   "pool": {
     "src": "/images/club/pool-inside.webp",
-    "width": 5626,
-    "height": 4219
+    "width": 1920,
+    "height": 1440
   },
   "poolOutside": {
     "src": "/images/club/pool-outside.webp",
-    "width": 3456,
-    "height": 4608
+    "width": 1440,
+    "height": 1920
   },
   "changing": {
     "src": "/images/design/changing-room.jpg",
@@ -228,5 +226,4 @@ export const facilityImages = {
   }
 } as const
 
-export const heroImage = '/images/home/hero-gym.webp'
 export type HomeLocale = keyof typeof homeCopy

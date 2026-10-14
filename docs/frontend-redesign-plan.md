@@ -1,5 +1,7 @@
 # Frontend Redesign Plan
 
+> **Historical research, superseded.** This document records the 1 October 2026 design. Its FORMA branding, all-zone products, navigation and implementation sequence are not current requirements. Use the [root README](../README.md) for the approved NORTHSIDE design, business rules and remaining roadmap. Retained as research history only.
+
 Prepared on 1 October 2026. Status: **shared design rollout completed** across existing public, authentication and client-account routes. The five-color palette and minimal direction are approved. The user selected separate membership cards and authorized a free-first-visit block with shared access to all zones. The reviewed homepage is served at `/` and the compatibility address `/design-preview`.
 
 ## 1. Objective and boundaries

@@ -1,4 +1,54 @@
+# NORTHSIDE Database Plan — Simplified Coursework Release
+
+**11 October 2026.** The user delegated product decisions and requested a smaller release. The policies below replace the earlier unapproved package proposals. The [specification](../project-specification.md) defines the selected scope; diagrams and the original 18-table baseline remain unchanged.
+
+## Implemented and planned
+
+Migrations through `0005_personal_training` implement **30 application tables**, excluding `alembic_version`. Email delivery/verification/recovery is disabled for this release; existing unused token tables remain. No SMTP setup is needed.
+
+The seven additions to the original implemented 23-table slice are `trainer_profiles`, `training_offers`, `training_credits`, `training_slots`, `bookings`, `guest_visit_requests` and `guest_visit_zones`. No `training_packages` table is used. The original 18-table baseline below is historical.
+
+First-visit review reads existing application, account, membership, pass and booking records in one consistent snapshot. It matches normalized phones without merging identities, and counts only used passes/visits and attended training as evidence. Training cart edits retain the existing item ID and validate cart version and current offer price/revision. These UI/read-model additions require no migration.
+
+## Candidate business rules
+
+The heading anchor is retained for existing links; these policies are now selected, not awaiting approval.
+
+| Decision | Selected minimum |
+| --- | --- |
+| P1 — Products | One 60-minute personal session per line; no bundles or expiry. Initial illustrative price: 30 BYN in either zone, editable for future sales. |
+| P2 — Trainer and zone | One zone per paid unit; any available matching-zone trainer. Booking requires a non-cancelled membership covering the entire session and zone. |
+| P3 — Purchase | Reuse the existing cart/order/simulated payment flow, allowing mixed access/training lines with the existing 12-line limit. Issue one training unit per paid training line. Buy first, select a slot afterwards; no time holds. |
+| P4 — Accounting | Pending/approved bookings reserve a unit. Attendance or approved-session no-show consumes it. Rejection, timely client cancellation or club cancellation releases it. Clients cancel at least 12 hours before start; late self-cancellation is blocked. No exception/refund engine. |
+| P5 — Membership | Units do not expire or pause. Membership expiry does not consume them; another qualifying membership is needed to book. No paid-membership cancellation or manual free grants in this release. |
+
+## Administration and visits
+
+- Create the first administrator through a local command. Use basic user/trainer/offer forms and read-only order/payment/access lists; keep simple discount/rate forms.
+- Deactivating a client/trainer releases future bookings and reserved units transactionally; trainer deactivation cancels future slots. Preserve history.
+- A paid single-visit pass can be redeemed once by an administrator on its valid Minsk date. Purchase does not redeem it.
+- First visit: name/phone, manual administrator eligibility check, date/zones, confirmation and one-time use. One pending/confirmed request per normalized phone; used claims block another free visit, rejected/cancelled requests allow reapplication. No identity resolution or automatic phone messaging.
+- Notifications stay in the site. Email is not an authorization condition; addresses remain unverified. Password hashes, sessions and server-side role/ownership checks remain mandatory.
+
+## Delivery order
+
+1. Disable email-dependent actions and prompts, preserving auth security and data.
+2. Administrator tools, first-visit storage and paid-pass redemption.
+3. Single-session sales, trainer slots and transactional bookings.
+4. Access-offer JSON/XML/CSV exchange, one sales report in DOCX/XLSX/PDF, four SQL summaries and focused end-to-end verification.
+
+See [physical design](schema-design-details.md#revision-2-candidate) and [actual implementation status](../implementation-status.md). The linked status distinguishes implemented features from remaining acceptance work.
+
+---
+
+## Preserved 18-table baseline — historical only
+
+The original text below is retained for traceability. Its older email, group-training, package, renewal and overlap rules do not override the selected release above. The historical PDF is unchanged.
+
+<!-- preserved-baseline-start -->
 # Краткая схема базы данных фитнес-клуба
+
+> **Baseline requiring revision.** This 18-table proposal and its PDF are historical design materials. The [root README](../../README.md#3-functional-scope-and-agreed-rules) defines current zone-based overlap, selected dates, single visits and first-visit requirements. Reconcile those rules before schema approval; this document does not authorize migrations or seeds.
 
 Версия для согласования, 30.09.2026. Четыре страницы в [печатной версии PDF](schema-proposal.pdf). Полные атрибуты, индексы, ограничения и технические варианты сохранены в [подробной спецификации](schema-design-details.md). Миграции и приложение пока не создаются.
 
@@ -98,8 +148,9 @@ PostgreSQL хранит пользователей, тарифы и оплаче
 
 ## 5. Графические материалы
 
-- [ER Diagram, Crow's Foot](../diagrams/er-diagram.svg): 18 сущностей, атрибуты, PK/FK и основные связи. [Исходник](../diagrams/er-diagram.drawio) содержит также второй лист — [служебные FK исполнителей](../diagrams/er-service-relations.svg).
-- Алгоритм записи: [лист 1](../diagrams/booking-algorithm.svg), [лист 2 — решение](../diagrams/booking-algorithm-review.svg), [общий исходник draw.io](../diagrams/booking-algorithm.drawio).
+- Original detailed ER baseline: [PNG](../diagrams/er-diagram.png), [editable draw.io](../diagrams/er-diagram.drawio).
+- Training-booking algorithm: [PNG](../diagrams/fitness_club_algorithm.png), [editable draw.io](../diagrams/fitness_club_algorithm.drawio).
+- Conceptual Chen ER view: [PNG](../diagrams/fitness_club_chen.png), [editable draw.io](../diagrams/fitness_club_chen.drawio).
 - [Use Case Diagram](../diagrams/use-case-diagram.png) — неизменённое изображение предыдущей курсовой; редактируемого исходника в проекте нет.
 
-Описания и результаты проверки — в [индексе диаграмм](../diagrams/README.md). До миграций графические материалы и схема подлежат согласованию.
+The [current diagram inventory](../../README.md#6-database-design-and-preserved-diagrams) replaces the obsolete diagram README. Diagram sources and images remain unchanged. Schema approval is required before migrations and seed data.

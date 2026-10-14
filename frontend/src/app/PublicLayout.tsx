@@ -12,11 +12,12 @@ import { useLogout, useSession } from '@/features/auth/session'
 import { useCart } from '@/features/commerce/hooks'
 import { useCommerceCopy } from '@/features/commerce/copy'
 
-const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/schedule', 'schedule'], ['/#contacts', 'contacts']] as const
+const links = [['/#club', 'about'], ['/plans', 'plans'], ['/trainers', 'trainers'], ['/schedule', 'schedule']] as const
 const pageTitles: Record<string, string> = {
   '/': 'home.pageTitle', '/design-preview': 'home.pageTitle', '/plans': 'nav.plans', '/trainers': 'nav.trainers',
   '/schedule': 'nav.schedule', '/account/bookings': 'account.bookings', '/account/notifications': 'account.notifications', '/recover': 'auth.recovery',
-  '/login': 'auth.login', '/register': 'auth.register',
+  '/training': 'plans.trainingLink', '/admin': 'nav.account', '/trainer': 'nav.account', '/login': 'auth.login', '/register': 'auth.register',
+  '/verify-email': 'email.verifyTitle', '/reset-password': 'email.resetTitle',
   '/account': 'nav.account', '/account/profile': 'profile.title', '/account/memberships': 'account.memberships',
 }
 
@@ -96,7 +97,7 @@ export function PublicLayout() {
             {user ? <div className="hidden items-center gap-4 sm:flex">
               {user.role === 'CLIENT'
                 ? <Link to="/account" className="site-link">{t('nav.account')}</Link>
-                : <span className="max-w-28 truncate text-sm">{user.first_name}</span>}
+                : <Link to={user.role === 'ADMIN' ? '/admin' : '/trainer'} className="site-link">{t('nav.account')}</Link>}
               <Button variant="ghost" onClick={signOut} disabled={logout.isPending}>{t('auth.logout')}</Button>
             </div> : <div className="hidden sm:block"><Link className="site-link" to="/login">{t('nav.login')}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>}
             <Button ref={menuButton} variant="ghost" size="icon" className="xl:hidden"
@@ -107,7 +108,7 @@ export function PublicLayout() {
         {open && <nav id="mobile-menu" className="container-shell flex max-h-[70dvh] flex-col overflow-y-auto pb-4 xl:hidden" aria-label={t('nav.mobile')}>
           {navLinks(true)}
           {user ? <>
-            {user.role === 'CLIENT' && <Link to="/account" className="site-link border-t border-border py-3" onClick={() => setOpen(false)}>{t('nav.account')}</Link>}
+            {<Link to={user.role === 'CLIENT' ? '/account' : user.role === 'ADMIN' ? '/admin' : '/trainer'} className="site-link border-t border-border py-3" onClick={() => setOpen(false)}>{t('nav.account')}</Link>}
             <Button variant="outline" className="mt-2 self-start" disabled={logout.isPending} onClick={signOut}>{t('auth.logout')}</Button>
           </> : <Link className="site-link border-t border-border py-3" to="/login" onClick={() => setOpen(false)}>{t('nav.login')}</Link>}
         </nav>}

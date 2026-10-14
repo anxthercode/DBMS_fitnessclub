@@ -2,13 +2,13 @@ import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { ArrowUp, ArrowUpRight } from 'lucide-react'
-import { api } from '@/api'
+import { api, isMock } from '@/api'
 import { Brand } from './brand'
 import './club-footer.css'
 
 export function ClubFooter({ links }: { links: ReadonlyArray<readonly [string, string]> }) {
   const { t } = useTranslation()
-  const club = useQuery({ queryKey: ['club'], queryFn: api.club })
+  const club = useQuery({ queryKey: ['club'], queryFn: api.club, enabled: isMock })
   return <footer id="contacts" tabIndex={-1} className="site-footer" aria-labelledby="footer-contact-heading">
     <div className="container-shell">
       <div className="footer-grid">

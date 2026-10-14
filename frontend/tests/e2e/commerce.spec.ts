@@ -69,7 +69,7 @@ test('guest selection, editing, promo validation, converted order, failure/retry
   expect(errors).toEqual([])
 })
 
-test('single visit survives registration, demo verification, removal and successful purchase', async ({ page }, testInfo) => {
+test('single visit survives registration without verification, removal and successful purchase', async ({ page }, testInfo) => {
   await page.goto('/cart')
   await expect(page.getByRole('heading', { name: 'В корзине пока пусто' })).toBeVisible()
   await page.getByRole('link', { name: /Выбрать посещение/ }).click()
@@ -87,8 +87,7 @@ test('single visit survives registration, demo verification, removal and success
   await page.getByLabel('Повторите пароль').fill('NewTest123!')
   await page.getByRole('button', { name: 'Создать аккаунт', exact: true }).click()
   await expect(page).toHaveURL(/\/cart$/)
-  await expect(page.getByRole('button', { name: 'Создать заказ и перейти к оплате' })).toBeDisabled()
-  await page.getByRole('button', { name: 'Имитировать подтверждение email' }).click()
+  await expect(page.getByRole('button', { name: 'Создать заказ и перейти к оплате' })).toBeEnabled()
   await page.getByRole('button', { name: 'Создать заказ и перейти к оплате' }).click()
   await page.getByRole('button', { name: 'Оплатить в деморежиме' }).click()
   await page.getByRole('link', { name: 'Купленный доступ 1' }).click()

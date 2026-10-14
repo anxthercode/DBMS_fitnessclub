@@ -87,7 +87,7 @@ export function MembershipsPage() {
                 </dl>
                 {item.cancelled_at && <p className="mt-4 text-xs text-muted-foreground">{t('account.cancelledAt', { date: date(item.cancelled_at, i18n.language, dateOptions) })}</p>}
                 <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs leading-6 text-muted-foreground">
-                  {['unlimited', ...(item.allows_group ? ['group'] : []), ...(item.allows_individual ? ['individual'] : [])].map(key => <li key={key} className="flex items-center gap-2"><Check className="size-3.5 shrink-0" />{t('plans.' + key)}</li>)}
+                  {['unlimited'].map(key => <li key={key} className="flex items-center gap-2"><Check className="size-3.5 shrink-0" />{t('plans.' + key)}</li>)}
                 </ul>
               </article>
             )

@@ -11,9 +11,9 @@ export type AccessOfferPreview = {
   zones: 'gym' | 'pool' | 'both'
   price_byn: Money
 } & ({ format: 'membership'; months: 1 | 3 | 12 } | { format: 'single_visit'; months: null })
-export interface User { id: Id; email: string; role: Role; first_name: string; last_name: string; phone: string | null; locale: Locale; is_active: boolean; email_verified_at: string | null }
+export interface User { email_delivery?: 'sent' | 'failed'; id: Id; email: string; role: Role; first_name: string; last_name: string; phone: string | null; locale: Locale; is_active: boolean; email_verified_at: string | null }
 export interface Trainer { user_id: Id; first_name: string; last_name: string; name_ru: string; name_en: string; experience_years: number; specialization_ru: string; specialization_en: string; bio_ru: string; bio_en: string; education_ru?: string; education_en?: string }
-export interface Plan { id: Id; code: string; name_ru: string; name_en: string; description_ru: string; description_en: string; duration_months: 1 | 3 | 12; price_byn: Money; allows_individual: boolean; allows_group: boolean; is_active: boolean; is_featured?: boolean }
+export interface Plan { id: Id; code: string; name_ru: string; name_en: string; description_ru: string; description_en: string; duration_months: 1 | 3 | 12; price_byn: Money; is_active: boolean; is_featured?: boolean }
 export interface ClubContent {
   image: string
   location_ru: string
@@ -22,8 +22,8 @@ export interface ClubContent {
   zones: { id: 'gym' | 'cardio' | 'aquatics'; title_ru: string; title_en: string; description_ru: string; description_en: string }[]
   amenities: { title_ru: string; title_en: string; description_ru: string; description_en: string }
 }
-export interface Slot { zone: 'gym' | 'pool'; id: Id; trainer_id: Id; title_ru: string; title_en: string; training_type: 'individual' | 'group'; starts_at: string; ends_at: string; capacity: number; status: 'scheduled' | 'cancelled' | 'completed'; reserved_count: number; trainer_name: string }
-export interface Membership { id: Id; client_id: Id; starts_at: string; ends_at: string; cancelled_at: string | null; plan_name_ru: string; plan_name_en: string; allows_individual: boolean; allows_group: boolean; zones?: 'gym' | 'pool' | 'both'; order_id?: Id }
+export interface Slot { zone: 'gym' | 'pool'; id: Id; trainer_id: Id; title_ru: string; title_en: string; training_type: 'individual'; starts_at: string; ends_at: string; capacity: 1; status: 'scheduled' | 'cancelled' | 'completed'; reserved_count: number; trainer_name: string }
+export interface Membership { id: Id; client_id: Id; starts_at: string; ends_at: string; cancelled_at: string | null; plan_name_ru: string; plan_name_en: string; zones?: 'gym' | 'pool' | 'both'; order_id?: Id }
 export interface Booking { id: Id; membership_id: Id; training_slot_id: Id; status: BookingStatus; created_at: string; client_name: string; slot: Slot; requires_attention: boolean; reason: string | null }
 export interface Notification { target?: { kind: 'booking' | 'order'; id: Id }; id: Id; recipient_user_id: Id; title_ru: string; title_en: string; body_ru: string; body_en: string; created_at: string; read_at: string | null }
 export interface Discount { id: Id; code: string; kind: 'percent' | 'fixed'; value: string; is_active: boolean }
@@ -31,7 +31,7 @@ export interface ExchangeRate { id: Id; currency: 'USD' | 'EUR'; byn_per_unit: s
 export interface Analytics { revenue_byn: Money; active_memberships: number; clients: number; attendance: number; weeks: { label: string; revenue_byn: Money }[] }
 export interface LoginInput { email: string; password: string }
 export interface RegisterInput extends LoginInput { first_name: string; last_name: string; locale: Locale }
-export interface SlotInput { zone: 'gym' | 'pool'; title_ru: string; title_en: string; training_type: Slot['training_type']; starts_at: string; ends_at: string; capacity: number }
+export interface SlotInput { zone: 'gym' | 'pool'; title_ru: string; title_en: string; training_type: Slot['training_type']; starts_at: string; ends_at: string; capacity: 1 }
 export interface BookingDecision { status: Exclude<BookingStatus, 'pending'>; reason?: string }
 export interface BookingEligibility { eligible: boolean; code: string | null; membership_id: Id | null }
 export interface ClubApi extends CommerceApi {

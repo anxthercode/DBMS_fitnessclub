@@ -127,6 +127,8 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const suffix = nextParams.size ? '?' + nextParams.toString() : ''
   const isRegister = mode === 'register'
 
+  if (session.data?.role === 'ADMIN') return <Navigate to='/admin' replace />
+  if (session.data?.role === 'TRAINER') return <Navigate to='/trainer' replace />
   if (session.data?.role === 'CLIENT') return <Navigate to={destination} replace />
 
   return (
@@ -148,7 +150,6 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               </div>
             ) : <>
               {isRegister ? <RegisterForm /> : <LoginForm />}
-              {!isRegister && <Link className="underline inline-flex min-h-11 items-center mt-4" to={'/recover?redirect=' + encodeURIComponent(destination)}>{copy.recoveryLink}</Link>}
               <p className="mt-6 text-center text-sm leading-7 text-muted-foreground">{t(isRegister ? 'auth.haveAccount' : 'auth.noAccount')}{' '}
                 <Link to={(isRegister ? '/login' : '/register') + suffix} className="font-semibold text-foreground underline underline-offset-4">{t(isRegister ? 'nav.login' : 'auth.create')}</Link>
               </p>

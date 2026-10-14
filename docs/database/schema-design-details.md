@@ -1,8 +1,83 @@
+# NORTHSIDE PostgreSQL Design — Simplified Coursework Release
+
+<a id="revision-2-candidate"></a>
+
+**11 October 2026.** The user delegated the simplified decisions recorded in the [specification](../project-specification.md) and [P1–P5](schema-proposal.md#candidate-business-rules). This replaces the previous package candidate. Existing migration SQL describes implemented columns; the additions below are implemented through `0005_personal_training`. No diagram or historical 18-table baseline is changed.
+
+## Implemented physical slice
+
+| Migration | Tables |
+| --- | --- |
+| `0001_access_catalogue` | `zones`, `access_offers`, `access_offer_zones` |
+| `0002_auth` | `users`, `auth_sessions`, `email_verification_tokens`, `password_reset_tokens`, `auth_throttles`, `audit_logs` |
+| `0003_access_commerce` | `carts`, `cart_items`, `cart_item_zones`, `cart_requests`, `discounts`, `exchange_rates`, `orders`, `order_items`, `order_item_zones`, `payments`, `memberships`, `membership_issuances`, `single_visit_passes`, `notifications` |
+| `0004_staff_visits` | `trainer_profiles`, `guest_visit_requests`, `guest_visit_zones` |
+| `0005_personal_training` | `training_offers`, `training_credits`, `training_slots`, `bookings` |
+
+**30 application tables**, excluding `alembic_version`. Passwords use Argon2id; session/token values are hashed. Guest carts use hashed cookies, merge at sign-in and preserve idempotency. Access orders snapshot money/zones/dates, retain failed attempts and issue access once after payment. Client locks protect common-zone membership overlap. Existing constraints and history-protection triggers remain.
+
+Email is deferred: delivery calls, verification/recovery endpoints and purchase/booking verification gates are disabled. Keep `email_verified_at` truthful and retain token tables. Do not weaken password hashing, ownership, roles, CSRF protection or session revocation. A local password-reset command can replace forgotten passwords and revoke sessions without SMTP.
+
+## Implemented additions
+
+Reuse identity keys, foreign keys, NOT NULL/CHECK/UNIQUE constraints, indexes, bound SQL and the shared asyncpg pool. Money stays NUMERIC and timestamps TIMESTAMPTZ, interpreted in Europe/Minsk. No ORM or background infrastructure.
+
+| Table | Minimum purpose and constraints |
+| --- | --- |
+| `trainer_profiles` | Unique user FK, zone specialization, experience, RU/EN specialization/biography/education. TRAINER role enforced by staff service; no portrait assignment. |
+| `training_offers` | Unique zone FK, price, revision, active flag. One 60-minute session, initially 30 BYN. No package size/validity/category fields. |
+| `training_credits` | Client FK, unique paid order-item FK and nullable consumption timestamp. Zone/duration and issuance provenance come from the immutable order/payment snapshot. No expiry or mutable balance counter. |
+| `training_slots` | Trainer-profile FK, checked gym/pool zone code, RU/EN title, start/end and scheduled/cancelled/completed state. CHECK enforces 60 minutes; GiST excludes trainer overlaps. Capacity one. |
+| `bookings` | Membership, paid-credit and slot FKs; client derived from membership. Status, reason, created/decision timestamps and decision actor. Partial unique indexes prevent multiple active/consumed assignments per credit and slot. |
+| `guest_visit_requests` | Name, normalized phone, pending/confirmed/rejected/cancelled/used status, nullable agreed date, decision/use actor and time. One pending/confirmed request per phone; at most one used claim per phone. Phone is a review aid, not proof of identity. |
+| `guest_visit_zones` | Composite request/zone key and FKs. Confirmation service writes the required zones in the decision transaction. |
+
+Implemented: **30 tables**, including the earlier 23; no `training_packages`. Preserve cancelled/rejected bookings and visit decisions in existing audit logs, without a second event/history framework.
+
+## Extend the existing purchase flow
+
+Allow exactly one access-offer or training-offer FK on each cart/order line. Access lines retain selected date and membership/pass conditions. Training lines have no selected date, snapshot one 60-minute session and one zone, and issue exactly one `training_credits` row after success. Reuse price/version checks, discount/rate snapshots, idempotency, failed attempts, payment uniqueness and deferred completion checks; extend the latter to validate training issuance. Maximum 12 mixed lines. Do not modify historical orders or auto-book on payment.
+
+## Booking transactions
+
+- Lock the client, slot and selected credit in a consistent order. Recheck active users, future slot, matching zone, covering membership and unit availability before inserting a pending request. Partial unique indexes prevent double allocation; serialized staff/booking transactions prevent overlapping active bookings across memberships/trainers/zones.
+- Trainer slot overlap uses a GiST exclusion constraint over `int8range(trainer_id,trainer_id,'[]')` and `tstzrange(starts_at,ends_at,'[)')`, without an extra extension; periods are half-open. Check trainer role/ownership and serialize slot changes with trainer deactivation.
+- Pending/approved states reserve the unit. Attended/no_show consume it; rejected/cancelled release it. Only approved sessions can become attended/no_show after their end. Release does not expire the unit or change its purchase history.
+- Client cancellation is allowed at or before exactly 12 hours before start. Later self-cancellation is rejected. Trainer/admin club cancellation releases the unit; no late-fee or discretionary refund subsystem. Terminal states cannot be overwritten.
+- Overdue pending requests are manually rejected by the trainer/admin; never approve past sessions or charge an unapproved no-show. No scheduler is needed.
+- Deactivation cancels future pending/approved bookings and releases units atomically; trainer deactivation also cancels future slots. Reactivation does not restore them. Paid memberships remain historical records, without a cancellation editor.
+- Write an owned in-app notification and audit record with each decision. Preserve financial/attendance history and enforce ownership server-side.
+
+## Administrator visit-history read model
+
+`GET /api/v1/admin/first-visits/{id}` is ADMIN-only and reads a repeatable-read snapshot. It returns the application, phone-matched accounts and expandable history entries from prior applications, paid passes, issued memberships and bookings. National Belarusian `80...` notation is normalized to `375...` for comparison. No password/session fields are returned.
+
+Each entry has its source kind/ID, person, status, dates and zones, with order/account IDs and staff/trainer names where applicable. Only `used` passes/first visits and `attended` training set `attendance_evidence=true`; membership purchases, pending bookings and `no_show` never do. Phone matches remain hints, not identity joins. The current application is displayed separately, and manual eligibility confirmation is still required. No new tables or schema migration are introduced.
+
+Training zone editing uses the existing cart-item update with item ID, cart version, expected price/revision and idempotency key; paid snapshots remain immutable.
+
+## Visits, outputs and verification
+
+Redeem a paid unused pass once on its valid Minsk date using a conditional update in a transaction; record administrator/time. First-visit confirmation sets date/zones after manual eligibility review. Redemption requires confirmed status and the agreed date. Serialize same-phone application/use operations; reject active/used duplicates without exposing another person's records. Reapplication after rejection/cancellation is allowed; missed confirmations are closed manually.
+
+Only access-offer data is exchanged through JSON/XML/CSV, with validation and atomic import. Generate one date-filtered sales dataset in DOCX/XLSX/PDF. Four plain SQL summaries cover sales, attendance, access-offer popularity and trainer occupancy. No arbitrary database import, generic reporting system or additional analytical storage.
+
+Test role/ownership denial, double redemption, duplicate payments/credits, last-slot races, membership/zone mismatch, overlap, cancellation boundaries, deactivation and immutable history as these features are implemented. See [actual verification](../implementation-status.md); remaining acceptance work is listed there explicitly.
+
+---
+
+## Preserved 18-table baseline — historical only
+
+The original specification below remains verbatim. Its superseded business rules, table list and embedded ER source are historical, not implementation instructions for the selected release.
+
+<!-- preserved-baseline-start -->
 # PostgreSQL Schema Design Details — Version 1
+
+> **Baseline requiring revision.** Preserve this draft's attributes, indexes, constraints and transaction details for the schema review. The [root README](../../README.md#3-functional-scope-and-agreed-rules) supersedes its older membership-only purchases, automatic date sequencing and blanket membership-overlap prohibition. Zones, single visits and first-visit handling are not fully designed here. No migrations or seeds are approved.
 
 Статус: **проект на согласование, не разрешение на создание миграций**.
 
-Подробная спецификация сохранена из прежнего `schema-proposal.md`. [Краткая версия](schema-proposal.md) содержит обзор; [исходная ER-диаграмма Crow's Foot](../diagrams/er-diagram.png) и [редактируемый источник](../diagrams/er-diagram.drawio) показывают те же 18 сущностей. Уточнение от 30.09.2026: клиент не может иметь пересекающиеся активные бронирования (`pending`/`approved`); эта проверка добавлена в существующий транзакционный протокол без новых таблиц или колонок. По последующему запросу пользователя создан отдельный [файл в нотации Питера Чена](../diagrams/diagram_chen.drawio): 18 сущностей, все 29 связей и атрибуты соединены на одном листе, без изменения схемы базы данных. Обозначения и экспорты описаны в [указателе диаграмм](../diagrams/README.md#peter-chen-diagram).
+The detailed specification was preserved from the earlier `schema-proposal.md`; the [concise proposal](schema-proposal.md) provides an overview. The original 18-table ER baseline remains available as [PNG](../diagrams/er-diagram.png) and [editable draw.io](../diagrams/er-diagram.drawio). The 30 September clarification prohibits overlapping active client bookings (`pending`/`approved`) across memberships, using the existing transaction protocol without new tables or columns. The retained [conceptual Chen source](../diagrams/fitness_club_chen.drawio) and [PNG](../diagrams/fitness_club_chen.png) are a simplified conceptual view, not the former exhaustive 18-entity export. The [current diagram inventory](../../README.md#6-database-design-and-preserved-diagrams) lists the files that actually exist. No diagram or physical schema was changed by the documentation cleanup.
 
 Основание: корневые `README.md`, `AGENTS.md` и утверждённые пользователем бизнес-правила первой версии. Стек остаётся прежним: PostgreSQL, asyncpg, Alembic с ручным SQL, FastAPI/Pydantic, React/TypeScript/Vite; модульный монолит. Этот документ описывает модель, но не создаёт БД, SQL-миграции или код приложения.
 

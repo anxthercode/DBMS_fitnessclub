@@ -1,37 +1,22 @@
-# Codex Instructions — Fitness Club Management Information System
+# Project instructions
 
-Read the root `README.md` before starting. It is the source of truth for scope, constraints, architecture and milestones. This file describes how to implement that plan. Ask the user before resolving material ambiguities or changing an agreed decision.
+Read `README.md` first and the relevant rules in `docs/project-specification.md`. Ask before changing an agreed decision or resolving material product ambiguity.
 
-## Stack and Architecture
+## Implementation
 
-- Build a **three-tier modular monolith**: one React frontend, one FastAPI backend and one PostgreSQL database.
-- Frontend: **React + TypeScript + Vite**. Introduce the additional libraries listed in README only when their features are needed.
-- Backend: **Python + FastAPI + Pydantic v2**, using asynchronous database operations.
-- Database: **PostgreSQL + asyncpg**. Write SQL explicitly. **Do not use an ORM**, including SQLAlchemy ORM, Django ORM or Prisma.
-- Migrations: use **Alembic with manually written SQL** (`op.execute`), without ORM models or model-driven schema generation. Alembic is for schema migrations only; application queries use `asyncpg`. If the instructor disallows SQLAlchemy even as an Alembic dependency, ask before switching to numbered `.sql` migrations.
-- Do not introduce Django, a ready-made CRM, microservices, Next.js, Docker, Redis, Celery, other infrastructure, or a prohibited DBMS without approval.
+- Use React/TypeScript/Vite, FastAPI/Pydantic v2 and PostgreSQL/asyncpg as one three-tier modular monolith. No ORM, Django, CRM, Next.js, microservices, alternative DBMS or new infrastructure (including Docker/Redis/Celery) without approval.
+- Alembic executes manual SQL via `op.execute`; SQLAlchemy is only its migration dependency. Ask before replacing Alembic if that dependency is disallowed. Add optional libraries only when needed.
+- Backend features: auth, users, trainers, memberships, schedule, bookings, cart, orders, payments, notifications, reports. Separate router, schemas, service and repository; keep abstractions small.
+- Share one asyncpg pool through the application lifespan. Bind SQL values; allowlist dynamic identifiers and sort directions.
+- Enforce PK/FK, UNIQUE, CHECK, NOT NULL and indexes. Use transactions for concurrent purchases, approvals, redemption and booking; prevent overlapping trainer slots and active client bookings across all memberships.
+- Enforce roles and ownership server-side, hash passwords securely (Argon2), and keep secrets in ignored environment files with safe examples. Preserve audit and financial history.
+- Implement the simplified coursework scope in the specification: three roles, cart, simulated payments, in-app notifications, discounts/currencies, RU/EN and limited exchange/reports/SQL analytics. Email delivery/verification/recovery is deferred. No real charges or coursework report unless requested.
 
-## Code Organization and Database Rules
+## Working agreement
 
-- Organize the backend by feature: `auth`, `users`, `trainers`, `memberships`, `schedule`, `bookings`, `cart`, `orders`, `payments`, `notifications`, `reports`.
-- Within each module, separate `router.py` (HTTP endpoints), `schemas.py` (Pydantic models), `service.py` (business logic) and `repository.py` (SQL). Keep abstractions minimal.
-- Create and close one shared `asyncpg` connection pool in the FastAPI application lifespan.
-- Use bound parameters (`$1`, `$2`, etc.) for SQL values. Never interpolate untrusted values with f-strings or concatenation. Allowlist dynamic column names and sort directions.
-- Enforce data integrity with appropriate PK/FK, UNIQUE, CHECK and NOT NULL constraints, indexes and transactions. Handle concurrent orders, bookings and approvals correctly. Prevent overlapping active client bookings (`pending`/`approved`) across all of the client's memberships, as well as overlapping trainer slots.
-- Check roles and record ownership on the backend. Do not rely on hidden frontend controls for security. Hash passwords securely and keep secrets in environment variables, with a safe `.env.example`.
-
-## Functional Scope
-
-Implement the requirements in `README.md`: three user roles, shopping cart, email, JSON/XML/CSV import and export, Word/Excel/PDF reports, order history, discounts, currency conversion, multilingual UI and analytics. Payment processing is simulated; do not integrate a real bank or charge real funds unless explicitly requested. Do not replace the system with a ready-made CRM. Do not write the coursework report unless requested.
-
-## Working Agreement
-
-1. Before each major milestone, briefly present the proposed steps, affected files and open questions. Do not generate the entire application in one pass.
-2. Before PostgreSQL implementation, prepare three graphical materials: the existing Use Case Diagram, a training-booking algorithm flowchart and an ER Diagram. Keep the concise 18-table proposal in `docs/database/schema-proposal.md` and preserve all attributes, indexes, constraints and transaction details in `docs/database/schema-design-details.md`. Wait for schema approval before creating migrations and seed data. Follow the roadmap in README thereafter.
-3. Make small, verifiable changes. Preserve existing user work; explain any necessary destructive or breaking change before applying it.
-4. Add tests for critical business rules, negative paths, access control and concurrent bookings. Run available tests/checks after changes and report any checks you could not run.
-5. Keep README up to date as the project evolves: real setup commands, PostgreSQL configuration, migrations, tests and environment variables. Never commit passwords, tokens or real `.env` files.
-6. At the end of each milestone, summarize what changed, what was verified and the next suggested step. Do not deploy or perform external actions without explicit user approval.
-7. Preserve `docs/diagrams/old/` unchanged. Reuse the existing Use Case Diagram without redrawing, adding use cases or moving elements; keep additional website requirements in README. If no editable source exists, copy the original image and document that limitation. Save new diagrams in `docs/diagrams/` with editable sources, SVG/PNG exports and brief descriptions. Use Russian diagram labels, English filenames/technical identifiers, and verify actual rendering before claiming success.
-
-**Language:** Write these project instruction files and technical identifiers in English. Communicate with the user in Russian unless asked otherwise. The product UI must support Russian and English.
+- Before each major milestone, state steps, affected files and open questions. Make small, verifiable changes and preserve user work; explain destructive or breaking changes first.
+- On 11 October the user delegated product decisions and authorized scope simplification: follow the README's selected minimum and revised P1–P5; no further policy approval is pending for that scope. Keep both schema documents current and preserve their historical 18-table baseline.
+- Keep every existing diagram and `docs/diagrams/old/` unchanged, including the original Use Case. New diagrams require a separate request, Russian labels, English filenames, editable sources and verified image exports.
+- Test critical rules, failure paths, access control and concurrency as implemented. Run relevant checks and report unverified limitations.
+- Keep README concise with actual status/setup; place detailed requirements in the specification. Never commit credentials. End milestones with changes, verification and next step. No deployment or external actions without authorization.
+- Communicate in Russian; write project instructions and identifiers in English. Product UI supports Russian and English.

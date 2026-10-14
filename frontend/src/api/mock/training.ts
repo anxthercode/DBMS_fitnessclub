@@ -2,7 +2,7 @@ import { ApiError, type Booking, type ClubApi, type Membership, type Notificatio
 import { activeBooking, bookingEligibility, canCancel, intervalsOverlap } from '../booking-rules'
 
 type TrainingMethods = Pick<ClubApi, 'slots' | 'bookings' | 'booking' | 'eligibility' | 'book' | 'decide' | 'demoDecision' | 'createSlot' | 'cancelSlot' | 'notifications' | 'readNotification'>
-interface State { users: User[]; memberships: Membership[]; bookings: Booking[]; slots: Slot[]; notifications: Notification[] }
+interface State { prepaidTrainingClients: string[]; users: User[]; memberships: Membership[]; bookings: Booking[]; slots: Slot[]; notifications: Notification[] }
 interface Context {
   now(): number; nextId(): string; run<T>(fn: () => T): Promise<T>
   asUser<T>(roles: Role[] | undefined, fn: (user: User) => T): Promise<T>
@@ -21,9 +21,8 @@ export function createTraining(data: State, ctx: Context): TrainingMethods {
   const check = (s: Slot, clientId: string, excluded?: string) => {
     const client = data.users.find(u => u.id === clientId && u.is_active)
     if (!client) return { eligible: false, code: 'unauthorized', membership_id: null }
-    if (!client.email_verified_at) return { eligible: false, code: 'verify_email', membership_id: null }
     if (!data.users.find(u => u.id === s.trainer_id && u.is_active)) return { eligible: false, code: 'slot_unavailable', membership_id: null }
-    return bookingEligibility(slotView(s), data.memberships.filter(m => m.client_id === clientId), data.bookings.filter(b => owner(b) === clientId).map(view), ctx.now(), excluded)
+    return bookingEligibility(slotView(s), data.memberships.filter(m => m.client_id === clientId), data.bookings.filter(b => owner(b) === clientId).map(view), ctx.now(), excluded, data.prepaidTrainingClients.includes(clientId))
   }
   const notifyBooking = (b: Booking) => {
     const s = getSlot(b.training_slot_id)
@@ -78,7 +77,7 @@ export function createTraining(data: State, ctx: Context): TrainingMethods {
       return decide(b, input.status, input.status === 'rejected' ? 'demo_rejected' : undefined)
     }),
     createSlot: input => ctx.asUser(['TRAINER'], u => {
-      if (!['gym', 'pool'].includes(input.zone) || !['group', 'individual'].includes(input.training_type) || !input.title_ru.trim() || !input.title_en.trim() || !Number.isFinite(Date.parse(input.starts_at)) || !Number.isFinite(Date.parse(input.ends_at)) || Date.parse(input.starts_at) <= ctx.now() || Date.parse(input.ends_at) <= Date.parse(input.starts_at) || !Number.isInteger(input.capacity) || input.capacity < 1 || (input.training_type === 'individual' && input.capacity !== 1)) fail('invalid_slot')
+      if (!['gym', 'pool'].includes(input.zone) || input.training_type !== 'individual' || !input.title_ru.trim() || !input.title_en.trim() || !Number.isFinite(Date.parse(input.starts_at)) || !Number.isFinite(Date.parse(input.ends_at)) || Date.parse(input.starts_at) <= ctx.now() || Date.parse(input.ends_at) <= Date.parse(input.starts_at) || input.capacity !== 1) fail('invalid_slot')
       if (data.slots.some(s => s.trainer_id === u.id && s.status !== 'cancelled' && intervalsOverlap(s, input))) fail('trainer_overlap', 409)
       const s: Slot = { ...input, id: ctx.nextId(), trainer_id: u.id, trainer_name: u.first_name + ' ' + u.last_name, status: 'scheduled', reserved_count: 0 }
       data.slots.push(s); return s

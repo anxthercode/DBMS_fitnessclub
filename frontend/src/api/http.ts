@@ -1,16 +1,24 @@
 import { ApiError, type ClubApi } from './types'
 const baseUrl = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/$/, '')
-async function request<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
+export async function request<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
   let response: Response
-  try { response = await fetch(`${baseUrl}${path}`, { method, credentials: 'include', headers: body === undefined ? { Accept: 'application/json' } : { Accept: 'application/json', 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15_000) }) }
+  try { response = await fetch(`${baseUrl}${path}`, { method, credentials: 'include', headers: method === 'GET' ? { Accept: 'application/json' } : { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Northside-Request': '1' }, body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(30_000) }) }
   catch { throw new ApiError('network', 0) }
   if (!response.ok) { const error = await response.json().catch(() => ({})) as { code?: string }; throw new ApiError(error.code || 'unknown', response.status) }
   if (response.status === 204) return undefined as T
   return response.json() as Promise<T>
 }
 const id = encodeURIComponent
+export async function download(path: string, filename: string) {
+  const response = await fetch(baseUrl + path, { credentials: 'include', signal: AbortSignal.timeout(60_000) })
+  if (!response.ok) { const error = await response.json().catch(() => ({})) as { code?: string }; throw new ApiError(error.code || 'unknown', response.status) }
+  const url = URL.createObjectURL(await response.blob())
+  const anchor = document.createElement('a')
+  anchor.href = url; anchor.download = filename; anchor.click()
+  setTimeout(() => URL.revokeObjectURL(url), 10_000)
+}
 export const httpApi: ClubApi = {
-  accessOfferPreviews: () => Promise.reject(new ApiError('demo_only')),
+  accessOfferPreviews: () => request('/access-offers/previews'),
   session: async () => { try { return await request('/auth/session') } catch (e) { if (e instanceof ApiError && e.status === 401) return null; throw e } },
   login: body => request('/auth/login', 'POST', body), register: body => request('/auth/register', 'POST', body), logout: () => request('/auth/logout', 'POST'),
   verifyDemoEmail: () => Promise.reject(new ApiError('demo_only')),
@@ -32,4 +40,11 @@ export const httpApi: ClubApi = {
   users: () => request('/users'), setUserActive: (key, is_active) => request(`/users/${id(key)}`, 'PATCH', { is_active }),
   setPlanActive: (key, is_active) => request(`/membership-plans/${id(key)}`, 'PATCH', { is_active }), discounts: () => request('/discounts'), setDiscountActive: (key, is_active) => request(`/discounts/${id(key)}`, 'PATCH', { is_active }),
   rates: () => request('/exchange-rates'), analytics: () => request('/reports/overview'),
+}
+
+export const emailApi = {
+  resend: () => request<void>('/auth/verification-email', 'POST'),
+  verify: (token: string) => request<void>('/auth/verify-email', 'POST', { token }),
+  forgot: (email: string) => request<void>('/auth/forgot-password', 'POST', { email }),
+  reset: (token: string, password: string) => request<void>('/auth/reset-password', 'POST', { token, password }),
 }

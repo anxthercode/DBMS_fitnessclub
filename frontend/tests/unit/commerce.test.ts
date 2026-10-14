@@ -29,14 +29,12 @@ async function checkout(api: ClubApi, currency: 'BYN' | 'USD' | 'EUR' = 'BYN', p
 const pay = (api: ClubApi, id: string, successful = true) => api.pay(id, { successful, idempotency_key: 'pay-' + ++serial })
 
 describe('configured commerce', () => {
-  it('preserves guest choices on registration, requires verification, isolates owners and roles', async () => {
+  it('preserves guest choices on registration, does not require verification, isolates owners and roles', async () => {
     const api = createMockApi({ now: () => now, latency: 0 })
     const guest = await add(api, pass)
     await expect(checkout(api)).rejects.toMatchObject({ code: 'unauthorized' })
     await api.register({ first_name: 'Test', last_name: 'Client', email: 'test@example.test', password: 'Password123!', locale: 'en' })
     expect((await api.cart()).items).toEqual(guest.items)
-    await expect(checkout(api)).rejects.toMatchObject({ code: 'verify_email' })
-    await api.verifyDemoEmail()
     const { order } = await checkout(api)
     await api.logout()
     expect((await api.cart()).items).toEqual([])
@@ -99,11 +97,11 @@ describe('configured commerce', () => {
     await api.refreshCart(cart.version)
     const { order } = await checkout(api, 'USD', 'northside10')
     expect(order).toMatchObject({ subtotal_byn: '100.00', discount_byn: '10.00', total_byn: '90.00', total_currency: '27.69', currency: 'USD' })
-    offer.price_byn = '999.00'; offer.is_active = false; offer.allows_group = false
+    offer.price_byn = '999.00'; offer.is_active = false
     const result = await pay(api, order.id)
     expect(result.items).toEqual(order.items)
     expect(result.total_currency).toBe('27.69')
-    expect((await api.accesses())[0].allows_group).toBe(true)
+    expect((await api.accesses())[0]).not.toHaveProperty('allows_group')
     expect((await api.accesses())[0].product?.price_byn).toBe('100.00')
   })
   it('rejects unavailable offers, old cart versions, invalid promotions and cancelled payment', async () => {

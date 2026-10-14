@@ -11,3 +11,13 @@ playwright-report/
 
 # Local diagram-editor recovery files
 *.drawio.bkp
+
+# Python and local PostgreSQL development state
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.local/

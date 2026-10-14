@@ -23,7 +23,12 @@ const SlotPage = lazy(async () => ({ default: (await import('@/features/training
 const BookingsPage = lazy(async () => ({ default: (await import('@/features/training/BookingsPage')).BookingsPage }))
 const BookingPage = lazy(async () => ({ default: (await import('@/features/training/BookingsPage')).BookingPage }))
 const NotificationsPage = lazy(async () => ({ default: (await import('@/features/training/NotificationsPage')).NotificationsPage }))
-const RecoveryPage = lazy(async () => ({ default: (await import('@/features/auth/RecoveryPage')).RecoveryPage }))
+
+const TrainingShop = lazy(async () => ({ default: (await import('@/features/training/TrainingShop')).TrainingShop }))
+
+const TrainerPage = lazy(async () => ({ default: (await import('@/features/staff/TrainerPage')).TrainerPage }))
+
+const AdminPage = lazy(async () => ({ default: (await import('@/features/staff/AdminPage')).AdminPage }))
 
 function AuthRoute({ mode }: { mode: 'login' | 'register' }) {
   return <Suspense fallback={<Loading />}><AuthPage key={mode} mode={mode} /></Suspense>
@@ -40,7 +45,9 @@ export function App() {
           <Route path="cart" element={<Suspense fallback={<Loading />}><CartPage /></Suspense>} />
           <Route path="schedule" element={<Suspense fallback={<Loading />}><SchedulePage /></Suspense>} />
           <Route path="schedule/:id" element={<Suspense fallback={<Loading />}><SlotPage /></Suspense>} />
-          <Route path="recover" element={<Suspense fallback={<Loading />}><RecoveryPage /></Suspense>} />
+          <Route path="training" element={<Suspense fallback={<Loading />}><TrainingShop /></Suspense>} />
+          <Route path="trainer" element={<Suspense fallback={<Loading />}><TrainerPage /></Suspense>} />
+          <Route path="admin" element={<Suspense fallback={<Loading />}><AdminPage /></Suspense>} />
           <Route path="trainers" element={<TrainersPage />} />
           <Route path="login" element={<AuthRoute mode="login" />} />
           <Route path="register" element={<AuthRoute mode="register" />} />

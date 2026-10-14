@@ -18,13 +18,14 @@ export function ZoneBadges({ zones }: { zones: Zones }) {
 }
 export function ProductDescription({ product }: { product: Product }) {
   const { copy, locale } = useCommerceCopy()
+  if (product.format === 'training') return <div className="product-description"><h2>{locale === 'ru' ? 'Персональная тренировка · 60 минут' : 'Personal training · 60 minutes'}</h2><ZoneBadges zones={product.zones} /><p>{locale === 'ru' ? 'Без срока действия. Время выбирается после оплаты; для записи нужен абонемент на всю тренировку и её зону.' : 'No expiry. Book a time after payment; a membership must cover the entire session and zone.'}</p><p className="product-price">{money(product.price_byn, locale)}</p></div>
   const offer = offerCopy[locale]
   return <div className="product-description">
     <h2>{offer[product.format]}{product.format === 'membership' ? ' · ' + offer['month' + product.months as 'month1'] : ''}</h2>
     <ZoneBadges zones={product.zones} />
     <p>{product.format === 'membership' ? offer.startDate : offer.visitDate}: <time dateTime={product.starts_at}>{date(product.starts_at, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>
     {product.format === 'membership' && <p>{copy.ends}: <time dateTime={product.ends_at}>{date(product.ends_at, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>}
-    <p>{product.format === 'membership' && copy.coaching + ': '}{product.format === 'membership' ? (product.allows_individual ? copy.individual : product.allows_group ? copy.group : copy.independent) : offer.visitTraining}</p>
+    <p>{product.format === 'membership' ? copy.coachingNote : offer.visitTraining}</p>
     <p className="product-price">{money(product.price_byn, locale)} <small>{product.format === 'membership' ? offer.total : offer.visitTotal}</small></p>
   </div>
 }

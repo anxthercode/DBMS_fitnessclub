@@ -3,8 +3,7 @@ import type { AccessGrant, Cart, CommerceApi, Offer, Order, Product, Quote, Quot
 import { amount, assertNoMembershipOverlap, cents, minskDay, period, validateSelection } from '../commerce-rules'
 import { accessOfferPreviews } from './access-offers'
 
-export const defaultOffers = (): Offer[] => accessOfferPreviews.map((o, index) => ({ ...o, id: String(index + 1), revision: 1, is_active: true,
-  allows_group: o.format === 'membership', allows_individual: o.format === 'membership' && o.months !== 1 }))
+export const defaultOffers = (): Offer[] => accessOfferPreviews.map((o, index) => ({ ...o, id: String(index + 1), revision: 1, is_active: true }))
 
 interface Context {
   now(): number; nextId(): string; currentId(): string | null; client(): User
@@ -35,25 +34,28 @@ export function createCommerce(state: State, ctx: Context, catalogue = defaultOf
     })
   }
   const requestKey = (key: string) => { if (typeof key !== 'string' || key.length < 1 || key.length > 160) fail('invalid_request'); return key }
-  const offerFor = (selection: Selection) => {
+  const offerFor = (selection: Selection | Product) => {
+    if (selection.format === 'training') return fail('offer_unavailable')
     validateSelection(selection, ctx.now())
     const offer = catalogue.find(o => o.format === selection.format && o.zones === selection.zones && o.months === selection.months && o.is_active)
     if (!offer) return fail('offer_unavailable')
     if (!/^\d+\.\d{2}$/.test(offer.price_byn) || cents(offer.price_byn) <= 0) return fail('offer_unavailable')
     return offer
   }
-  const productFor = (selection: Selection, offer: Offer): Product => ({
+  const productFor = (selection: Selection | Product, offer: Offer): Product => {
+    if (selection.format === 'training') return fail('offer_unavailable')
+    return ({
     format: selection.format, months: selection.months, zones: selection.zones, date: selection.date,
     offer_id: offer.id, offer_revision: offer.revision, price_byn: offer.price_byn,
-    ...period(selection), allows_group: offer.allows_group, allows_individual: offer.allows_individual,
-    amenities_included: true, single_entry: selection.format === 'single_visit',
+    ...period(selection), amenities_included: true, single_entry: selection.format === 'single_visit',
   } as Product)
+  }
   const ownOrder = (owner: string, id: string) => state.orders.find(o => o.id === id && o.client_id === owner) || fail('not_found', 404)
   const accessFor = (owner: string): AccessGrant[] => [
     ...state.memberships.filter(m => m.client_id === owner).map(m => ({
       id: 'membership-' + m.id, client_id: owner, format: 'membership' as const, zones: m.zones || 'both' as const,
       starts_at: m.starts_at, ends_at: m.ends_at, cancelled_at: m.cancelled_at, redeemed_at: null,
-      allows_group: m.allows_group, allows_individual: m.allows_individual, order_id: m.order_id || null,
+      order_id: m.order_id || null,
       product: m.order_id ? grants.find(a => a.id === 'membership-' + m.id)?.product || state.orders.find(o => o.id === m.order_id)?.items[0]?.product || null : null,
     })),
     ...grants.filter(a => a.client_id === owner && a.format === 'single_visit'),
@@ -90,7 +92,7 @@ export function createCommerce(state: State, ctx: Context, catalogue = defaultOf
     const offer = defaultOffers().find(o => o.format === 'single_visit' && o.zones === selection.zones)!
     grants.push({ id: 'visit-demo-' + index, client_id: '1', format: 'single_visit', zones: selection.zones, ...period(selection),
       cancelled_at: status === 'cancelled' ? stamp() : null, redeemed_at: status === 'used' ? stamp() : null,
-      allows_group: false, allows_individual: false, order_id: null, product: productFor(selection, offer) })
+      order_id: null, product: productFor(selection, offer) })
   }
 
   const api: CommerceApi = {
@@ -132,7 +134,6 @@ export function createCommerce(state: State, ctx: Context, catalogue = defaultOf
       const fingerprint = JSON.stringify(input)
       const previous = checkedOut.get(key)
       if (previous) { if (previous.fingerprint !== fingerprint) fail('idempotency_conflict', 409); return ownOrder(owner, previous.orderId) }
-      if (!ctx.client().email_verified_at) fail('verify_email')
       const quote = quoteFor(owner, input)
       if (quote.total_byn !== input.expected_total_byn || quote.total_currency !== input.expected_total_currency || quote.byn_per_unit !== input.expected_rate) fail('price_changed', 409)
       const cart = cartFor(owner)
@@ -158,22 +159,22 @@ export function createCommerce(state: State, ctx: Context, catalogue = defaultOf
       if (order.status !== 'pending') fail('order_changed', 409)
       let reason: string | null = input.successful ? null : 'payment_declined'
       if (!reason) try {
-        for (const item of order.items) validateSelection(item.product, ctx.now())
+        for (const item of order.items) { if (item.product.format === 'training') return fail('offer_unavailable'); validateSelection(item.product, ctx.now()) }
         assertNoMembershipOverlap(order.items.map(i => i.product), accessFor(owner))
       } catch (error) { if (!(error instanceof ApiError)) throw error; reason = error.code }
       order.attempts.push({ id: ctx.nextId(), created_at: stamp(), status: reason ? 'failed' : 'succeeded', reason })
       paid.set(key, { orderId: id, successful: input.successful })
       if (reason) return order
       for (const { product } of order.items) {
+        if (product.format === 'training') return fail('offer_unavailable')
         const id = ctx.nextId()
         const grant: AccessGrant = { id: (product.format === 'membership' ? 'membership-' : 'visit-') + id, client_id: owner,
           format: product.format, zones: product.zones, starts_at: product.starts_at, ends_at: product.ends_at,
-          cancelled_at: null, redeemed_at: null, allows_group: product.allows_group, allows_individual: product.allows_individual,
-          order_id: order.id, product: structuredClone(product) }
+          cancelled_at: null, redeemed_at: null, order_id: order.id, product: structuredClone(product) }
         grants.push(grant); order.access_ids.push(grant.id)
         if (product.format === 'membership') state.memberships.push({ id, client_id: owner, starts_at: product.starts_at, ends_at: product.ends_at,
           cancelled_at: null, plan_name_ru: 'Абонемент · ' + product.months + ' мес.', plan_name_en: 'Membership · ' + product.months + ' mo.',
-          zones: product.zones, order_id: order.id, allows_group: product.allows_group, allows_individual: product.allows_individual })
+          zones: product.zones, order_id: order.id, })
       }
       order.status = 'paid'
       ctx.notify(owner, 'Доступ оформлен', 'Access issued', 'Оплата подтверждена. Доступ появился в кабинете.', 'Payment confirmed. Your access is in your account.', { kind: 'order', id: order.id })

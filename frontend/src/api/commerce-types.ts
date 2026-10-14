@@ -6,11 +6,10 @@ export type Selection = { zones: Zones; date: string } & (
 )
 export type Offer = Omit<Selection, 'date'> & {
   id: Id; revision: number; price_byn: Money; is_active: boolean
-  allows_group: boolean; allows_individual: boolean
 }
-export type Product = Selection & {
+export type TrainingSelection = { format: 'training'; zones: 'gym' | 'pool'; months: null; date: null }
+export type Product = (Selection & { starts_at: string; ends_at: string } | TrainingSelection & { starts_at: null; ends_at: null }) & {
   offer_id: Id; offer_revision: number; price_byn: Money
-  starts_at: string; ends_at: string; allows_group: boolean; allows_individual: boolean
   amenities_included: true; single_entry: boolean
 }
 export interface CartItem { id: Id; product: Product }
@@ -28,7 +27,7 @@ export interface Order extends Quote {
 export interface AccessGrant {
   id: Id; client_id: Id; format: 'membership' | 'single_visit'; zones: Zones
   starts_at: string; ends_at: string; cancelled_at: string | null; redeemed_at: string | null
-  allows_group: boolean; allows_individual: boolean; order_id: Id | null; product: Product | null
+  order_id: Id | null; product: Product | null
 }
 export interface PutCartItem { selection: Selection; expected_price_byn: Money; expected_revision: number; item_id?: Id; cart_version?: number; idempotency_key: string }
 export interface QuoteInput { cart_version: number; promo_code?: string; currency: Currency }

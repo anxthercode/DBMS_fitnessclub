@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight } from 'lucide-react'
-import { api } from '@/api'
+import { api, isMock } from '@/api'
 import { homeCopy } from './home-content'
 import { ClubHero } from './ClubHero'
 import { GuestVisit } from './GuestVisit'
@@ -19,7 +19,7 @@ export function HomePage() {
   const { i18n } = useTranslation()
   const locale = i18n.language === 'en' ? 'en' : 'ru'
   const copy = homeCopy[locale]
-  const club = useQuery({ queryKey: ['club'], queryFn: api.club })
+  const club = useQuery({ queryKey: ['club'], queryFn: api.club, enabled: isMock })
   const trainers = useQuery({ queryKey: ['trainers'], queryFn: api.trainers })
   const root = useSectionReveal()
   return (

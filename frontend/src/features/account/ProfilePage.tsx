@@ -75,7 +75,6 @@ function ProfileForm({ user }: { user: User }) {
         <div className="min-w-0 flex-1">
           <h2 className="text-lg font-semibold">{t('profile.accountData')}</h2>
           <p className="mt-2 break-all text-sm">{user.email}</p>
-          <p className={'status-badge mt-3 ' + (user.email_verified_at ? 'bg-muted text-success' : 'bg-warning/10 text-warning')}>{t(user.email_verified_at ? 'profile.emailVerified' : 'profile.emailUnverified')}</p>
           <p className="mt-3 text-xs leading-6 text-muted-foreground">{t('profile.emailNote')}</p>
         </div>
       </div>

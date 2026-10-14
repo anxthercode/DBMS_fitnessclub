@@ -18,8 +18,8 @@ import { CommerceError } from '@/features/commerce/shared'
 import { useSession } from '@/features/auth/session'
 
 export function OfferPreview({ item, version, initial }: { item?: CartItem; version?: number; initial?: Selection }) {
-  const selection = item?.product || initial
-  const { i18n } = useTranslation()
+  const selection = (item?.product.format === 'training' ? undefined : item?.product) || initial
+  const { t, i18n } = useTranslation()
   const locale = i18n.language === 'en' ? 'en' : 'ru'
   const copy = offerCopy[locale]
   const id = useId()
@@ -83,13 +83,14 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
           {zones && !offer && <p>{copy.missing}</p>}
         </>}
       </div>
-      {format === 'membership' && <p className="offer-conditions">{purchase.coaching}: {offer?.allows_individual ? purchase.individual : offer?.allows_group ? purchase.group : purchase.independent}</p>}
+      {format === 'membership' && <p className="offer-conditions">{t('plans.personalTrainingSeparate')}</p>}
       {format === 'single_visit' && <p className="offer-conditions">{copy.visitRule}</p>}
       <details className="offer-details"><summary>{copy.conditions}</summary>
         <p className="offer-conditions">{format === 'single_visit' ? copy.visitTraining : purchase.membershipRule}</p>
-        {format === 'membership' && <><p className="offer-conditions">{purchase.coachingNote}</p><p className="offer-conditions">{purchase.overlap}</p></>}
+        {format === 'membership' && <><p className="offer-conditions">{t('plans.personalTrainingSeparate')}</p><p className="offer-conditions">{purchase.overlap}</p></>}
       </details>
       <CommerceError error={add.error} />
+      {session.isError && <QueryError retry={() => void session.refetch()} />}
       {add.error && <button type="button" className="underline min-h-11" onClick={() => void offers.refetch()}>{purchase.refresh}</button>}
       <Button type="button" disabled={!offer || dateInvalid || !zones || add.isPending || session.isPending || session.isError || (!!session.data && session.data.role !== 'CLIENT')} className="w-full" onClick={() => {
         if (!offer || !zones) return

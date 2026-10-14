@@ -64,7 +64,7 @@ export function AccessPage() {
       {access.product ? <ProductDescription product={access.product} /> : <ZoneBadges zones={access.zones} />}
       <h2>{copy.accessDates}</h2><dl className="access-dates"><div><dt>{copy.starts}</dt><dd>{date(access.starts_at, locale, options)}</dd></div><div><dt>{copy.ends}</dt><dd>{date(access.ends_at, locale, options)}</dd></div></dl>
       <p>{offerCopy[locale].amenities}</p><p>{access.format === 'single_visit' ? copy.visitRule : copy.membershipRule}</p>
-      <p>{copy.coaching}: {access.allows_individual ? copy.individual : access.allows_group ? copy.group : copy.independent}</p><p>{copy.coachingNote}</p>
+      <p>{copy.coachingNote}</p>
       {access.format === 'single_visit' && <p>{access.redeemed_at ? copy.redeemed + ': ' + date(access.redeemed_at, locale, options) : copy.noEntry}</p>}
       {access.order_id ? <Link className="underline min-h-11 inline-flex items-center" to={'/account/orders/' + access.order_id}>{copy.order} #{access.order_id} ↗</Link> : <p className="rate-note">{copy.fixture}</p>}
     </article>

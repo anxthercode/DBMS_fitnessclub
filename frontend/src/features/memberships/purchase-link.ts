@@ -2,6 +2,7 @@ import type { AccessGrant, Product, Selection } from '@/api/commerce-types'
 import { minskDay, validDate } from '@/api/commerce-rules'
 
 export function purchaseLink(product: Product | AccessGrant, renew = false, now = Date.now()) {
+  if (product.format === 'training') return '/training'
   const today = minskDay(now)
   let date = today
   if (renew) {

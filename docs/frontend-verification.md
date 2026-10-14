@@ -1,5 +1,7 @@
 # Shared Frontend Design Verification
 
+> This is a historical verification log. Each dated entry describes that revision; use the [root README](../README.md) for current requirements and the latest entry below for the cleanup results. Generated screenshots/traces are temporary and may be removed after verification.
+
 
 ## Stage 3 — Client account, schedule and training requests
 
@@ -202,3 +204,45 @@ Validation:
 - Visually inspected final desktop/mobile gallery and hero screenshots, plus 320px RU/turquoise and EN/orange gallery layouts in the in-app browser. Reset viewport/theme/language after review. Final desktop/mobile photo-dissolve screenshots show the actual pool image and elapsed-time line. Screenshots remain in ignored `frontend/test-results/` and may be replaced by future test runs.
 
 README remains unchanged at the user's request. No backend, database, original diagram, source-photo, payment-processing or deployment changes were made. Local review preview: `http://127.0.0.1:4175/#club`.
+
+## Navigation cleanup and roadmap review — 9 October 2026
+
+Removed Contacts from the shared desktop/mobile header navigation at the user's request. The footer address, opening hours and focusable `/#contacts` URL remain available. Updated the existing navigation test to check the reduced menu and direct Contacts anchor, including browser back and keyboard focus. README's navigation paragraph now records this change.
+
+Validation:
+
+- Production build, including TypeScript, passed; all 77 unit tests passed.
+- Full Playwright regression: 80 passed, two expected desktop skips for mobile-only navigation and touch. Includes purchases/payment retry, bookings, notifications, account isolation, RU/EN, themes, footer and responsive layouts.
+- Visually inspected fresh desktop and 320px header/hero screenshots. The desktop header has four navigation links and the narrow header fits its viewport.
+- Vitest initially could not rename its sandbox temporary cache; rerunning with TEMP/TMP set to the ignored `frontend/.npm-cache/verification-temp/` passed. The sandbox browser run stalled at preview startup and was stopped; the full run passed with approved local execution outside the sandbox.
+- Two existing Zod/Rollup annotation warnings remain non-blocking. The main JavaScript chunk is 499.52 kB (158.02 kB gzip).
+
+This review does not mark Stage 4 complete. Remaining acceptance work includes the full manual accessibility/zoom review, large-photo optimization and reconciliation of README's older presentation descriptions with the approved 7 October changes recorded above. Backend implementation is absent. The existing database proposal still describes membership-only purchases and prohibits all overlapping memberships; the later approved zone-based overlap, selected dates, single visits and first-visit handling must be reconciled during schema review before migrations/seeds. No schema, diagram or backend changes were made.
+
+## Repository cleanup and documentation consolidation — 9 October 2026
+
+At the user's request, removed 18 unused image files (11,769,450 bytes): seven byte-identical source duplicates and eleven superseded/unselected images. Removed the empty `images/there/` directory, two unnecessary `.gitkeep` files, the empty root npm lockfile (the application lockfile remains in `frontend/`), the unreachable `LegacyPlans`, `PlanCards` and `Card` components, and the unused `heroImage` export. Nine active images, the video, fonts, license/source records, favicon and theme initialization remain. The production output was rebuilt so it also excludes obsolete photos. Temporary test outputs and the workspace npm cache were cleared after recording results; installed dependencies and the usable production preview build were retained.
+
+Rewrote the English root README around current status, agreed rules, actual setup, preserved diagrams and five remaining milestones. Removed the obsolete diagram README after transferring its valid inventory/limitations; repaired diagram links in both database documents. No attributes, indexes, constraints or transaction protocols were removed from the database specifications. Marked their old rules as a baseline requiring revision and the old redesign document as historical. Asset provenance and original generation prompts remain documented separately from the current inventory.
+
+Validation:
+
+- TypeScript/production build and all 77 unit tests passed. The main bundle is unchanged at 499.52 kB (158.02 kB gzip); two existing Zod/Rollup annotation warnings remain non-blocking.
+- Targeted Chrome browser suites (`home-content`, `northside`, `public`): 28 passed, two expected desktop skips. Covers actual image loading, gallery/portraits, video/poster fallback, RU/EN public routes, mobile layouts/navigation, forms and authentication. Unrelated commerce/training suites were not repeated after this cleanup; they passed in the preceding 80-case full regression.
+- Import reachability from the application/test entry points found no remaining unreachable source files. Static media checks, including dynamically mapped trainer portraits, found no missing or unused delivery media. Local Markdown file links and heading anchors resolve; no obsolete diagram README links remain.
+- SHA-256 comparison confirmed that all seven diagram sources/images and both hidden draw.io recovery files are unchanged. All 14 retained image/video/font/favicon files also match their pre-cleanup hashes.
+- `git diff --check` passed. Cleanup targets were restricted to verified workspace paths; no dependencies, secrets, original diagrams or unrelated user files were removed.
+
+This completes repository cleanup and README reconciliation, not Stage 4 acceptance. Manual accessibility/native-zoom review and optimization of the retained large photographs remain open; schema approval and backend work follow the roadmap.
+
+## PostgreSQL catalogue integration — 10 October 2026
+
+Local PostgreSQL 18 on port 5432: catalogue migration and seed applied to `northside`; integration tests use the separate `northside_test` database. No diagram changes.
+
+- Backend: Ruff passed; 9 pytest checks passed, including persisted prices, constraints, hidden inactive offers, concurrent idempotent seeding and public read-only access.
+- Frontend: TypeScript passed; 79 unit tests passed; production build passed.
+- Real HTTP browser tests: 2 passed (RU/EN database catalogue, disabled checkout, API error/retry without demo-price fallback).
+- Demo regression checks: all 12 offer/commerce browser tests passed on desktop and mobile.
+- Build warnings: two existing Zod comment-annotation warnings and a 500.43 kB main-chunk warning. Full manual accessibility acceptance, including native 200% zoom, remains open.
+
+Run the integration browser checks with `npm.cmd run test:http`; they start temporary FastAPI/Vite processes against the configured local database and do not modify its catalogue. Default demo mode remains available; real authentication, checkout and bookings are later milestones.

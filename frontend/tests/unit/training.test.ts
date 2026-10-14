@@ -38,21 +38,19 @@ describe('training API', () => {
     expect((await api.slots()).find(s => s.id === '12')!.reserved_count).toBe(before.reserved_count)
     await expect(api.demoDecision(b.id, { status: 'approved' })).rejects.toMatchObject({ code: 'booking_changed' })
   })
-  it('gates email, zone and training format, and excludes single visits', async () => {
+  it('gates membership, zone and separately paid training, and excludes single visits', async () => {
     const api = createMockApi({ now: () => now, latency: 0 })
     await api.register({ first_name: 'New', last_name: 'Client', email: 'new@example.test', password: 'Password123!', locale: 'en' })
-    expect((await api.eligibility('12')).code).toBe('verify_email')
+    expect((await api.eligibility('12')).code).toBe('membership_required')
     await api.verifyDemoEmail()
     await buy(api, 'pool', 1, 'single_visit')
     expect((await api.eligibility('12')).code).toBe('membership_required')
     await buy(api, 'gym')
     expect((await api.eligibility('12')).code).toBe('zone_required')
     await buy(api, 'pool')
-    expect((await api.eligibility('13')).code).toBe('training_permission')
-    expect((await api.eligibility('12')).eligible).toBe(true)
-    await api.book({ training_slot_id: '12' })
-    // Different memberships/zones still cannot create simultaneous training bookings.
-    await expect(api.book({ training_slot_id: '1' })).rejects.toMatchObject({ code: 'booking_overlap' })
+    expect((await api.eligibility('13')).code).toBe('training_credit_required')
+    expect((await api.eligibility('12')).code).toBe('training_credit_required')
+    await expect(api.book({ training_slot_id: '12' })).rejects.toMatchObject({ code: 'training_credit_required' })
   })
   it('serializes last-place requests and duplicate submissions', async () => {
     const api = createMockApi({ now: () => now, latency: 0 }); await login(api)
@@ -120,15 +118,19 @@ describe('training API', () => {
       expect((await api.slots()).find(s => s.id === '12')!.reserved_count).toBe(0)
     } finally { vi.useRealTimers() }
   })
+  it('provides only one-to-one slots without membership training benefits', async () => {
+    const api = createMockApi({ now: () => now, latency: 0 })
+    expect((await api.slots()).every(s => s.training_type === 'individual' && s.capacity === 1)).toBe(true)
+    expect((await api.offers()).every(o => !('allows_group' in o) && !('allows_individual' in o))).toBe(true)
+  })
   it('keeps trainer slots from overlapping', async () => {
     const api = createMockApi({ now: () => now, latency: 0 }); await login(api, demoAccounts.TRAINER)
     const slot = (await api.slots()).find(s => s.id === '1')!
     await expect(api.createSlot({ ...slot })).rejects.toMatchObject({ code: 'trainer_overlap' })
   })
-  it('new customers complete a paid pool membership to approved coached booking', async () => {
+  it('buying a membership does not grant a new client personal training', async () => {
     const api = createMockApi({ now: () => now, latency: 0 }); await fresh(api); await buy(api, 'pool')
-    const b = await api.book({ training_slot_id: '12' })
-    expect((await api.demoDecision(b.id, { status: 'approved' })).status).toBe('approved')
+    await expect(api.book({ training_slot_id: '12' })).rejects.toMatchObject({ code: 'training_credit_required' })
     expect((await api.notifications()).some(n => n.target?.kind === 'order')).toBe(true)
   })
 })
@@ -147,17 +149,17 @@ describe('membership time boundaries and repeat purchases', () => {
   it('accepts exact coverage and adjacent bookings but rejects expired/cancelled/short access', () => {
     const f = createFixtures(now), slot = f.slots[11]
     const m = { ...f.memberships[0], starts_at: slot.starts_at, ends_at: slot.ends_at }
-    expect(bookingEligibility(slot, [m], [], now).eligible).toBe(true)
-    for (const bad of [{ ...m, cancelled_at: m.starts_at }, { ...m, ends_at: new Date(Date.parse(slot.ends_at) - 1).toISOString() }, { ...m, starts_at: new Date(Date.parse(slot.starts_at) + 1).toISOString() }]) expect(bookingEligibility(slot, [bad], [], now).code).toBe('membership_required')
+    expect(bookingEligibility(slot, [m], [], now, undefined, true).eligible).toBe(true)
+    for (const bad of [{ ...m, cancelled_at: m.starts_at }, { ...m, ends_at: new Date(Date.parse(slot.ends_at) - 1).toISOString() }, { ...m, starts_at: new Date(Date.parse(slot.starts_at) + 1).toISOString() }]) expect(bookingEligibility(slot, [bad], [], now, undefined, true).code).toBe('membership_required')
     const adjacent = { ...f.bookings[0], slot: { ...slot, starts_at: new Date(Date.parse(slot.starts_at) - 3600_000).toISOString(), ends_at: slot.starts_at } }
-    expect(bookingEligibility(slot, [m], [adjacent], now).eligible).toBe(true)
+    expect(bookingEligibility(slot, [m], [adjacent], now, undefined, true).eligible).toBe(true)
   })
   it('renewal rounds legacy end times up to the next Minsk day and keeps product choices', () => {
     const product = createFixtures(now).orders[0].items[0].product
     const link = purchaseLink(product, true, now)
     const selection = selectionFromParams(new URLSearchParams(link.split('?')[1]))!
     expect(selection).toMatchObject({ zones: 'both', months: 3, format: 'membership' })
-    expect(Date.parse(selection.date + 'T00:00:00+03:00')).toBeGreaterThanOrEqual(Date.parse(product.ends_at))
+    expect(Date.parse(selection.date + 'T00:00:00+03:00')).toBeGreaterThanOrEqual(Date.parse(product.ends_at!))
     expect(selectionFromParams(new URLSearchParams('format=bad&zones=admin&date=bad'))).toBeUndefined()
   })
   it('keeps dictionaries aligned and schedule redirects safe', () => {

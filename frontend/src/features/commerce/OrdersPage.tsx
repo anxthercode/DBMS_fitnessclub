@@ -37,13 +37,15 @@ export function OrderPage() {
   if (order.isPending) return <Loading />
   if (order.isError) return <><CommerceError error={order.error} /><Link to="/account/orders" className="underline">{copy.orders}</Link></>
   const data = order.data
+  const hasTraining = data.items.some(item => item.product.format === 'training')
+  const hasAccess = data.items.some(item => item.product.format !== 'training')
   const lastAttempt = data.attempts.at(-1)
   const busy = pay.isPending || cancel.isPending
   return <section className="commerce-page">
     <Link className="underline" to="/account/orders">← {copy.orders}</Link><h1 className="page-title mt-6">{copy.order} #{data.id}</h1><p className="commerce-intro">{copy[data.status]} · {date(data.created_at, locale)}</p>
     <PurchaseSteps step={data.status === 'paid' ? 'access' : 'payment'} />
     <p className="commerce-intro">{copy.immutable}</p>
-    <div className="commerce-grid order-grid"><div className="commerce-items">{data.items.map(item => <article key={item.id} className="commerce-card"><ProductDescription product={item.product} />{data.status === 'paid' && <Link className="underline min-h-11 inline-flex items-center" to={purchaseLink(item.product)}>{training.repeat} ↗</Link>}</article>)}</div><aside className="commerce-summary"><Totals quote={data} /></aside></div>
+    <div className="commerce-grid order-grid"><div className="commerce-items">{data.items.map(item => <article key={item.id} className="commerce-card"><ProductDescription product={item.product} />{data.status === 'paid' && <Link className="underline min-h-11 inline-flex items-center" to={item.product.format === 'training' ? '/training' : purchaseLink(item.product)}>{training.repeat} ↗</Link>}</article>)}</div><aside className="commerce-summary"><Totals quote={data} /></aside></div>
     {data.status === 'pending' && <div className="commerce-card payment-panel">
       <h2>{copy.payment}</h2><p>{copy.paymentNote}</p>
       {lastAttempt?.status === 'failed' && <div role="status"><p>{copy.failed}</p><CommerceError error={lastAttempt.reason} /></div>}
@@ -54,7 +56,13 @@ export function OrderPage() {
       }}>{pay.isPending ? copy.loading : data.attempts.length ? copy.retry : copy.pay}</Button><Button variant="outline" disabled={busy} onClick={() => cancel.mutate()}>{copy.cancelOrder}</Button></div>
       <CommerceError error={pay.error || cancel.error} />
     </div>}
-    {data.status === 'paid' && <div className="commerce-card payment-panel" role="status"><h2>{copy.success}</h2><div className="commerce-actions">{data.access_ids.map((accessId, index) => <Link className="underline min-h-11 inline-flex items-center" key={accessId} to={'/account/access/' + accessId}>{copy.access} {index + 1} ↗</Link>)}</div><p>{copy.accessIntro}</p></div>}
+    {data.status === 'paid' && <div className="commerce-card payment-panel payment-success">
+      <h2 role="status">{hasTraining ? hasAccess ? copy.mixedSuccess : copy.trainingSuccess : copy.success}</h2>
+      <div className="payment-next-steps">
+        {hasTraining && <section><h3>{copy.paidTraining}</h3><p>{copy.trainingNext}</p><div className="commerce-actions"><Button asChild><Link to="/schedule">{copy.chooseTime} ↗</Link></Button><Link className="training-link" to="/training">{copy.paidSessions} ↗</Link></div></section>}
+        {hasAccess && <section><h3>{copy.access}</h3><div className="commerce-actions">{data.access_ids.map((accessId, index) => <Link className="underline min-h-11 inline-flex items-center" key={accessId} to={'/account/access/' + accessId}>{copy.access} {index + 1} ↗</Link>)}</div><p>{copy.accessIntro}</p></section>}
+      </div>
+    </div>}
     {data.status === 'cancelled' && <p role="status" className="commerce-intro">{copy.cancelledOrder}</p>}
     {!!data.attempts.length && <div className="commerce-card payment-panel"><h2>{copy.attempts}</h2><ol>{data.attempts.map((item, i) => <li className="attempt-row" key={item.id}><p>{i + 1}. {date(item.created_at, locale, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', second: '2-digit' })} · {item.status === 'succeeded' ? copy.succeeded : copy.declined}</p>{item.reason && <p>{copy.errors[item.reason as keyof typeof copy.errors] || copy.errors.unknown}</p>}</li>)}</ol></div>}
   </section>

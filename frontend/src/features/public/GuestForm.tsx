@@ -1,3 +1,7 @@
+import { useMutation } from '@tanstack/react-query'
+import { isMock } from '@/api'
+import { request } from '@/api/http'
+import { StaffError, useWords } from '@/features/staff/shared'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,17 +22,19 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
   const { register, handleSubmit, setFocus, formState: { errors } } = useForm<GuestValues>({
     resolver: zodResolver(guestSchema), defaultValues: { name: '', phone: '' },
   })
+  const w = useWords()
+  const submit = useMutation({ mutationFn: (values: GuestValues) => request('/first-visits', 'POST', values) })
   const [checked, setChecked] = useState(false)
 
   useEffect(() => { setFocus('name') }, [setFocus])
 
   return <form id="fp-guest-form" className="fp-guest-form" aria-labelledby="fp-guest-form-heading" aria-describedby="fp-guest-demo" noValidate
-    onSubmit={handleSubmit(() => setChecked(true), () => setChecked(false))}
+    onSubmit={handleSubmit(values => { if (isMock) setChecked(true); else submit.mutate(values) }, () => setChecked(false))}
     onChange={() => setChecked(false)}
     onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); close() } }}>
     <h4 id="fp-guest-form-heading">{copy.guestFormTitle}</h4>
     <p className="fp-guest-terms">{copy.guestTerms}</p>
-    <p id="fp-guest-demo" className="fp-guest-demo">{copy.guestDemo}</p>
+    <p id="fp-guest-demo" className="fp-guest-demo">{isMock ? copy.guestDemo : w('Заявка будет сохранена. Администратор свяжется с вами, чтобы согласовать дату и зоны.', 'Your application will be saved. An administrator will contact you to agree a date and zones.')}</p>
     <div className="fp-guest-fields">
       <div>
         <label htmlFor="fp-guest-name">{copy.guestName}</label>
@@ -42,7 +48,9 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
         {errors.phone && <p className="fp-field-error" id="fp-guest-phone-error" role="alert">{copy.guestPhoneInvalid}</p>}
       </div>
     </div>
-    <div className="fp-guest-form-actions"><button className="fp-primary" type="submit">{copy.guestSubmit}</button><button className="fp-inline-link" type="button" onClick={close}>{copy.guestCancel}</button></div>
+    <div className="fp-guest-form-actions"><button className="fp-primary" type="submit" disabled={submit.isPending || submit.isSuccess}>{isMock ? copy.guestSubmit : w('Записаться на первый визит', 'Request your first visit')}</button><button className="fp-inline-link" type="button" onClick={close}>{copy.guestCancel}</button></div>
+    <StaffError error={submit.error} />
+    {submit.isSuccess && <p role="status">{w('Заявка принята. Дождитесь звонка администратора.', 'Application received. Please wait for the administrator’s call.')}</p>}
     {checked && <p className="fp-guest-result" role="status">{copy.guestResult}</p>}
   </form>
 }

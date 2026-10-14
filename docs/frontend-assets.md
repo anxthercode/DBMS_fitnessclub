@@ -1,5 +1,34 @@
 # Frontend Asset Credits
 
+## Current inventory — 9 October 2026
+
+Only the following nine photographs/poster images and one video remain in the website's public media folders after the user-authorized cleanup. The later Stage 4 acceptance optimized three large gallery files, as recorded below. The seven duplicate source copies, eleven superseded/unselected images and redundant `.gitkeep` files were removed; the empty `images/there/` directory was removed. Earlier instructions to retain those unused files are superseded by this cleanup.
+
+| Current delivery file | Use and provenance |
+| --- | --- |
+| `frontend/public/images/club/gym.webp` | Gym gallery and club fixture; user-supplied `there/gym.webp`, 1400 × 934, 291,550 bytes |
+| `frontend/public/images/club/cardio.webp` | Cardio gallery; user-supplied `there/cardiozone.webp`, resized to 1920 × 1280, 226,744 bytes |
+| `frontend/public/images/club/pool-inside.webp` | Indoor pool view; user-supplied `there/swimming_pool_inside_2.webp`, resized to 1920 × 1440, 377,648 bytes |
+| `frontend/public/images/club/pool-outside.webp` | Outdoor pool view; user-supplied `there/swimming_pool_outside.webp`, resized to 1440 × 1920, 221,896 bytes |
+| `frontend/public/images/design/changing-room.jpg` | Changing-room gallery; Polina Tankilevitch / Pexels, with source and license recorded below |
+| `frontend/public/images/home/club-tour-poster.webp` | Hero poster/fallback; frame from the supplied video, 1280 × 720, 75,906 bytes |
+| `frontend/public/images/trainers/trainer-01.webp` | Fictional coach ID 2; supplied GPT/Gemini portrait, 843 × 1264, 74,026 bytes |
+| `frontend/public/images/trainers/trainer-02.webp` | Fictional coach ID 7; supplied GPT/Gemini portrait, 1408 × 768, 147,900 bytes |
+| `frontend/public/images/trainers/trainer-03.webp` | Fictional coach ID 3; supplied GPT/Gemini portrait, 1408 × 768, 143,092 bytes |
+| `frontend/public/videos/home/club-tour.mp4` | Supplied GPT/Gemini concept footage; muted H.264, fast-start, 1280 × 720, 24 fps, 10 seconds, 5,257,276 bytes |
+
+The four facility-photo delivery files and three portrait files were verified as byte-identical to their duplicate source copies before removing the duplicates. Facility-photo authors, source URLs and licenses have not been supplied; do not infer stock attribution or AI origin. Supplied video/portrait generation and permission were confirmed by the user on 4 October; exact per-file prompts/models were not supplied. Portrait mapping is limited to fictional mock identities.
+
+All three Manrope TTF weights, `OFL-Manrope.txt` and `manrope-source.css` are retained: the last two are license/provenance records, not unused application styles. `favicon.svg` and `theme-init.js` are used by `index.html`.
+
+### Stage 4 delivery optimization — 9 October 2026
+
+Proportionally resized the three large facility images with Pillow 12.3.0 Lanczos resampling and encoded WebP at quality 84, method 6. Their total fell from 5,837,130 to 826,288 bytes (85.8%). Intrinsic dimensions in `home-content.ts` match the new files. No compositional crop, retouching, recoloring, generated content or provenance change was introduced; existing CSS cover positions, lazy decoding/loading and stable image areas are preserved. Browser screenshots of the indoor pool and narrow outdoor view were visually inspected after rebuilding. Original delivery bytes remain recoverable from Git; temporary working backups under ignored `.npm-cache/stage4-originals/` are not deployment assets.
+
+## Historical asset records
+
+The dated records below preserve original source attribution, generation prompts and past decisions. References to obsolete files, old branding, visible concept notices or retained source copies describe those past milestones, not the current inventory or UI. Current behavior and requirements are in the [root README](../README.md).
+
 Assets added for the homepage prototype on 1 October 2026 are served locally. Photographs illustrate the fictional coursework club's visual direction; they are not photographs of a real FORMA facility. The homepage labels them as concept imagery. CSS crops images without changing the source files. No reference-club photographs were reused.
 
 | Local asset | Author and source | Usage terms |

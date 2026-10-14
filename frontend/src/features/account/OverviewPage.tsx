@@ -20,7 +20,7 @@ export function OverviewPage() {
   const bookings = usePrivateQuery(['bookings'], api.bookings)
   const orders = usePrivateQuery(['orders'], api.orders)
   const notifications = usePrivateQuery(['notifications'], api.notifications)
-  const queries = [access, bookings, orders, notifications]
+  const queries = [access, orders, notifications, bookings]
   const next = bookings.data?.filter(b => activeBooking(b) && Date.parse(b.slot.starts_at) > now).sort((a,b) => a.slot.starts_at.localeCompare(b.slot.starts_at))[0]
   const current = access.data?.filter(a => ['active', 'pending', 'unused'].includes(accessStatus(a, now))).sort((a,b) => a.starts_at.localeCompare(b.starts_at)) || []
   return <section className="training-page"><h1 className="page-title">{copy.overview}</h1><p className="commerce-intro">{copy.welcome}</p>
