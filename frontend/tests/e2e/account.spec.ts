@@ -8,6 +8,7 @@ async function signIn(page: Page, email = 'client@northside.demo') {
 
 async function signOut(page: Page) {
   if (await page.getByRole('button', { name: 'Открыть меню' }).isVisible()) await page.getByRole('button', { name: 'Открыть меню' }).click()
+  if (!await page.getByRole('button', { name: 'Выйти', exact: true }).filter({ visible: true }).count()) await page.getByRole('button', { name: 'Личный кабинет', exact: true }).click()
   await page.getByRole('button', { name: 'Выйти', exact: true }).filter({ visible: true }).first().click()
 }
 
@@ -44,7 +45,7 @@ test('memberships show states, dates, filters and localized responsive account p
   for (const locale of ['ru', 'en']) {
     await page.getByRole('button', { name: locale.toUpperCase(), exact: true }).click()
     for (const section of ['memberships', 'profile']) {
-      const label = section === 'profile' ? (locale === 'ru' ? 'Профиль' : 'Profile') : (locale === 'ru' ? 'Мои абонементы' : 'My memberships')
+      const label = section === 'profile' ? (locale === 'ru' ? 'Профиль' : 'Profile') : (locale === 'ru' ? 'Абонементы и посещения' : 'Memberships and visits')
       await page.getByRole('navigation', { name: locale === 'ru' ? 'Разделы кабинета' : 'Account navigation' }).getByRole('link', { name: label }).click()
       await expect(page.locator('h1')).toHaveCount(1)
       await expect(page.locator('main [role="status"]')).toHaveCount(0)
@@ -54,7 +55,7 @@ test('memberships show states, dates, filters and localized responsive account p
   }
   for (const width of [320, 720, 768]) {
     await page.setViewportSize({ width, height: 900 })
-    for (const label of ['My memberships', 'Profile']) {
+    for (const label of ['Memberships and visits', 'Profile']) {
       await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: label }).click()
       await expect(page.locator('h1')).toHaveCount(1)
       await expect(page.locator('main [role="status"]')).toHaveCount(0)
@@ -91,7 +92,7 @@ test('profile validates, discards edits and saves contact details and language',
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   await expect(page.getByText('Новое имя Миронова', { exact: true })).toBeVisible()
   await expect(page.getByText('client@northside.demo', { exact: true })).toBeVisible()
-  await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: 'My memberships' }).click()
+  await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: 'Memberships and visits' }).click()
   await page.getByRole('navigation', { name: 'Account navigation' }).getByRole('link', { name: 'Profile', exact: true }).click()
   await expect(page.getByLabel('First name', { exact: true })).toHaveValue('Новое имя')
   await expect(page.getByLabel('Phone (optional)')).toHaveValue('')
@@ -110,7 +111,7 @@ test('logout prevents back-navigation leaks and changing clients isolates member
   await expect(page.getByText('Александра Миронова', { exact: true })).toHaveCount(0)
   await signIn(page, 'max@northside.demo')
   await expect(page.getByRole('navigation', { name: 'Разделы кабинета' })).toBeVisible()
-  await page.getByRole('navigation', { name: 'Разделы кабинета' }).getByRole('link', { name: 'Мои абонементы' }).click()
+  await page.getByRole('navigation', { name: 'Разделы кабинета' }).getByRole('link', { name: 'Абонементы и посещения' }).click()
   await expect(page.locator('main article').filter({ has: page.locator('time') })).toHaveCount(1)
   await expect(page.getByText('Максим Орлов', { exact: true })).toBeVisible()
   await expect(page.getByText('Абонемент № 2', { exact: true })).toBeVisible()

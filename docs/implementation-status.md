@@ -1,6 +1,35 @@
-# Implementation status — audit of 14 October 2026
+# Implementation status
 
-## Current status after the training/visit UI follow-up
+## Current status — 28 October 2026
+
+- The public timetable now shows a week, one selected day and time buttons grouped by trainer. It supports zone/trainer filters, deep links, nearest available-day selection, occupied times and empty states. Booking eligibility still comes from the server.
+- Shared buttons have predominantly square corners, consistent 44–48px targets and restrained motion. Purchase panels use a small asymmetric corner; forms, account navigation and staff controls share the palette and spacing. Training purchases load their own styles, so direct navigation and reload render consistently.
+- Administration has grouped desktop navigation and a mobile section selector. Trainer schedule, requests, profile and notifications are separate sections. Slot editing is opened on demand and offers only the trainer’s zones; cancellation asks for confirmation. Notification links lead to requests. Staff inputs remain disabled while saving.
+- Local `northside` now has one administrator, three active trainer logins and 36 future slots created for the next two weeks. Credentials exist only in ignored `backend/.local/staff-access.md` / `staff-credentials.json`. The explicit `app.prepare_local` command refuses unrelated account collisions, preserves changed passwords, existing financial data and cancelled slots, and adds missing future availability on rerun.
+- The database remains PostgreSQL with 30 application tables, migration `0006_trainer_portraits`; no schema or diagram changes were made in this milestone. The historical 18-table baseline remains in both schema documents.
+- Verification: Ruff passed; **36 backend tests**, **82 frontend unit tests**, **96 mock browser tests** passed (2 intentional device-specific skips). All **8 existing HTTP/PostgreSQL browser workflows** passed, including the new calendar selection in the paid training scenario. Two additional staff layout/accessibility checks cover all 15 sections in RU/turquoise and EN/orange, desktop and 320px. TypeScript and production build passed; Vite still reports the existing 509 kB entry chunk and dependency comment warnings.
+- Live main-database visual checks produced 23 desktop/320px screenshots plus a 390px pool-trainer editor check with no JavaScript errors or horizontal document overflow. All four prepared staff accounts signed in through the actual UI. Screenshots and read-only check results are under ignored `frontend/.local/design-2026-10-28/`.
+- Updated browser selectors to current text, mobile theme-menu behavior and week navigation; fixed the rapid-payment test's clock race. Corrected setup documentation: no SMTP/email verification, current table count and staff bootstrap procedure.
+- Remaining release acceptance: native browser zoom at 200%, visual inspection of empty/long exported reports, deployment preparation. No deployment was performed. These older pending items do not block local use of the tested flows.
+
+The dated sections below are historical snapshots; their pending items and database counts may have been superseded above.
+
+
+
+## Presentation and trainer follow-up — 16 October 2026
+
+- HTTP is now the documented default. Migration `0006_trainer_portraits` adds a nullable allowlisted portrait key with a partial unique index, without adding tables or changing existing records. Both schema documents retain the historical 18-table baseline.
+- The explicit `app.seed_trainers` command creates three fictional profiles with Argon2id hashes of random, discarded passwords, preserves existing emails/profiles and audits creation. Applied to local `northside`: three profiles now load through the API with their portraits. Existing client/purchase data was preserved; no training slots were fabricated.
+- Trainer cards link to their own schedule, support gym/pool filters, and collapse the homepage section only when loading succeeds with an empty list. API failures retain retry.
+- Paid orders emphasize the next action, omit the checkout stepper, suppress duplicate single-item prices and retain discount/conversion details and collapsed payment history. Selection copy, FAQ, account labels and errors are aligned in RU/EN. Purchase pages use a compact footer; desktop account actions are grouped in a keyboard-accessible disclosure.
+- Fixed the mobile purchase bar disappearing when a radio or checkbox received focus. Mock and HTTP Playwright artifacts now use separate directories.
+- Verification: 34 backend tests; 80 frontend unit tests; 33 targeted mock browser checks (16 desktop, 17 mobile; one desktop-only skip of the touch gesture test); all 7 targeted HTTP scenarios passed across the initial run and corrected trainer-test rerun. Ruff, TypeScript and the final production build passed (existing dependency-annotation and bundle-size warnings remain). Live HTTP screenshots of trainers and selection were inspected at desktop/mobile sizes; no horizontal overflow at 390px. The browser checks also cover 320px and both themes/languages.
+- This is a targeted follow-up, not full release acceptance. Earlier audit notes below are historical; outstanding native 200% zoom and report-export layout acceptance remain outside this change.
+
+
+## Historical snapshot — training/visit UI follow-up, 15 October 2026
+
+Final follow-up check on 15 October 2026: `npm run build` (including TypeScript checking) passed. The earlier approval-review usage-limit interruption is resolved. The saved targeted first-visit entry test result is also passed. This closes the final build check for these two UI changes; it is not a new full-project acceptance audit.
 
 The main code for all four requested stages exists, but the release is **not fully accepted**.
 

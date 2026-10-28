@@ -37,7 +37,7 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="fp-shell fp-section fp-coaches" data-reveal aria-labelledby="fp-coaches-heading">
+        <section className="fp-shell fp-section fp-coaches" hidden={trainers.isSuccess && !trainers.data.length} data-reveal aria-labelledby="fp-coaches-heading">
           <div className="fp-section-heading"><h2 id="fp-coaches-heading">{copy.coaches}</h2><Link className="fp-inline-link" to="/trainers">{copy.allCoaches}<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
           {trainers.isPending ? <p role="status">{copy.loading}</p> : trainers.isError ? <div role="alert"><p>{copy.coachesError}</p><button className="fp-inline-link" type="button" onClick={() => void trainers.refetch()}>{copy.retry}</button></div> : !trainers.data.length ? <p>{copy.coachesEmpty}</p> : <TrainerProfiles trainers={trainers.data.slice(0, 3)} headingLevel="h3" compact />}
         </section>

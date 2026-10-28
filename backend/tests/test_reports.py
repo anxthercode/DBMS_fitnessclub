@@ -46,7 +46,9 @@ async def test_exchange_roundtrip_validation_and_atomicity(client, connection):
     assert response.status_code == 422
 
 
-async def test_reports_same_sales_dataset_and_private_exports(client, connection, letters, tmp_path):
+async def test_reports_same_sales_dataset_and_private_exports(
+    client, connection, letters, tmp_path,
+):
     await register(client, letters)
     await add(client, day=datetime.now(MINSK).date().isoformat())
     await training_item(client)
@@ -70,7 +72,9 @@ async def test_reports_same_sales_dataset_and_private_exports(client, connection
         for format in ("docx", "xlsx", "pdf"):
             response = await client.get(f"/api/v1/admin/reports/sales.{format}",
                                         params={**params, "locale": locale})
-            assert response.status_code == 200, response.text[:300] if response.status_code != 200 else ""
+            assert response.status_code == 200, (
+                response.text[:300] if response.status_code != 200 else ""
+            )
             (tmp_path / f"sales-{locale}.{format}").write_bytes(response.content)
             if format == "docx":
                 doc = Document(BytesIO(response.content))

@@ -8,10 +8,10 @@ export function useClock() {
   useEffect(() => { const update = () => setNow(Date.now()); const timer = window.setInterval(update, 1000); document.addEventListener('visibilitychange', update); return () => { clearInterval(timer); document.removeEventListener('visibilitychange', update) } }, [])
   return now
 }
-export function usePrivateQuery<T>(key: string[], queryFn: () => Promise<T>, enabled = true) {
+export function usePrivateQuery<T>(key: string[], queryFn: () => Promise<T>, enabled = true, scope: 'client' | 'authenticated' = 'client') {
   const session = useSession()
   const client = useQueryClient()
-  const result = useQuery({ queryKey: ['account', session.data?.id || 'guest', ...key], queryFn, enabled: enabled && session.data?.role === 'CLIENT', retry: false, refetchInterval: 30_000 })
+  const result = useQuery({ queryKey: ['account', session.data?.id || 'guest', ...key], queryFn, enabled: enabled && !!session.data && (scope === 'authenticated' || session.data.role === 'CLIENT'), retry: false, refetchInterval: 30_000 })
   useEffect(() => {
     if (result.error instanceof ApiError && result.error.status === 401) {
       client.setQueryData(['session-expired'], true)

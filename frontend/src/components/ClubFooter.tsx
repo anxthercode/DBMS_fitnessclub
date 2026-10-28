@@ -6,9 +6,10 @@ import { api, isMock } from '@/api'
 import { Brand } from './brand'
 import './club-footer.css'
 
-export function ClubFooter({ links }: { links: ReadonlyArray<readonly [string, string]> }) {
+export function ClubFooter({ links, compact = false }: { links: ReadonlyArray<readonly [string, string]>; compact?: boolean }) {
   const { t } = useTranslation()
   const club = useQuery({ queryKey: ['club'], queryFn: api.club, enabled: isMock })
+  if (compact) return <footer className="compact-footer"><div className="container-shell"><Brand /><address>{t('footer.address')}</address><span>{t('footer.daily')} · 07:00–23:00</span><Link to="/#contacts">{t('nav.contacts')}</Link></div></footer>
   return <footer id="contacts" tabIndex={-1} className="site-footer" aria-labelledby="footer-contact-heading">
     <div className="container-shell">
       <div className="footer-grid">

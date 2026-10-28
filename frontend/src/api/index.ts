@@ -1,5 +1,7 @@
 import type { ClubApi } from './types'
-export const isMock = import.meta.env.VITE_API_MODE !== 'http'
+export const isMock = import.meta.env.VITE_API_MODE === 'mock'
+// Explicit opt-in for browser tests; never part of the ordinary customer flow.
+export const showTestControls = import.meta.env.VITE_TEST_CONTROLS === 'true'
 
 let implementation: Promise<ClubApi> | undefined
 

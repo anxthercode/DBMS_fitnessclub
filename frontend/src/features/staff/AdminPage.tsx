@@ -1,3 +1,6 @@
+import { StaffShell } from './StaffShell'
+import { useSearchParams } from 'react-router'
+import { StaffAccount } from './StaffAccount'
 import { ReportsPage, ExchangePage } from './ReportsPage'
 import { FirstVisitsPage } from './FirstVisitsPage'
 import { BookingManager } from './TrainerPage'
@@ -10,9 +13,17 @@ export function AdminPage() { return <StaffGuard role="ADMIN"><AdminWorkspace />
 
 function AdminWorkspace() {
   const w = useWords()
-  const [tab, setTab] = useState('users')
-  const tabs = [['reports', w('Отчёты', 'Reports')], ['exchange', w('Обмен данными', 'Data exchange')], ['users', w('Пользователи', 'Users')], ['trainers', w('Тренеры', 'Trainers')], ['offers', w('Тарифы', 'Offers')], ['training-offers', w('Цены тренировок', 'Training prices')], ['bookings', w('Заявки тренировок', 'Training requests')], ['first-visits', w('Первые визиты', 'First visits')], ['passes', w('Пропуска', 'Passes')], ['orders', w('Заказы и платежи', 'Orders and payments')], ['access', w('Выданный доступ', 'Issued access')], ['discounts', w('Скидки', 'Discounts')], ['rates', w('Курсы', 'Rates')]]
-  return <section className="container-shell page-section staff-page"><h1 className="page-title">{w('Кабинет администратора', 'Administrator workspace')}</h1><nav className="staff-tabs" aria-label={w('Разделы администратора', 'Administration sections')}>{tabs.map(([key, name]) => <button key={key} aria-pressed={key === tab} onClick={() => setTab(key)}>{name}</button>)}</nav>{tab === 'reports' ? <ReportsPage /> : tab === 'exchange' ? <ExchangePage /> : tab === 'first-visits' ? <FirstVisitsPage /> : tab === 'bookings' ? <BookingManager /> : <AdminSection key={tab} tab={tab} />}</section>
+  const [params] = useSearchParams()
+  const selectedTab = params.get('section') || 'first-visits'
+  const groups = [
+    { label: w('Посещения', 'Visits'), items: [['first-visits', w('Первые визиты', 'First visits')], ['bookings', w('Заявки тренировок', 'Training requests')], ['passes', w('Пропуска', 'Passes')]] as [string, string][] },
+    { label: w('Клуб', 'Club'), items: [['users', w('Пользователи', 'Users')], ['trainers', w('Тренеры', 'Trainers')], ['offers', w('Тарифы', 'Offers')], ['training-offers', w('Цены тренировок', 'Training prices')]] as [string, string][] },
+    { label: w('Продажи', 'Sales'), items: [['orders', w('Заказы и платежи', 'Orders and payments')], ['access', w('Выданный доступ', 'Issued access')], ['discounts', w('Скидки', 'Discounts')], ['rates', w('Курсы', 'Rates')]] as [string, string][] },
+    { label: w('Данные', 'Data'), items: [['reports', w('Отчёты', 'Reports')], ['exchange', w('Обмен данными', 'Data exchange')]] as [string, string][] },
+  ]
+  const allowed = [...groups.flatMap(group => group.items.map(([key]) => key)), 'profile', 'notifications']
+  const tab = allowed.includes(selectedTab) ? selectedTab : 'first-visits'
+  return <StaffShell title={w('Кабинет администратора', 'Administrator workspace')} section={tab} groups={groups}>{['profile', 'notifications'].includes(tab) ? <StaffAccount section={tab} /> : tab === 'reports' ? <ReportsPage /> : tab === 'exchange' ? <ExchangePage /> : tab === 'first-visits' ? <FirstVisitsPage /> : tab === 'bookings' ? <BookingManager /> : <AdminSection key={tab} tab={tab} />}</StaffShell>
 }
 
 export function AdminSection({ tab }: { tab: string }) {

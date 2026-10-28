@@ -1,0 +1,44 @@
+[
+  {
+    "first_name": "Даниэль",
+    "last_name": "Моро",
+    "specialization_ru": "Силовые и функциональные тренировки",
+    "specialization_en": "Strength & functional training",
+    "bio_ru": "Начал тренерскую практику в университетском спортивном центре, затем работал с любителями силовых тренировок. Помогает новичкам освоить базовые упражнения, а опытным посетителям — выстроить последовательную программу. На занятиях объясняет технику, ведёт дневник нагрузки и корректирует план по прогрессу.",
+    "bio_en": "Started coaching at a university sports centre before working with recreational strength athletes. Helps beginners learn the fundamentals and experienced members build a consistent programme. Explains technique, tracks training loads and adjusts the plan as you progress.",
+    "education_ru": "Университет Лафборо, Великобритания — бакалавриат Sport and Exercise Science (науки о спорте и физических упражнениях).",
+    "education_en": "Loughborough University, United Kingdom — BSc Sport and Exercise Science.",
+    "experience_years": 8,
+    "portrait_key": "trainer-01",
+    "zones": "gym",
+    "email": "daniel.coursework@northside.example"
+  },
+  {
+    "first_name": "София",
+    "last_name": "Коваль",
+    "specialization_ru": "Пилатес, йога и мобильность",
+    "specialization_en": "Pilates, yoga & mobility",
+    "bio_ru": "Пришла к пилатесу через гимнастику и занятия на развитие координации. Строит тренировки вокруг дыхания, баланса и точного контроля движений. Предлагает варианты упражнений для разного уровня подготовки и помогает сделать регулярные занятия частью привычного ритма.",
+    "bio_en": "Discovered Pilates through gymnastics and coordination training. Builds sessions around breathing, balance and precise movement control. Offers exercise variations for different ability levels and helps members make regular practice part of their routine.",
+    "education_ru": "Белорусский государственный университет физической культуры, Минск — высшее физкультурное образование. Дополнительная подготовка по методике пилатеса и мобильности.",
+    "education_en": "Belarusian State University of Physical Culture, Minsk — degree-level physical education studies. Additional training in Pilates and mobility teaching methods.",
+    "experience_years": 6,
+    "portrait_key": "trainer-03",
+    "zones": "gym",
+    "email": "sofia.coursework@northside.example"
+  },
+  {
+    "first_name": "Максим",
+    "last_name": "Савицкий",
+    "specialization_ru": "Плавание и аквааэробика",
+    "specialization_en": "Swimming & aqua aerobics",
+    "bio_ru": "Занимался плаванием в спортивной секции, позже выбрал работу с взрослыми любителями. Помогает уверенно чувствовать себя в воде: от первых упражнений на дыхание до улучшения техники разных стилей. На персональных занятиях подбирает темп и нагрузку с учётом подготовки клиента.",
+    "bio_en": "Trained with a swimming club before choosing to coach adult recreational swimmers. Helps members feel confident in the water, from early breathing drills to refining different strokes. Adapts the pace and workload of personal sessions to the client’s experience.",
+    "education_ru": "Немецкий спортивный университет Кёльна, Германия — бакалавриат Sport und Leistung (спортивная подготовка и результативность).",
+    "education_en": "German Sport University Cologne, Germany — bachelor’s programme Sport und Leistung (Sports Science and Performance).",
+    "experience_years": 7,
+    "portrait_key": "trainer-02",
+    "zones": "pool",
+    "email": "maksim.coursework@northside.example"
+  }
+]

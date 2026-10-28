@@ -16,25 +16,25 @@ export function ZoneBadges({ zones }: { zones: Zones }) {
   const { locale } = useCommerceCopy()
   return <div className="zone-badges">{(zones === 'both' ? ['gym', 'pool'] as const : [zones]).map(zone => <span key={zone}>{offerCopy[locale][zone]}</span>)}</div>
 }
-export function ProductDescription({ product }: { product: Product }) {
+export function ProductDescription({ product, showPrice = true, showNotes = true }: { product: Product; showPrice?: boolean; showNotes?: boolean }) {
   const { copy, locale } = useCommerceCopy()
-  if (product.format === 'training') return <div className="product-description"><h2>{locale === 'ru' ? 'Персональная тренировка · 60 минут' : 'Personal training · 60 minutes'}</h2><ZoneBadges zones={product.zones} /><p>{locale === 'ru' ? 'Без срока действия. Время выбирается после оплаты; для записи нужен абонемент на всю тренировку и её зону.' : 'No expiry. Book a time after payment; a membership must cover the entire session and zone.'}</p><p className="product-price">{money(product.price_byn, locale)}</p></div>
+  if (product.format === 'training') return <div className="product-description"><h2>{locale === 'ru' ? 'Персональная тренировка · 60 минут' : 'Personal training · 60 minutes'}</h2><ZoneBadges zones={product.zones} />{showNotes && <p>{locale === 'ru' ? 'Для записи нужен действующий абонемент. Время выбирается после покупки.' : 'A valid membership is required to book. Choose a time after purchase.'}</p>}{showPrice && <p className="product-price">{money(product.price_byn, locale)}</p>}</div>
   const offer = offerCopy[locale]
   return <div className="product-description">
     <h2>{offer[product.format]}{product.format === 'membership' ? ' · ' + offer['month' + product.months as 'month1'] : ''}</h2>
     <ZoneBadges zones={product.zones} />
     <p>{product.format === 'membership' ? offer.startDate : offer.visitDate}: <time dateTime={product.starts_at}>{date(product.starts_at, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>
     {product.format === 'membership' && <p>{copy.ends}: <time dateTime={product.ends_at}>{date(product.ends_at, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>}
-    <p>{product.format === 'membership' ? copy.coachingNote : offer.visitTraining}</p>
-    <p className="product-price">{money(product.price_byn, locale)} <small>{product.format === 'membership' ? offer.total : offer.visitTotal}</small></p>
+    {showNotes && <p>{product.format === 'membership' ? copy.coachingNote : offer.visitTraining}</p>}
+    {showPrice && <p className="product-price">{money(product.price_byn, locale)} <small>{product.format === 'membership' ? offer.total : offer.visitTotal}</small></p>}
   </div>
 }
-export function Totals({ quote }: { quote: Quote }) {
+export function Totals({ quote, status }: { quote: Quote; status?: 'pending' | 'paid' | 'cancelled' }) {
   const { copy, locale } = useCommerceCopy()
   return <div className="purchase-totals">
-    <dl><div><dt>{copy.subtotal}</dt><dd>{money(quote.subtotal_byn, locale)}</dd></div><div><dt>{copy.discount}{quote.promo_code && ' · ' + quote.promo_code}</dt><dd>−{money(quote.discount_byn, locale)}</dd></div></dl>
-    {quote.currency !== 'BYN' && <><p>{copy.baseTotal}: {money(quote.total_byn, locale)}</p><p className="rate-note">{copy.conversion}: 1 {quote.currency} = {Number(quote.byn_per_unit)} BYN{quote.rate_date && ' · ' + date(quote.rate_date, locale, { day: 'numeric', month: 'numeric', year: 'numeric' })}</p></>}
-    <p className="total-label">{copy.total}</p><p className="purchase-total">{money(quote.total_currency, locale, quote.currency)}</p>
+    {Number(quote.discount_byn) > 0 && <dl><div><dt>{copy.subtotal}</dt><dd>{money(quote.subtotal_byn, locale)}</dd></div>{Number(quote.discount_byn) > 0 && <div><dt>{copy.discount}{quote.promo_code && ' · ' + quote.promo_code}</dt><dd>−{money(quote.discount_byn, locale)}</dd></div>}</dl>}
+    {quote.currency !== 'BYN' && <details className="purchase-details"><summary>{copy.conversion}</summary><p>{copy.baseTotal}: {money(quote.total_byn, locale)}</p><p className="rate-note">1 {quote.currency} = {Number(quote.byn_per_unit)} BYN{quote.rate_date && ' · ' + date(quote.rate_date, locale, { day: 'numeric', month: 'numeric', year: 'numeric' })}</p><p className="rate-note">{copy.rateFixed}</p></details>}
+    <p className="total-label">{status === 'paid' ? copy.paidTotal : status === 'cancelled' ? copy.orderTotal : copy.total}</p><p className="purchase-total">{money(quote.total_currency, locale, quote.currency)}</p>
   </div>
 }
 export function PurchaseSteps({ step }: { step: 'selection' | 'cart' | 'payment' | 'access' }) {

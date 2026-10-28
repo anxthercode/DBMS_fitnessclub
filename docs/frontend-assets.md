@@ -12,12 +12,12 @@ Only the following nine photographs/poster images and one video remain in the we
 | `frontend/public/images/club/pool-outside.webp` | Outdoor pool view; user-supplied `there/swimming_pool_outside.webp`, resized to 1440 × 1920, 221,896 bytes |
 | `frontend/public/images/design/changing-room.jpg` | Changing-room gallery; Polina Tankilevitch / Pexels, with source and license recorded below |
 | `frontend/public/images/home/club-tour-poster.webp` | Hero poster/fallback; frame from the supplied video, 1280 × 720, 75,906 bytes |
-| `frontend/public/images/trainers/trainer-01.webp` | Fictional coach ID 2; supplied GPT/Gemini portrait, 843 × 1264, 74,026 bytes |
-| `frontend/public/images/trainers/trainer-02.webp` | Fictional coach ID 7; supplied GPT/Gemini portrait, 1408 × 768, 147,900 bytes |
-| `frontend/public/images/trainers/trainer-03.webp` | Fictional coach ID 3; supplied GPT/Gemini portrait, 1408 × 768, 143,092 bytes |
+| `frontend/public/images/trainers/trainer-01.webp` | Fictional Daniel Moreau, explicit key `trainer-01`; supplied GPT/Gemini portrait, 843 × 1264, 74,026 bytes |
+| `frontend/public/images/trainers/trainer-02.webp` | Fictional Maksim Savitski, explicit key `trainer-02`; supplied GPT/Gemini portrait, 1408 × 768, 147,900 bytes |
+| `frontend/public/images/trainers/trainer-03.webp` | Fictional Sofia Koval, explicit key `trainer-03`; supplied GPT/Gemini portrait, 1408 × 768, 143,092 bytes |
 | `frontend/public/videos/home/club-tour.mp4` | Supplied GPT/Gemini concept footage; muted H.264, fast-start, 1280 × 720, 24 fps, 10 seconds, 5,257,276 bytes |
 
-The four facility-photo delivery files and three portrait files were verified as byte-identical to their duplicate source copies before removing the duplicates. Facility-photo authors, source URLs and licenses have not been supplied; do not infer stock attribution or AI origin. Supplied video/portrait generation and permission were confirmed by the user on 4 October; exact per-file prompts/models were not supplied. Portrait mapping is limited to fictional mock identities.
+The four facility-photo delivery files and three portrait files were verified as byte-identical to their duplicate source copies before removing the duplicates. Facility-photo authors, source URLs and licenses have not been supplied; do not infer stock attribution or AI origin. Supplied video/portrait generation and permission were confirmed by the user on 4 October; exact per-file prompts/models were not supplied. Portrait mapping is limited to fictional coursework identities. Since 16 October 2026, mock fixtures and explicitly seeded PostgreSQL profiles use allowlisted portrait keys; numeric user IDs never select a portrait. Ordinary API profiles retain the neutral icon.
 
 All three Manrope TTF weights, `OFL-Manrope.txt` and `manrope-source.css` are retained: the last two are license/provenance records, not unused application styles. `favicon.svg` and `theme-init.js` are used by `index.html`.
 

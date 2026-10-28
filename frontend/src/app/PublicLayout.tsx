@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, Menu, X, ShoppingBag } from 'lucide-react'
 import { ClubFooter } from '@/components/ClubFooter'
+import { AccountMenu } from '@/components/AccountMenu'
 import { Brand } from '@/components/brand'
 import { LanguageSwitch } from '@/components/language-switch'
 import { ThemeSwitch } from '@/components/theme-switch'
@@ -92,13 +93,10 @@ export function PublicLayout() {
           <nav className="hidden items-center gap-7 xl:flex" aria-label={t('nav.primary')}>{navLinks()}</nav>
           <div className="flex items-center gap-2 sm:gap-5">
             {(!user || user.role === 'CLIENT') && <Link to="/cart" className="relative inline-flex min-h-11 min-w-11 items-center justify-center" aria-label={copy.cart + (cart.data?.items.length ? ' (' + cart.data.items.length + ')' : '')}><ShoppingBag size={21} aria-hidden="true" />{!!cart.data?.items.length && <span className="absolute right-0 top-0 rounded-full bg-primary px-1.5 text-xs text-primary-foreground">{cart.data.items.length}</span>}</Link>}
-            <ThemeSwitch />
+            <div className="hidden xl:block"><ThemeSwitch /></div>
             <LanguageSwitch />
-            {user ? <div className="hidden items-center gap-4 sm:flex">
-              {user.role === 'CLIENT'
-                ? <Link to="/account" className="site-link">{t('nav.account')}</Link>
-                : <Link to={user.role === 'ADMIN' ? '/admin' : '/trainer'} className="site-link">{t('nav.account')}</Link>}
-              <Button variant="ghost" onClick={signOut} disabled={logout.isPending}>{t('auth.logout')}</Button>
+            {user ? <div className="hidden xl:block">
+              <AccountMenu user={user} signOut={signOut} busy={logout.isPending} />
             </div> : <div className="hidden sm:block"><Link className="site-link" to="/login">{t('nav.login')}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>}
             <Button ref={menuButton} variant="ghost" size="icon" className="xl:hidden"
               aria-label={t(open ? 'nav.closeMenu' : 'nav.menu')} aria-controls="mobile-menu" aria-expanded={open}
@@ -107,6 +105,7 @@ export function PublicLayout() {
         </div>
         {open && <nav id="mobile-menu" className="container-shell flex max-h-[70dvh] flex-col overflow-y-auto pb-4 xl:hidden" aria-label={t('nav.mobile')}>
           {navLinks(true)}
+          <div className="menu-theme"><span>{i18n.language === 'en' ? 'Colour theme' : 'Цветовая тема'}</span><ThemeSwitch /></div>
           {user ? <>
             {<Link to={user.role === 'CLIENT' ? '/account' : user.role === 'ADMIN' ? '/admin' : '/trainer'} className="site-link border-t border-border py-3" onClick={() => setOpen(false)}>{t('nav.account')}</Link>}
             <Button variant="outline" className="mt-2 self-start" disabled={logout.isPending} onClick={signOut}>{t('auth.logout')}</Button>
@@ -114,7 +113,7 @@ export function PublicLayout() {
         </nav>}
       </header>
       <main id="main" ref={main} tabIndex={-1} className="flex-1 focus:outline-none"><Outlet /></main>
-      <ClubFooter links={links} />
+      <ClubFooter links={links} compact={['/plans', '/training', '/cart'].includes(location.pathname) || /^\/(account|admin|trainer)(\/|$)/.test(location.pathname)} />
     </div>
   )
 }

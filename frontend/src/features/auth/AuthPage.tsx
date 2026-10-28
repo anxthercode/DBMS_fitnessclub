@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, Navigate, useSearchParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, CheckCircle2, LoaderCircle } from 'lucide-react'
-import { api, isMock } from '@/api'
+import { api, isMock, showTestControls } from '@/api'
 import { ApiError, type LoginInput, type RegisterInput } from '@/api/types'
 import { demoAccounts, demoPassword } from '@/api/mock/demo'
 import { Button } from '@/components/ui/button'
@@ -53,7 +53,7 @@ function LoginForm() {
       <Button type="submit" className="w-full" size="lg" variant="dark" disabled={mutation.isPending}>
         {mutation.isPending && <LoaderCircle className="animate-spin" />}{t(mutation.isPending ? 'auth.submitting' : 'auth.signIn')}<ArrowUpRight />
       </Button>
-      {isMock && <div className="rounded border border-border bg-background p-4 text-xs leading-6 text-muted-foreground">
+      {isMock && showTestControls && <div className="rounded border border-border bg-background p-4 text-xs leading-6 text-muted-foreground">
         <p className="font-semibold text-foreground">{t('auth.demoTitle')}</p>
         <p className="mt-1 break-all">{demoAccounts.CLIENT} / {demoPassword}</p>
         <button type="button" className="mt-2 min-h-11 text-left font-semibold text-foreground underline underline-offset-4" onClick={() => {
@@ -154,7 +154,6 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
                 <Link to={(isRegister ? '/login' : '/register') + suffix} className="font-semibold text-foreground underline underline-offset-4">{t(isRegister ? 'nav.login' : 'auth.create')}</Link>
               </p>
             </>}
-            {isMock && <p className="mt-6 text-xs leading-6 text-muted-foreground">{t('auth.mockNote')}</p>}
           </div>
         </div>
       </div>

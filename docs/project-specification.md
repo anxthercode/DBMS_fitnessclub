@@ -1,5 +1,14 @@
 # Project specification
 
+### Presentation refinement — approved 28 October 2026
+
+- Use one visual system across public, purchase, client and staff pages: shared typography and spacing, 44–48px actions, mostly square control corners, restrained asymmetric panel corners and reduced-motion support. Preserve the two existing colour themes and RU/EN.
+- Customer pages use ordinary club language without demo, coursework or no-charge banners. The payment implementation remains simulated; this presentation change does not authorize real charges.
+- The public schedule shows one week and selected day, with times grouped by trainer. Zone and trainer filters retain deep links; the initial selection prefers the nearest available session. All server-side eligibility and concurrency rules remain authoritative.
+- Staff workspaces separate schedule, requests, management and personal settings. Mobile navigation uses a section selector. Slot creation is opened explicitly, and cancelling a trainer slot asks for confirmation.
+- Prepare one local administrator, three seeded trainer logins and two weeks of future times. Store generated passwords only in ignored local files. Preserve existing users, purchases, financial history, cancelled slots and changed passwords. No schema or diagram changes are needed.
+
+
 Detailed product agreements; see [README](../README.md) for implementation status and setup. On 11 October 2026 the user explicitly delegated the remaining choices and requested scope reduction. The simplified rules below supersede the earlier email and training-package proposals; implementation and remaining acceptance work are recorded in the status document.
 
 ## 3. Functional scope and agreed rules
@@ -103,6 +112,13 @@ Website media lives in `frontend/public/images/`, `videos/home/` and `fonts/`. K
 
 ## Database and diagrams
 
-[Schema plan](database/schema-proposal.md) and [design details](database/schema-design-details.md) preserve the original 18-table baseline. Migrations through `0005_personal_training` implement 30 application tables excluding Alembic, omit training packages and retain unused email-token tables. First-visit history uses existing records and introduces no extra table. Existing diagrams have not been updated. The historical PDF is not current.
+[Schema plan](database/schema-proposal.md) and [design details](database/schema-design-details.md) preserve the original 18-table baseline. Migrations through `0006_trainer_portraits` implement 30 application tables excluding Alembic, omit training packages and retain unused email-token tables. First-visit history uses existing records and introduces no extra table. Existing diagrams have not been updated. The historical PDF is not current.
 
 Existing diagrams remain unchanged at the user's request: [Use Case](diagrams/use-case-diagram.png) (no editable source), [booking algorithm](diagrams/fitness_club_algorithm.drawio), [Chen ER](diagrams/fitness_club_chen.drawio) and [detailed ER baseline](diagrams/er-diagram.drawio), each with its existing PNG. They are historical/conceptual views, not the implemented physical schema. Preserve recovery files and `diagrams/old/` too.
+
+### Presentation refinement — approved 16 October 2026
+
+- Paid orders show a concise outcome and a primary link to the issued membership/visit or the training schedule. Multiple access purchases link to the owned list. Keep immutable item details, discounts, conversion and collapsed payment history; omit redundant totals and the checkout stepper after payment.
+- Keep a full footer on the homepage; use a compact brand/address/hours/contact footer on selection, training purchase, cart and account pages. Desktop account actions use a keyboard-accessible disclosure; mobile actions remain in the main menu.
+- Show three fictional coursework trainers with explicit portrait keys in HTTP mode. Seed only newly created fictional identities; never match arbitrary user IDs or overwrite existing accounts. Ordinary profiles keep a neutral portrait. The homepage hides a successfully empty team section; loading failures retain retry. The catalogue filters by gym/pool and links to each trainer’s schedule.
+- Keep separate payment for personal training visible before purchase. Place detailed admission rules and the Minsk date convention in conditions. Shorten repeated product copy in both RU and EN.

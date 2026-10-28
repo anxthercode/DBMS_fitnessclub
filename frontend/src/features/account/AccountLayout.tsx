@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet, useOutletContext } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, CreditCard, UserRound, LayoutDashboard, CalendarDays, Bell } from 'lucide-react'
-import { isMock, api } from '@/api'
+import { api } from '@/api'
 import type { User } from '@/api/types'
 
 import { usePrivateQuery } from '@/features/training/hooks'
@@ -12,7 +12,7 @@ const links = [
   { to: '/account/notifications', label: 'account.notifications', Icon: Bell },
   { to: '/account/memberships', label: 'account.memberships', Icon: CreditCard },
   { to: '/account/orders', label: 'account.orders', Icon: CreditCard },
-  { to: '/account/profile', label: 'dash.profile', Icon: UserRound, LayoutDashboard, CalendarDays, Bell },
+  { to: '/account/profile', label: 'dash.profile', Icon: UserRound },
 ]
 
 export function AccountLayout() {
@@ -31,16 +31,14 @@ export function AccountLayout() {
           </div>
           <nav aria-label={t('account.navigation')} className="mt-6 grid grid-cols-2 gap-2 lg:grid-cols-1">
             {links.map(({ to, label, Icon }) => <NavLink key={to} to={to} end={to === '/account'} className={({ isActive }) =>
-              'flex min-h-12 items-center gap-2 rounded px-3 py-3 text-sm transition-colors ' + (isActive ? 'bg-card font-semibold text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground')}>
+              'flex min-h-12 items-center gap-2 rounded-[2px] border-l-2 border-transparent px-3 py-3 text-sm transition-colors ' + (isActive ? 'bg-card !border-primary font-semibold text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground')}>
               <Icon className="size-4 shrink-0" /><span>{t(label)}{to === '/account/notifications' && unread > 0 && <span className="ml-2">({unread})</span>}</span>
             </NavLink>)}
           </nav>
           <Link to="/" className="mt-7 hidden min-h-10 items-center gap-2 text-sm text-muted-foreground hover:text-foreground lg:flex"><ArrowLeft className="size-4" />{t('dash.club')}</Link>
-          {isMock && <p className="mt-6 hidden border-t border-border pt-5 text-xs leading-6 text-muted-foreground lg:block">{t('account.demoNote')}</p>}
         </aside>
         <div className="account-content min-w-0"><Outlet context={user} /></div>
       </div>
-      {isMock && <p className="mt-8 text-xs leading-6 text-muted-foreground lg:hidden">{t('account.demoNote')}</p>}
     </div>
   )
 }

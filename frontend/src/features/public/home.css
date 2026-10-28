@@ -21,12 +21,12 @@
 .club-content button, .club-content summary { cursor: pointer; }
 .club-content img { display: block; width: 100%; object-fit: cover; }
 .club-content section[id] { scroll-margin-top: 24px; }
-.club-content .fp-shell { width: min(1200px, calc(100% - 96px)); margin-inline: auto; }
+.club-content .fp-shell { width: min(1320px, calc(100% - 96px)); margin-inline: auto; }
 .fp-home { background: var(--fp-surface); }
 .fp-home .fp-memberships { background: var(--fp-bg); }
 .fp-photo-frame { overflow: hidden; border-radius: 4px; }
 .fp-lead { max-width: 470px; margin-top: 24px !important; font-size: 16px; line-height: 1.8; }
-.club-content .fp-primary { margin-top: 22px; display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; padding: 12px 18px; background: var(--fp-action); color: var(--fp-bg); font-size: 14px; font-weight: 600; min-height: 46px; border-radius: 3px; }
+.club-content .fp-primary { margin-top: 22px; display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; padding: 12px 18px; background: var(--fp-action); color: var(--fp-bg); font-size: 14px; font-weight: 600; min-height: 48px; border-radius: 2px; }
 .club-content .fp-primary:hover { background: var(--fp-text); color: var(--fp-bg); }
 .fp-section { padding-block: 56px; }
 .fp-section-heading { display: grid; grid-template-columns: 1fr 1.12fr; gap: 80px; align-items: start; margin-bottom: 36px; }
@@ -80,7 +80,7 @@
 .fp-guest .fp-primary svg { flex-shrink: 0; }
 .fp-guest-form { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--fp-line); }
 .fp-guest-form h4 { font-size: 18px; font-weight: 500; margin: 0; }
-.fp-guest-demo { font-size: 13px; margin-top: 8px !important; }
+.fp-guest-note { font-size: 13px; margin-top: 8px !important; }
 .fp-guest-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 22px; }
 .fp-guest-fields label { display: block; font-size: 14px; margin-bottom: 8px; }
 .fp-guest-fields input { display: block; width: 100%; min-width: 0; min-height: 46px; padding: 10px 12px; background: var(--fp-bg); color: var(--fp-text); border: 1px solid var(--fp-accent); border-radius: 3px; font: inherit; font-size: 16px; }

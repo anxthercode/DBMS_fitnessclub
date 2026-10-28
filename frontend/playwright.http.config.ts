@@ -8,6 +8,7 @@ if (!databaseUrl || new URL(databaseUrl).pathname !== '/northside_test') throw n
 // Browser checks use only the dedicated local PostgreSQL test database.
 export default defineConfig({
   testDir: './tests/http',
+  outputDir: './test-results/http',
   workers: 1,
   reporter: 'list',
   use: {
@@ -27,7 +28,7 @@ export default defineConfig({
     {
       command: 'npm run dev -- --port 5174 --strictPort',
       url: 'http://127.0.0.1:5174',
-      env: { VITE_API_MODE: 'http', VITE_API_BASE_URL: 'http://127.0.0.1:8001/api/v1' },
+      env: { VITE_TEST_CONTROLS: 'false', VITE_API_MODE: 'http', VITE_API_BASE_URL: 'http://127.0.0.1:8001/api/v1' },
       reuseExistingServer: false,
     },
   ],

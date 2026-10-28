@@ -28,13 +28,13 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
 
   useEffect(() => { setFocus('name') }, [setFocus])
 
-  return <form id="fp-guest-form" className="fp-guest-form" aria-labelledby="fp-guest-form-heading" aria-describedby="fp-guest-demo" noValidate
+  return <form id="fp-guest-form" className="fp-guest-form" aria-labelledby="fp-guest-form-heading" aria-describedby="fp-guest-note" noValidate
     onSubmit={handleSubmit(values => { if (isMock) setChecked(true); else submit.mutate(values) }, () => setChecked(false))}
     onChange={() => setChecked(false)}
     onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); close() } }}>
     <h4 id="fp-guest-form-heading">{copy.guestFormTitle}</h4>
     <p className="fp-guest-terms">{copy.guestTerms}</p>
-    <p id="fp-guest-demo" className="fp-guest-demo">{isMock ? copy.guestDemo : w('Заявка будет сохранена. Администратор свяжется с вами, чтобы согласовать дату и зоны.', 'Your application will be saved. An administrator will contact you to agree a date and zones.')}</p>
+    <p id="fp-guest-note" className="fp-guest-note">{w('Администратор свяжется с вами, чтобы согласовать дату и зоны.', 'An administrator will contact you to agree a date and zones.')}</p>
     <div className="fp-guest-fields">
       <div>
         <label htmlFor="fp-guest-name">{copy.guestName}</label>
@@ -48,9 +48,9 @@ export function GuestForm({ copy, close }: { copy: Copy; close: () => void }) {
         {errors.phone && <p className="fp-field-error" id="fp-guest-phone-error" role="alert">{copy.guestPhoneInvalid}</p>}
       </div>
     </div>
-    <div className="fp-guest-form-actions"><button className="fp-primary" type="submit" disabled={submit.isPending || submit.isSuccess}>{isMock ? copy.guestSubmit : w('Записаться на первый визит', 'Request your first visit')}</button><button className="fp-inline-link" type="button" onClick={close}>{copy.guestCancel}</button></div>
+    <div className="fp-guest-form-actions"><button className="fp-primary" type="submit" disabled={submit.isPending || submit.isSuccess}>{w('Записаться на первый визит', 'Request your first visit')}</button><button className="fp-inline-link" type="button" onClick={close}>{copy.guestCancel}</button></div>
     <StaffError error={submit.error} />
     {submit.isSuccess && <p role="status">{w('Заявка принята. Дождитесь звонка администратора.', 'Application received. Please wait for the administrator’s call.')}</p>}
-    {checked && <p className="fp-guest-result" role="status">{copy.guestResult}</p>}
+    {checked && <p className="fp-guest-result" role="status">{w('Отправка заявки сейчас недоступна. Попробуйте позже.', 'Applications are currently unavailable. Please try again later.')}</p>}
   </form>
 }

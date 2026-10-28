@@ -32,20 +32,34 @@ For an already provisioned database, configure `.env` from `.env.example` instea
 | `CORS_ORIGINS` | JSON list of exact frontend origins, default localhost/127.0.0.1 port 5173 |
 | `DB_POOL_MIN_SIZE` / `DB_POOL_MAX_SIZE` | Shared asyncpg pool bounds, defaults 1 / 5 |
 | `DB_COMMAND_TIMEOUT` | Query timeout in seconds, default 10 |
-| `FRONTEND_URL` | Email-link origin, default `http://127.0.0.1:5173` |
+| `FRONTEND_URL` | Reserved for deferred email links, default `http://127.0.0.1:5173` |
 | `COOKIE_SECURE` / `SESSION_HOURS` | Local HTTP: false / 168; HTTPS deployment requires secure cookies |
 
 `/api/v1/health/live` checks the API process; `/api/v1/health/ready` checks catalogue availability. `/docs` lists auth, catalogue, cart, order, payment, access and notification endpoints. `/api/v1/auth/session` returns the signed-in user or 401.
 
-In pgAdmin, connect to localhost:5432 and inspect **Databases → northside → Schemas → public → Tables**. Migrations through `0003_access_commerce` create 23 application tables; `alembic_version` records migrations. Restart FastAPI after changing its environment. Stop development servers with Ctrl+C; leave the PostgreSQL service running.
+In pgAdmin, connect to localhost:5432 and inspect **Databases → northside → Schemas → public → Tables**. Migrations through `0006_trainer_portraits` create 30 application tables; `alembic_version` records migrations. Restart FastAPI after changing its environment. Stop development servers with Ctrl+C; leave the PostgreSQL service running.
 
-## Gmail SMTP
+## Accounts and future availability
 
-Deferred for the simplified coursework release. No mailbox setup is currently required. The instructions below describe the existing optional adapter; disabling its calls and the email-verification gate is the next code change, not yet implemented.
+Registration, login and purchases work without email verification. Email delivery and password recovery are deferred; no Gmail or SMTP configuration is required. Legacy token tables remain for history.
 
-1. Create a separate project Gmail account, for example `northside.fitness.project@gmail.com` if available. This is the sender; site users register with their own recipient email.
-2. Enable [Google 2-Step Verification](https://myaccount.google.com/security), then create an [app password](https://myaccount.google.com/apppasswords) named NORTHSIDE. Use that 16-character password without spaces, not the normal Google password. See [Google's requirements](https://support.google.com/accounts/answer/185833?hl=en) if this option is unavailable.
-3. Fill the existing ignored `backend/.local/smtp.env` using [smtp.env.example](smtp.env.example): `SMTP_USER` and `SMTP_FROM` are the project address, `SMTP_PASSWORD` is its app password. Use `smtp.gmail.com`, port `587`, `starttls` ([Google SMTP settings](https://support.google.com/mail/answer/7104828?hl=en)). Never paste credentials into chat or Git.
-4. Restart FastAPI. Run the frontend in HTTP mode at `http://127.0.0.1:5173`. Register with your own email, open the confirmation link and confirm; check Spam if needed. For an existing account, use resend in the account/cart. Then test password recovery and login with the new password.
+On the local `northside` database, prepare one administrator, the three seeded trainers and the next two weeks of availability:
 
-Current mail scope: confirmation and password recovery in RU/EN. Purchases create in-app notifications, not receipt emails. Registration remains saved if delivery fails, but checkout stays blocked until confirmation. Recovery always shows a generic result, so that message alone does not prove delivery. Links target this laptop and require its development servers to be running. Real Gmail delivery has not yet been verified; automated tests intercept mail.
+```powershell
+.\.venv\Scripts\python.exe -m app.prepare_local
+```
+
+Credentials are stored only in ignored `.local/staff-access.md` and `.local/staff-credentials.json`. Open the Markdown file locally; never commit or share it. The command activates only untouched seeded trainer identities, refuses unrelated account collisions, preserves changed passwords and never reopens cancelled slots. Repeating it adds only missing future times. It does not create purchases or bookings.
+
+For another database, create an administrator explicitly and enter the password at the prompt:
+
+```powershell
+.\.venv\Scripts\python.exe -m app.operator create-admin --email admin@example.com
+.\.venv\Scripts\python.exe -m app.operator reset-password --email trainer@example.com
+```
+
+Sign in through `/login`. Administrators are redirected to `/admin`; trainers to `/trainer`. Create further trainer accounts through the administrator's Trainers section. Trainers manage their availability, requests, attendance, profile and notifications. The public timetable displays future times grouped by day and trainer.
+
+## Verification
+
+Run `python -m pytest -q` with the backend virtual environment. Integration tests migrate and reset only local `northside_test`, never `northside`. Browser HTTP tests use this same test database, so run them after pytest, not concurrently. Tests cover permissions, purchases, duplicate payments, access periods, bookings, concurrency, cancellations, first visits and pass redemption.

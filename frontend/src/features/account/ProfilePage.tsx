@@ -18,7 +18,8 @@ export function ProfilePage() {
   return <ProfileForm key={user.id} user={user} />
 }
 
-function ProfileForm({ user }: { user: User }) {
+export function ProfileForm({ user, embedded = false }: { user: User; embedded?: boolean }) {
+  const Heading = embedded ? 'h2' : 'h1'
   const { t, i18n } = useTranslation()
   const client = useQueryClient()
   const { register, handleSubmit, reset, formState: { errors, isDirty } } = useForm<ProfileValues>({ resolver: zodResolver(profileSchema), defaultValues: formValues(user) })
@@ -38,7 +39,7 @@ function ProfileForm({ user }: { user: User }) {
 
   return (
     <section>
-      <h1 className="page-title">{t('profile.title')}</h1>
+      <Heading className="page-title">{t('profile.title')}</Heading>
       <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">{t('profile.subtitle')}</p>
       <form noValidate className="mt-8 rounded-md border border-border bg-card p-5 sm:p-8" onSubmit={handleSubmit(values => save.mutate(values))}>
         <fieldset disabled={save.isPending} className="min-w-0 space-y-6">

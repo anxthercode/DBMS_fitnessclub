@@ -83,11 +83,11 @@ export const homeCopy = {
       },
       {
         "question": "Включены ли занятия с тренером?",
-        "answer": "Для записи нужен абонемент с подходящей зоной и форматом тренировок. Выберите занятие в расписании — запись подтвердит тренер."
+        "answer": "Тренировки оплачиваются отдельно. Для записи нужны оплаченное занятие и абонемент на выбранную зону и весь период тренировки. Выберите время в расписании — заявку подтвердит тренер."
       },
       {
-        "question": "Можно ли уже оплатить выбранный вариант?",
-        "answer": "Сейчас доступна демооплата без списания денег. Выберите абонемент, добавьте его в корзину и оформите заказ."
+        "question": "Как купить абонемент или посещение?",
+        "answer": "Выберите абонемент или посещение, добавьте в корзину и перейдите к оплате. Покупки появятся в личном кабинете."
       }
     ],
     "retry": "Повторить",
@@ -181,11 +181,11 @@ export const homeCopy = {
       },
       {
         "question": "Are coached sessions included?",
-        "answer": "You need a membership covering the zone and training format. Choose a session in the schedule; your coach will confirm the booking."
+        "answer": "Personal training is purchased separately. To book, you need a paid session and a membership covering its zone and full duration. Choose a time in the schedule; your coach will confirm the request."
       },
       {
-        "question": "Can I pay for my selection now?",
-        "answer": "Demo checkout is available, with no real charges. Choose a membership, add it to your cart and place an order."
+        "question": "How do I buy a membership or visit?",
+        "answer": "Choose a membership or visit, add it to your cart and continue to payment. Your purchases will appear in your account."
       }
     ],
     "retry": "Try again",

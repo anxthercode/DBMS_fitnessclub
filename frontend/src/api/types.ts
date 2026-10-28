@@ -12,7 +12,7 @@ export type AccessOfferPreview = {
   price_byn: Money
 } & ({ format: 'membership'; months: 1 | 3 | 12 } | { format: 'single_visit'; months: null })
 export interface User { email_delivery?: 'sent' | 'failed'; id: Id; email: string; role: Role; first_name: string; last_name: string; phone: string | null; locale: Locale; is_active: boolean; email_verified_at: string | null }
-export interface Trainer { user_id: Id; first_name: string; last_name: string; name_ru: string; name_en: string; experience_years: number; specialization_ru: string; specialization_en: string; bio_ru: string; bio_en: string; education_ru?: string; education_en?: string }
+export interface Trainer { portrait_key?: string | null; zones?: 'gym' | 'pool' | 'both'; user_id: Id; first_name: string; last_name: string; name_ru: string; name_en: string; experience_years: number; specialization_ru: string; specialization_en: string; bio_ru: string; bio_en: string; education_ru?: string; education_en?: string }
 export interface Plan { id: Id; code: string; name_ru: string; name_en: string; description_ru: string; description_en: string; duration_months: 1 | 3 | 12; price_byn: Money; is_active: boolean; is_featured?: boolean }
 export interface ClubContent {
   image: string

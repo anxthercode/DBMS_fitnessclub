@@ -24,3 +24,17 @@ footer.site-footer { background: var(--background); border-top: 1px solid var(--
   .footer-navigation nav { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
   .footer-bottom { margin-top: 28px; }
 }
+.compact-footer { border-top: 1px solid var(--border); margin-top: 32px; padding-block: 24px; font-size: 14px; color: var(--muted-foreground); }
+.compact-footer > div { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 28px; }
+.compact-footer a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
+.compact-footer address { font-style: normal; }
+.compact-footer .site-brand { margin-right: auto; text-decoration: none; }
+.account-menu { position: relative; }
+.account-menu-panel { position: absolute; right: 0; top: calc(100% + 12px); width: 240px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); box-shadow: 0 12px 32px rgb(0 0 0 / .25); }
+.account-menu-panel p { padding: 8px 12px 12px; color: var(--muted-foreground); overflow-wrap: anywhere; font-size: 14px; }
+.account-menu-panel a, .account-menu-panel button { display: flex; align-items: center; min-height: 44px; padding: 10px 12px; width: 100%; border-radius: 4px; font-size: 14px; text-align: left; }
+.account-menu-panel a:hover, .account-menu-panel button:hover { background: var(--muted); color: var(--primary); }
+.account-menu-panel button { border-top: 1px solid var(--border); margin-top: 6px; }
+@media (max-width: 600px) { .compact-footer > div { display: grid; gap: 8px; } }
+
+.compact-footer .site-brand { display: flex; flex-direction: column; align-items: flex-start; }

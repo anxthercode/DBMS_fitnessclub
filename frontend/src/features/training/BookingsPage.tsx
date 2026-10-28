@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router'
-import { api, isMock } from '@/api'
+import { api, isMock, showTestControls } from '@/api'
 import { activeBooking, canCancel } from '@/api/booking-rules'
 import { Loading, QueryError } from '@/components/feedback'
 import { Button } from '@/components/ui/button'
@@ -37,6 +37,6 @@ export function BookingPage() {
       {b.requires_attention && <p>{copy.attention}</p>}<Link className="training-link" to={'/account/access/membership-' + b.membership_id}>{copy.membership} ↗</Link>
     </article>
     {activeBooking(b) && <div className="commerce-card mt-6"><h2>{copy.cancel}</h2><p>{copy.cancelRule}</p>{canCancel(b, now) ? <form onSubmit={e => { e.preventDefault(); cancel.mutate() }}><label className="training-label" htmlFor="cancel-reason">{copy.reason}</label><textarea id="cancel-reason" required maxLength={500} value={reason} onChange={e => setReason(e.target.value)} disabled={busy} /><Button className="mt-4" variant="outline" disabled={busy || !reason.trim()}>{cancel.isPending ? copy.busy : copy.cancel}</Button></form> : <p>{copy.late}</p>}<TrainingError error={cancel.error} /></div>}
-    {isMock && b.status === 'pending' && <div className="demo-scenario mt-6"><h2>{copy.demo}</h2><p>{copy.demoNote}</p><div className="commerce-actions"><Button variant="outline" disabled={busy || Date.parse(b.slot.starts_at) <= now} onClick={() => simulate.mutate('approved')}>{copy.approve}</Button><Button variant="outline" disabled={busy} onClick={() => simulate.mutate('rejected')}>{copy.reject}</Button></div><TrainingError error={simulate.error} /></div>}
+    {isMock && showTestControls && b.status === 'pending' && <div className="demo-scenario mt-6"><h2>{copy.demo}</h2><p>{copy.demoNote}</p><div className="commerce-actions"><Button variant="outline" disabled={busy || Date.parse(b.slot.starts_at) <= now} onClick={() => simulate.mutate('approved')}>{copy.approve}</Button><Button variant="outline" disabled={busy} onClick={() => simulate.mutate('rejected')}>{copy.reject}</Button></div><TrainingError error={simulate.error} /></div>}
   </section>
 }

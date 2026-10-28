@@ -2,7 +2,7 @@
 
 <a id="revision-2-candidate"></a>
 
-**11 October 2026.** The user delegated the simplified decisions recorded in the [specification](../project-specification.md) and [P1–P5](schema-proposal.md#candidate-business-rules). This replaces the previous package candidate. Existing migration SQL describes implemented columns; the additions below are implemented through `0005_personal_training`. No diagram or historical 18-table baseline is changed.
+**11 October 2026.** The user delegated the simplified decisions recorded in the [specification](../project-specification.md) and [P1–P5](schema-proposal.md#candidate-business-rules). This replaces the previous package candidate. Existing migration SQL describes implemented columns; the additions below are implemented through `0006_trainer_portraits`. No diagram or historical 18-table baseline is changed.
 
 ## Implemented physical slice
 
@@ -13,6 +13,7 @@
 | `0003_access_commerce` | `carts`, `cart_items`, `cart_item_zones`, `cart_requests`, `discounts`, `exchange_rates`, `orders`, `order_items`, `order_item_zones`, `payments`, `memberships`, `membership_issuances`, `single_visit_passes`, `notifications` |
 | `0004_staff_visits` | `trainer_profiles`, `guest_visit_requests`, `guest_visit_zones` |
 | `0005_personal_training` | `training_offers`, `training_credits`, `training_slots`, `bookings` |
+| `0006_trainer_portraits` | No new table: nullable, allowlisted, unique `trainer_profiles.portrait_key`. Existing profiles remain unchanged. |
 
 **30 application tables**, excluding `alembic_version`. Passwords use Argon2id; session/token values are hashed. Guest carts use hashed cookies, merge at sign-in and preserve idempotency. Access orders snapshot money/zones/dates, retain failed attempts and issue access once after payment. Client locks protect common-zone membership overlap. Existing constraints and history-protection triggers remain.
 
@@ -24,7 +25,7 @@ Reuse identity keys, foreign keys, NOT NULL/CHECK/UNIQUE constraints, indexes, b
 
 | Table | Minimum purpose and constraints |
 | --- | --- |
-| `trainer_profiles` | Unique user FK, zone specialization, experience, RU/EN specialization/biography/education. TRAINER role enforced by staff service; no portrait assignment. |
+| `trainer_profiles` | Unique user FK, zone specialization, experience, RU/EN specialization/biography/education. TRAINER role enforced by staff service. Nullable `portrait_key` is restricted to three local coursework assets by CHECK and a partial UNIQUE index; only the explicit fictional seed assigns it. |
 | `training_offers` | Unique zone FK, price, revision, active flag. One 60-minute session, initially 30 BYN. No package size/validity/category fields. |
 | `training_credits` | Client FK, unique paid order-item FK and nullable consumption timestamp. Zone/duration and issuance provenance come from the immutable order/payment snapshot. No expiry or mutable balance counter. |
 | `training_slots` | Trainer-profile FK, checked gym/pool zone code, RU/EN title, start/end and scheduled/cancelled/completed state. CHECK enforces 60 minutes; GiST excludes trainer overlaps. Capacity one. |

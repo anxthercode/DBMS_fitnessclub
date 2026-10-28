@@ -4,7 +4,7 @@
 
 ## Implemented and planned
 
-Migrations through `0005_personal_training` implement **30 application tables**, excluding `alembic_version`. Email delivery/verification/recovery is disabled for this release; existing unused token tables remain. No SMTP setup is needed.
+Migrations through `0006_trainer_portraits` implement **30 application tables**, excluding `alembic_version`. Email delivery/verification/recovery is disabled for this release; existing unused token tables remain. No SMTP setup is needed.
 
 The seven additions to the original implemented 23-table slice are `trainer_profiles`, `training_offers`, `training_credits`, `training_slots`, `bookings`, `guest_visit_requests` and `guest_visit_zones`. No `training_packages` table is used. The original 18-table baseline below is historical.
 
@@ -40,6 +40,8 @@ The heading anchor is retained for existing links; these policies are now select
 See [physical design](schema-design-details.md#revision-2-candidate) and [actual implementation status](../implementation-status.md). The linked status distinguishes implemented features from remaining acceptance work.
 
 ---
+
+Migration `0006_trainer_portraits` adds an optional, checked portrait key and a partial unique index to `trainer_profiles`; no tables are added. The explicit coursework seed creates fictional trainer accounts with random Argon2id passwords and discards the plaintext. It never adopts existing emails, overwrites profiles or marks email verified. Ordinary profile APIs cannot assign portrait keys.
 
 ## Preserved 18-table baseline — historical only
 

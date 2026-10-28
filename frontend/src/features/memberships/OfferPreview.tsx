@@ -15,6 +15,7 @@ import { minskDay, validDate } from '@/api/commerce-rules'
 import { useCommerceAction } from '@/features/commerce/hooks'
 import { useCommerceCopy } from '@/features/commerce/copy'
 import { CommerceError } from '@/features/commerce/shared'
+import { MobilePurchaseBar } from '@/features/commerce/MobilePurchaseBar'
 import { useSession } from '@/features/auth/session'
 
 export function OfferPreview({ item, version, initial }: { item?: CartItem; version?: number; initial?: Selection }) {
@@ -41,6 +42,15 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
   const dateInvalid = !validDate(date) || date < today
   const dateLabel = format === 'membership' ? copy.startDate : copy.visitDate
   const displayDate = date && !dateInvalid ? new Intl.DateTimeFormat(locale === 'ru' ? 'ru-BY' : 'en-GB', { timeZone: 'Europe/Minsk', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(date + 'T12:00:00+03:00')) : copy.notChosen
+  const disabled = !offer || dateInvalid || !zones || add.isPending || session.isPending || session.isError || (!!session.data && session.data.role !== 'CLIENT')
+  const submit = () => {
+    if (disabled || !offer || !zones) return
+    const selection = { format, months: format === 'membership' ? months : null, zones, date } as Selection
+    const payload = { selection, expected_price_byn: offer.price_byn, expected_revision: offer.revision, ...(item ? { item_id: item.id, cart_version: version } : {}) }
+    const fingerprint = JSON.stringify(payload)
+    if (request.current.fingerprint !== fingerprint) request.current = { fingerprint, key: crypto.randomUUID() }
+    add.mutate({ ...payload, idempotency_key: request.current.key })
+  }
 
   return <div className="offer-preview">
     <div className="offer-fields">
@@ -65,11 +75,10 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
       </fieldset>
       <div className="offer-date">
         <label className="field-label" htmlFor={id + '-date'}>{dateLabel}</label>
-        <input id={id + '-date'} type="date" min={today} max="9998-12-31" value={date} onChange={event => setDates({ ...dates, [format]: event.target.value })} required aria-invalid={dateInvalid} aria-describedby={id + '-date-hint' + (dateInvalid ? ' ' + id + '-date-error' : '')} />
-        <p id={id + '-date-hint'}>{copy.timezone}</p>
+        <input id={id + '-date'} type="date" min={today} max="9998-12-31" value={date} onChange={event => setDates({ ...dates, [format]: event.target.value })} required aria-invalid={dateInvalid} aria-describedby={dateInvalid ? id + '-date-error' : undefined} />
         {dateInvalid && <p className="offer-error" id={id + '-date-error'} role="alert">{copy.dateError}</p>}
       </div>
-      <p className="offer-included"><Check size={18} aria-hidden="true" /><span><strong>{copy.included}</strong>{copy.amenities}</span></p>
+      <p className="offer-included"><Check size={18} aria-hidden="true" /><span>{copy.amenities}</span></p>
     </div>
     <aside className="offer-summary" aria-labelledby={id + '-summary'}>
       <h3 id={id + '-summary'}>{copy.summary}</h3>
@@ -77,31 +86,29 @@ export function OfferPreview({ item, version, initial }: { item?: CartItem; vers
         <p className="offer-selection-title">{copy[format]}{format === 'membership' && ' · ' + copy[`month${months}`]}</p>
         <p>{zones ? copy[zones] : copy.zoneError}</p>
         <p>{dateLabel}: {displayDate}</p>
-        {offers.isPending ? <Loading /> : offers.isError ? <QueryError retry={() => void offers.refetch()} /> : <>
+        {offers.isPending ? <Loading /> : offers.isError ? <QueryError message={t('error.price')} retry={() => void offers.refetch()} /> : <>
           <p className="offer-total">{offer ? money(offer.price_byn, locale) : '—'}</p>
           <p className="offer-total-label">{format === 'membership' ? copy.total : copy.visitTotal}</p>
           {zones && !offer && <p>{copy.missing}</p>}
         </>}
       </div>
       {format === 'membership' && <p className="offer-conditions">{t('plans.personalTrainingSeparate')}</p>}
-      {format === 'single_visit' && <p className="offer-conditions">{copy.visitRule}</p>}
+      {format === 'single_visit' && <p className="offer-conditions">{copy.visitShort}</p>}
       <details className="offer-details"><summary>{copy.conditions}</summary>
+        <p className="offer-conditions">{copy.timezone}</p>
+        {format === 'single_visit' && <p className="offer-conditions">{copy.visitRule}</p>}
         <p className="offer-conditions">{format === 'single_visit' ? copy.visitTraining : purchase.membershipRule}</p>
-        {format === 'membership' && <><p className="offer-conditions">{t('plans.personalTrainingSeparate')}</p><p className="offer-conditions">{purchase.overlap}</p></>}
+        {format === 'membership' && <p className="offer-conditions">{purchase.overlap}</p>}
       </details>
       <CommerceError error={add.error} />
       {session.isError && <QueryError retry={() => void session.refetch()} />}
       {add.error && <button type="button" className="underline min-h-11" onClick={() => void offers.refetch()}>{purchase.refresh}</button>}
-      <Button type="button" disabled={!offer || dateInvalid || !zones || add.isPending || session.isPending || session.isError || (!!session.data && session.data.role !== 'CLIENT')} className="w-full" onClick={() => {
-        if (!offer || !zones) return
-        const selection = { format, months: format === 'membership' ? months : null, zones, date } as Selection
-        const payload = { selection, expected_price_byn: offer.price_byn, expected_revision: offer.revision, ...(item ? { item_id: item.id, cart_version: version } : {}) }
-        const fingerprint = JSON.stringify(payload)
-        if (request.current.fingerprint !== fingerprint) request.current = { fingerprint, key: crypto.randomUUID() }
-        add.mutate({ ...payload, idempotency_key: request.current.key })
-      }}>{add.isPending ? purchase.loading : item ? purchase.save : purchase.add}</Button>
+      <Button type="button" disabled={disabled} className="w-full" onClick={submit}>{add.isPending ? purchase.loading : item ? purchase.save : purchase.add}</Button>
       {session.data && session.data.role !== 'CLIENT' && <p>{purchase.clientOnlyText}</p>}
 
     </aside>
+    <MobilePurchaseBar amount={offer?.price_byn} label={format === 'membership' ? copy[`month${months}`] : copy.visitTotal}>
+      <Button disabled={disabled} onClick={submit}>{add.isPending ? purchase.loading : item ? purchase.saveShort : purchase.addShort}</Button>
+    </MobilePurchaseBar>
   </div>
 }

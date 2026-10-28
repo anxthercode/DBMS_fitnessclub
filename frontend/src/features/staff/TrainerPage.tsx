@@ -1,3 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
+import { api } from '@/api'
+import { useSession } from '@/features/auth/session'
+import { StaffShell } from './StaffShell'
+import { useSearchParams } from 'react-router'
+import { StaffAccount } from './StaffAccount'
 import { useState } from 'react'
 import { Loading, QueryError } from '@/components/feedback'
 import { Button } from '@/components/ui/button'
@@ -6,20 +12,39 @@ import { DataTable, Editor, StaffError, StaffGuard, useStaffAction, useStaffRows
 export function TrainerPage() { return <StaffGuard role="TRAINER"><TrainerWorkspace /></StaffGuard> }
 function TrainerWorkspace() {
   const w = useWords()
-  return <section className="container-shell page-section staff-page"><h1 className="page-title">{w('Кабинет тренера', 'Trainer workspace')}</h1><SlotManager /><BookingManager /></section>
+  const [params] = useSearchParams()
+  const requested = params.get('section') || 'schedule'
+  const section = ['schedule', 'bookings', 'profile', 'notifications'].includes(requested) ? requested : 'schedule'
+  const groups = [{ label: w('Рабочий день', 'Working day'), items: [['schedule', w('Моё расписание', 'My schedule')], ['bookings', w('Заявки на тренировки', 'Training requests')]] as [string, string][] }]
+  return <StaffShell title={w('Кабинет тренера', 'Trainer workspace')} section={section} groups={groups}>{['profile', 'notifications'].includes(section) ? <StaffAccount section={section} /> : section === 'bookings' ? <BookingManager /> : <SlotManager />}</StaffShell>
 }
 function SlotManager() {
   const w = useWords()
   const slots = useStaffRows('/staff/training-slots')
+  const session = useSession()
+  const trainers = useQuery({ queryKey: ['trainers'], queryFn: api.trainers })
+  const profile = trainers.data?.find(trainer => trainer.user_id === session.data?.id)
+  const zoneOptions: [string, string][] = (profile?.zones === 'pool' ? [['pool', w('Бассейн', 'Pool')]] : profile?.zones === 'gym' ? [['gym', w('Зал и кардио', 'Gym and cardio')]] : [['gym', w('Зал и кардио', 'Gym and cardio')], ['pool', w('Бассейн', 'Pool')]])
   const action = useStaffAction()
-  const [edit, setEdit] = useState<Row>({ zone: 'gym', title_ru: 'Персональная тренировка', title_en: 'Personal training' })
+  const [edit, setEdit] = useState<Row | null>(null)
+  const [history, setHistory] = useState(false)
   const save = (r: Row) => {
     const start = new Date(String(r.starts_at) + ':00+03:00')
-    const body = { ...r, starts_at: start.toISOString(), ends_at: new Date(+start + 3_600_000).toISOString() }
-    action.mutate({ path: '/training-slots' + (edit.id ? '/' + edit.id : ''), method: edit.id ? 'PUT' : 'POST', body })
+    if (!Number.isFinite(+start)) return
+    const body = { ...r, title_ru: edit?.title_ru || 'Персональная тренировка', title_en: edit?.title_en || 'Personal training', starts_at: start.toISOString(), ends_at: new Date(+start + 3_600_000).toISOString() }
+    action.mutate({ path: '/training-slots' + (edit?.id ? '/' + edit.id : ''), method: edit?.id ? 'PUT' : 'POST', body }, { onSuccess: () => setEdit(null) })
   }
-  return <><h2>{w('Моё расписание', 'My schedule')}</h2><p>{w('Время по Минску. Каждый слот длится 60 минут. Занятые слоты можно отменить; их изменение запрещено.', 'Minsk time. Each slot lasts 60 minutes. Booked slots can be cancelled; editing them is blocked.')}</p><Editor key={JSON.stringify(edit)} initial={edit} title={edit.id ? w('Изменить слот', 'Edit slot') : w('Создать слот', 'Create slot')} fields={[{ key: 'starts_at', label: w('Начало по Минску', 'Start in Minsk time'), type: 'datetime-local' }, { key: 'zone', label: w('Зона', 'Zone'), options: [['gym', w('Зал и кардио', 'Gym and cardio')], ['pool', w('Бассейн', 'Pool')]] }, { key: 'title_ru', label: w('Название RU', 'Title RU') }, { key: 'title_en', label: w('Название EN', 'Title EN') }]} submit={save} busy={action.isPending} /><Button variant="outline" onClick={() => setEdit({ zone: 'gym', title_ru: 'Персональная тренировка', title_en: 'Personal training' })}>{w('Новый слот', 'New slot')}</Button><StaffError error={action.error} />{action.isSuccess && <p role="status">{w('Расписание обновлено.', 'Schedule updated.')}</p>}{slots.isPending ? <Loading /> : slots.isError ? <QueryError retry={() => void slots.refetch()} /> : <DataTable rows={slots.data} columns={[[ 'id', '№'], ['starts_at', w('Начало', 'Start')], ['ends_at', w('Окончание', 'End')], ['zone', w('Зона', 'Zone')], ['status', w('Статус', 'Status')], ['reserved_count', w('Занято', 'Reserved')]]} actions={r => r.status === 'scheduled' && <><Button variant="outline" disabled={action.isPending || Number(r.reserved_count) > 0} onClick={() => setEdit({ ...r, starts_at: new Date(Date.parse(String(r.starts_at)) + 10_800_000).toISOString().slice(0, 16) })}>{w('Изменить', 'Edit')}</Button><Button variant="outline" disabled={action.isPending} onClick={() => action.mutate({ path: '/training-slots/' + r.id + '/cancel' })}>{w('Отменить слот', 'Cancel slot')}</Button></>} />}</>
+  const rows = (slots.data || []).filter(r => history || (r.status === 'scheduled' && Date.parse(String(r.starts_at)) > Date.now()))
+  return <>
+    <div className="staff-toolbar"><p>{w('Занятия по 60 минут. Время по Минску.', '60-minute sessions. Minsk time.')}</p><Button disabled={!profile || action.isPending} onClick={() => { action.reset(); setEdit({ zone: zoneOptions[0][0] }) }}>{w('Добавить время', 'Add availability')}</Button></div>
+    <div className="staff-tabs" role="group" aria-label={w('Период расписания', 'Schedule period')}><button aria-pressed={!history} onClick={() => setHistory(false)}>{w('Предстоящие', 'Upcoming')}</button><button aria-pressed={history} onClick={() => setHistory(true)}>{w('Вся история', 'All history')}</button></div>
+    {edit && <><Editor key={JSON.stringify(edit)} initial={edit} title={edit.id ? w('Изменить время', 'Edit availability') : w('Новое время', 'New availability')} fields={[{ key: 'starts_at', label: w('Начало по Минску', 'Start in Minsk time'), type: 'datetime-local' }, { key: 'zone', label: w('Зона', 'Zone'), options: zoneOptions }]} submit={save} busy={action.isPending} /><Button variant="ghost" disabled={action.isPending} onClick={() => setEdit(null)}>{w('Закрыть форму', 'Close form')}</Button></>}
+    {trainers.isError && <QueryError retry={() => void trainers.refetch()} />}
+    <StaffError error={action.error} />{action.isSuccess && <p role="status">{w('Расписание обновлено.', 'Schedule updated.')}</p>}
+    {slots.isPending ? <Loading /> : slots.isError ? <QueryError retry={() => void slots.refetch()} /> : <DataTable rows={rows} columns={[[ 'starts_at', w('Начало', 'Start')], ['zone', w('Зона', 'Zone')], ['status', w('Статус', 'Status')], ['reserved_count', w('Занято', 'Reserved')]]} actions={r => r.status === 'scheduled' && Date.parse(String(r.starts_at)) > Date.now() && <><Button size="sm" variant="outline" disabled={action.isPending || Number(r.reserved_count) > 0} onClick={() => { action.reset(); setEdit({ ...r, starts_at: new Date(Date.parse(String(r.starts_at)) + 10_800_000).toISOString().slice(0, 16) }) }}>{w('Изменить', 'Edit')}</Button><Button size="sm" variant="ghost" disabled={action.isPending} onClick={() => { if (window.confirm(w('Отменить это время? Если клиент записан, его занятие вернётся на баланс.', 'Cancel this time? Any booked session will return to the client’s balance.'))) action.mutate({ path: '/training-slots/' + r.id + '/cancel' }) }}>{w('Отменить слот', 'Cancel slot')}</Button></>} />}
+  </>
 }
+
 export function BookingManager() {
   const w = useWords()
   const query = useStaffRows('/bookings')

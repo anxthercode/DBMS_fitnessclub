@@ -11,6 +11,7 @@ import asyncpg
 from app.auth.service import hasher
 from app.core.config import BACKEND_ROOT, Settings
 from app.seed import seed_catalogue, seed_commerce
+from app.seed_trainers import seed_trainers
 
 
 async def prepare():
@@ -18,12 +19,16 @@ async def prepare():
     parsed = urlsplit(url)
     if parsed.path != "/northside_test" or parsed.hostname not in ("127.0.0.1", "localhost"):
         raise RuntimeError("Only local northside_test may hold browser fixtures")
-    subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"], cwd=BACKEND_ROOT,
-                   env={**os.environ, "DATABASE_URL": url}, check=True, capture_output=True)
+    await asyncio.to_thread(
+        subprocess.run, [sys.executable, "-m", "alembic", "upgrade", "head"],
+        cwd=BACKEND_ROOT, env={**os.environ, "DATABASE_URL": url},
+        check=True, capture_output=True,
+    )
     conn = await asyncpg.connect(url)
     try:
         await seed_catalogue(conn)
         await seed_commerce(conn)
+        await seed_trainers(conn)
         await conn.execute(
             """INSERT INTO users(email,password_hash,first_name,last_name,role)
                VALUES('browser-admin@example.com',$1,'Browser','Admin','ADMIN')

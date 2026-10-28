@@ -92,11 +92,11 @@ test('compact home picker carries every selection to plans and supports keyboard
       await picker.getByRole('radio', { name: format === 'membership' ? 'Абонемент' : 'Разовое посещение', exact: true }).check()
       await picker.getByRole('radio', { name: { gym: 'Зал + кардио', pool: 'Бассейн', both: 'Всё вместе' }[zones]!, exact: true }).check()
       await picker.getByRole('link', { name: 'Продолжить выбор', exact: true }).click()
-      await expect(page).toHaveURL('/plans?format=' + format + '&zones=' + zones)
+      await expect(page).toHaveURL('/plans?format=' + format + '&zones=' + zones + (format === 'membership' ? '&months=1' : ''))
       await expect(preview.getByRole('radio', { name: format === 'membership' ? 'Абонемент' : 'Разовое посещение', exact: true })).toBeChecked()
       expect(await preview.getByRole('checkbox', { name: /Зал \+ кардио/ }).isChecked()).toBe(zones !== 'pool')
       expect(await preview.getByRole('checkbox', { name: /Бассейн/ }).isChecked()).toBe(zones !== 'gym')
-      if (format === 'membership') await expect(preview.getByRole('radio', { name: '3 месяца', exact: true })).toBeChecked()
+      if (format === 'membership') await expect(preview.getByRole('radio', { name: '1 месяц', exact: true })).toBeChecked()
       await expect(page.locator('header a[href="/cart"]')).toHaveAccessibleName('Корзина')
     }
   }

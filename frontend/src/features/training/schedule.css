@@ -1,0 +1,52 @@
+.schedule-page .page-title { margin-top: 0; }
+.schedule-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.schedule-zones { display: flex; gap: 6px; flex-wrap: wrap; }
+.schedule-zones button { min-height: 48px; padding: 10px 20px; font-size: 14px; border: 1px solid var(--border); border-radius: 2px; }
+.schedule-zones button[aria-pressed=true] { color: var(--primary-foreground); background: var(--primary); border-color: var(--primary); }
+.schedule-coach-filter { width: 280px; max-width: 100%; font-size: 12px; color: var(--muted-foreground); }
+.schedule-calendar { padding: 24px; border: 1px solid var(--border); background: var(--card); border-radius: 2px 16px 2px 2px; }
+.schedule-week-heading, .schedule-day-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.schedule-page .schedule-week-heading h2, .schedule-page .schedule-day-heading h2 { font-size: 20px; text-transform: none; }
+.schedule-week-heading > div { display: flex; gap: 8px; }
+.schedule-days { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 8px; margin-top: 20px; }
+.schedule-days button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid transparent; border-radius: 2px; }
+.schedule-days button span { font-size: 12px; text-transform: uppercase; }
+.schedule-days button strong { font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.schedule-days i { width: 4px; height: 4px; border-radius: 50%; background: transparent; }
+.schedule-days i.has-times { background: currentColor; }
+.schedule-days button[aria-pressed=true] { border-color: var(--primary); color: var(--primary); background: var(--background); }
+.schedule-days button:disabled { opacity: .3; cursor: default; }
+.schedule-days button:not(:disabled):hover, .schedule-zones button:hover { border-color: var(--primary); }
+.schedule-day-heading { margin: 36px 0 20px; }
+.schedule-day-heading > span { font-size: 13px; color: var(--muted-foreground); }
+.schedule-coach { display: grid; grid-template-columns: minmax(220px, .85fr) minmax(0,1.4fr); align-items: center; gap: 32px; padding: 24px 0; border-top: 1px solid var(--border); }
+.schedule-coach-person { display: flex; gap: 16px; align-items: center; min-width: 0; }
+.schedule-avatar { width: 64px; height: 76px; flex-shrink: 0; display: grid; place-items: center; background: var(--card); border-radius: 2px 12px 2px 2px; overflow: hidden; }
+.schedule-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.schedule-coach h3 { font-size: 18px; font-weight: 600; }
+.schedule-coach p { margin-top: 6px; font-size: 13px; color: var(--muted-foreground); line-height: 1.6; }
+.schedule-times { display: flex; flex-wrap: wrap; gap: 10px; }
+.schedule-time { display: grid; gap: 3px; min-width: 104px; min-height: 64px; padding: 10px 16px; border: 1px solid var(--input); border-radius: 2px; text-align: center; }
+.schedule-time strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.schedule-time span { font-size: 11px; }
+.schedule-time:hover { background: var(--primary); color: var(--primary-foreground); }
+.schedule-time.is-full { border-color: var(--border); color: var(--muted-foreground); }
+.schedule-empty { padding: 32px; border: 1px dashed var(--border); }
+.schedule-empty h3 { font-size: 20px; }
+.schedule-empty p { margin: 12px 0 20px; font-size: 14px; }
+@media (prefers-reduced-motion: no-preference) { .schedule-time, .schedule-days button, .schedule-zones button { transition: color 180ms, background-color 180ms, border-color 180ms; } }
+@media (max-width: 700px) {
+  .schedule-toolbar { align-items: stretch; flex-direction: column; gap: 16px; }
+  .schedule-coach-filter { width: 100%; }
+  .schedule-zones { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .schedule-zones button { padding: 8px; font-size: 12px; }
+  .schedule-calendar { padding: 16px 8px; }
+  .schedule-week-heading { padding-inline: 8px; }
+  .schedule-page .schedule-week-heading h2 { font-size: 16px; }
+  .schedule-days { gap: 2px; }
+  .schedule-days button { padding-inline: 0; }
+  .schedule-days button strong { font-size: 20px; }
+  .schedule-days button span { font-size: 10px; }
+  .schedule-coach { grid-template-columns: minmax(0,1fr); gap: 20px; }
+  .schedule-time { min-width: 0; flex: 0 1 calc(33.333% - 7px); padding: 10px 6px; }
+}

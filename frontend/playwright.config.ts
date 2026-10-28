@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests/e2e',
+  outputDir: './test-results/mock',
   fullyParallel: true,
   workers: 2,
   reporter: 'list',
@@ -16,7 +17,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   ],
   webServer: {
-    command: 'npm run preview -- --port 4173 --strictPort',
+    command: 'npm run dev -- --port 4173 --strictPort',
+    env: { VITE_API_MODE: 'mock', VITE_TEST_CONTROLS: 'true' },
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: false,
     timeout: 30_000,

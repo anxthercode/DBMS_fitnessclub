@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('footer groups contact details and offers working cross-route navigation', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/plans')
+  await page.goto('/')
   const footer = page.getByRole('contentinfo')
   await expect(footer).toContainText('пр. Независимости, 19')
   await expect(footer).toContainText('07:00–23:00')
@@ -15,7 +15,9 @@ test('footer groups contact details and offers working cross-route navigation', 
   await footer.getByRole('link', { name: 'Наверх', exact: true }).click()
   await expect(page.locator('#main')).toBeFocused()
   await page.getByRole('button', { name: 'EN', exact: true }).click()
+  if (!await page.getByRole('button', { name: 'Orange theme', exact: true }).isVisible()) await page.getByRole('button', { name: /Открыть меню|Open menu/ }).click()
   await page.getByRole('button', { name: 'Orange theme', exact: true }).click()
+  if (await page.getByRole('button', { name: /Закрыть меню|Close menu/ }).isVisible()) await page.getByRole('button', { name: /Закрыть меню|Close menu/ }).click()
   await expect(footer).toContainText('19 Nezavisimosti Avenue')
   await expect(footer.getByRole('heading', { name: 'Opening hours' })).toBeVisible()
   await page.setViewportSize({ width: 768, height: 900 })
